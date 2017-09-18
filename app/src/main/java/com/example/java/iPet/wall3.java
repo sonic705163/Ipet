@@ -1,4 +1,4 @@
-package com.example.java.mybottomnav;
+package com.example.java.iPet;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;

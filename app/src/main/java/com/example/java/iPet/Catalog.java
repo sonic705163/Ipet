@@ -1,4 +1,4 @@
-package com.example.java.mybottomnav;
+package com.example.java.iPet;
 
 
 public class Catalog {

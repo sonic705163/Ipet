@@ -1,4 +1,4 @@
-package com.example.java.mybottomnav;
+package com.example.java.iPet;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity implements ShopFragment.OnFr
                                 fmgr.beginTransaction().replace(R.id.frameLayoutForFragment, fm).commit();
                                 break;
                             case R.id.adopt:
-                                Intent intent = new Intent(MainActivity.this, AdoptActivity.class);
+                                Intent intent = new Intent(MainActivity.this, PetWallMiddle.class);
                                 startActivity(intent);
                                 break;
                             default:

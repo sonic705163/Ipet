@@ -1,4 +1,4 @@
-package com.example.java.mybottomnav;
+package com.example.java.iPet;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
