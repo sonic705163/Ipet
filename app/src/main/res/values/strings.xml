@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">iPet</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="myOrder">我的訂單</string>
+    <string name="myAdoption">我的領養清單</string>
+    <string name="title_activity_wall3">wall3</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_wall4">wall4</string>
+</resources>

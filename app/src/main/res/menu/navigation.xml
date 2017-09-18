@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/adopt"
+        android:icon="@drawable/ic_library_books_black_24dp"
+        android:title="領養"
+        />
+
+    <item
+        android:id="@+id/petWall"
+        android:icon="@drawable/ic_camera_black_24dp"
+        android:title="寵物牆"
+        />
+
+    <item
+        android:id="@+id/shop"
+        android:icon="@drawable/ic_shopping_cart_black_24px"
+        android:title="商城"
+        />
+    <item
+        android:id="@+id/me"
+        android:icon="@drawable/ic_account_box_black_24dp"
+        android:title="我的"/>
+
+
+</menu>
