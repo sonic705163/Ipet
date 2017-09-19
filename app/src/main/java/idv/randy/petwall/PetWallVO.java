@@ -1,4 +1,4 @@
-package com.example.java.iPet;
+package idv.randy.petwall;
 
 import android.os.Parcel;
 import android.os.Parcelable;

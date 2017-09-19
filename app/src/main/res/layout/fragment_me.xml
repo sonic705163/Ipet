@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="#EEE"
     android:orientation="vertical"
-    tools:context="com.example.java.iPet.MeFragment">
+    tools:context="com.example.java.iPet.idv.randy.me.MeFragment">
     <!-- TODO: Update blank fragment layout -->
     <LinearLayout
         android:layout_width="match_parent"

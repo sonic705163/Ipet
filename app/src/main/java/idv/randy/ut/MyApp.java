@@ -1,4 +1,4 @@
-package com.example.java.iPet;
+package idv.randy.ut;
 
 import android.app.Application;
 import android.content.Context;

@@ -1,4 +1,4 @@
-package com.example.java.iPet;
+package idv.randy.petwall;
 
 
 import android.graphics.Bitmap;

@@ -1,4 +1,4 @@
-package com.example.java.iPet;
+package idv.randy.petwall;
 
 import android.app.ProgressDialog;
 import android.graphics.Bitmap;
@@ -22,13 +22,18 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import idv.randy.ut.GetByteTask;
+import idv.randy.ut.GetVOTask;
+import idv.randy.ut.MyApp;
+import com.example.java.iPet.R;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class PetWallMiddle extends AppCompatActivity implements View.OnClickListener {
+public class PetWallM extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "RetrieveActivity";
     private static final String URL = "http://10.0.2.2:8081/AccessServer/petServlet";
@@ -154,7 +159,7 @@ public class PetWallMiddle extends AppCompatActivity implements View.OnClickList
         @Override
         public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             LayoutInflater layoutInflater = LayoutInflater.from(MyApp.gc());
-            View v = layoutInflater.inflate(R.layout.rv_row_item, parent, false);
+            View v = layoutInflater.inflate(R.layout.fragment_petwall_m_rv_row_item, parent, false);
             final MyViewHolder myViewHolder = new MyViewHolder(v);
             myViewHolder.itemView.setOnClickListener(v1 -> {
                 int position = myViewHolder.getAdapterPosition();
@@ -178,7 +183,7 @@ public class PetWallMiddle extends AppCompatActivity implements View.OnClickList
             if (pw.getPwPicture() == null) {
                 if (!set.contains(id)) {
                     set.add(id);
-                    new GetByteTask(byteListener, PetWallMiddle.this, id).execute(URL);
+                    new GetByteTask(byteListener, PetWallM.this, id).execute(URL);
                 }
             } else {
                 byte[] imgByte = pw.getPwPicture();

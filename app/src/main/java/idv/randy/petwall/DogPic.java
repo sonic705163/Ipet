@@ -1,4 +1,4 @@
-package com.example.java.iPet;
+package idv.randy.petwall;
 
 public class DogPic {
     private int id;

@@ -1,4 +1,4 @@
-package com.example.java.iPet;
+package idv.randy.petwall;
 
 import android.content.Context;
 import android.content.Intent;
@@ -16,13 +16,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.java.iPet.R;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class WallFragment extends Fragment {
+import idv.randy.zNouse.wall_m;
 
-    private static final String Tag = "XXXXXXXXXXXXXX";
+public class PetWallFragmentS extends Fragment {
+
+    private static final String Tag = "PetWallFragmentS";
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     public List<DogPic> dogPicList = getDogPicList();
@@ -32,13 +36,13 @@ public class WallFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public WallFragment() {
+    public PetWallFragmentS() {
     }
 
 
 
-    public static WallFragment newInstance(String param1, String param2) {
-        WallFragment fragment = new WallFragment();
+    public static PetWallFragmentS newInstance(String param1, String param2) {
+        PetWallFragmentS fragment = new PetWallFragmentS();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -63,7 +67,7 @@ public class WallFragment extends Fragment {
         super.onCreateView(inflater, container, savedInstanceState);
 
         Log.d(Tag, ": onCreateView");
-        View view = inflater.inflate(R.layout.wall_frag, container, false);
+        View view = inflater.inflate(R.layout.fragment_petwall_s, container, false);
         FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -163,7 +167,7 @@ public class WallFragment extends Fragment {
 
         @Override
         public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View v = LayoutInflater.from(context).inflate(R.layout.wall_row_item, parent, false);
+            View v = LayoutInflater.from(context).inflate(R.layout.fragment_petwall_s_rowitem, parent, false);
             return new MyViewHolder(v);
         }
 
@@ -183,7 +187,7 @@ public class WallFragment extends Fragment {
                                                        toast.setView(imageView);
                                                        toast.setDuration(Toast.LENGTH_SHORT);
 //                                                       toast.show();
-                                                       Intent intent = new Intent(context, wall2.class);
+                                                       Intent intent = new Intent(context, wall_m.class);
                                                        startActivity(intent);
                                                    }
                                                }

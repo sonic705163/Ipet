@@ -1,4 +1,4 @@
-package com.example.java.iPet;
+package idv.randy.ut;
 
 
 import android.app.ProgressDialog;
@@ -22,6 +22,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
 
+import idv.randy.petwall.AsyncListener;
+import idv.randy.petwall.PetWallVO;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;

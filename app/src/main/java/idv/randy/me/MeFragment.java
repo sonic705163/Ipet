@@ -1,4 +1,4 @@
-package com.example.java.iPet;
+package idv.randy.me;
 
 import android.content.Context;
 import android.net.Uri;
@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.java.iPet.R;
 
 
 public class MeFragment extends Fragment {
@@ -45,7 +46,7 @@ public class MeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View v = inflater.inflate(R.layout.me_frag, container, false);
+        View v = inflater.inflate(R.layout.fragment_me, container, false);
 
 
         return v;
