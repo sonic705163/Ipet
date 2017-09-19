@@ -1,4 +1,4 @@
-package com.example.java.mybottomnav;
+package com.example.java.iPet;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -9,15 +9,17 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity implements ShopFragment.OnFragmentInteractionListener, WallFragment.OnFragmentInteractionListener, MeFragment.OnFragmentInteractionListener {
     private BottomNavigationView bnv;
-
+    private static final String TAG = "MainActivity";
     private FragmentManager fmgr = getSupportFragmentManager();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d(TAG, "onCreate: ");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         final ActionBar acb = getSupportActionBar();
@@ -41,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements ShopFragment.OnFr
                                 fmgr.beginTransaction().replace(R.id.frameLayoutForFragment, fm).commit();
                                 break;
                             case R.id.adopt:
-                                Intent intent = new Intent(MainActivity.this, AdoptActivity.class);
+                                Intent intent = new Intent(MainActivity.this, PetWallMiddle.class);
                                 startActivity(intent);
                                 break;
                             default:
