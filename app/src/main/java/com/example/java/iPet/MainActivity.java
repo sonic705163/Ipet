@@ -12,7 +12,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 
-public class MainActivity extends AppCompatActivity implements ShopFragment.OnFragmentInteractionListener, WallFragment.OnFragmentInteractionListener, MeFragment.OnFragmentInteractionListener {
+import idv.randy.me.MeFragment;
+import idv.randy.petwall.PetWallFragmentS;
+import idv.randy.petwall.PetWallM;
+import idv.randy.zNouse.ShopFragment;
+
+public class MainActivity extends AppCompatActivity implements ShopFragment.OnFragmentInteractionListener, PetWallFragmentS.OnFragmentInteractionListener, MeFragment.OnFragmentInteractionListener {
     private BottomNavigationView bnv;
     private static final String TAG = "MainActivity";
     private FragmentManager fmgr = getSupportFragmentManager();
@@ -30,25 +35,23 @@ public class MainActivity extends AppCompatActivity implements ShopFragment.OnFr
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                         Fragment fm = null;
                         switch (item.getItemId()) {
-                            case R.id.petWall:
-                                fm = WallFragment.newInstance("", "");
-                                fmgr.beginTransaction().replace(R.id.frameLayoutForFragment, fm).commit();
+                            case R.id.adopt:
                                 break;
                             case R.id.shop:
-                                fm = ShopFragment.newInstance("", "");
-                                fmgr.beginTransaction().replace(R.id.frameLayoutForFragment, fm).commit();
+                                break;
+                            case R.id.petWall:
+//                                fm = PetWallFragmentS.newInstance("", "");
+//                                fmgr.beginTransaction().replace(R.id.forMainFragment, fm).commit();
+                                Intent intent = new Intent(MainActivity.this, PetWallM.class);
+                                startActivity(intent);
                                 break;
                             case R.id.me:
                                 fm = MeFragment.newInstance("", "");
-                                fmgr.beginTransaction().replace(R.id.frameLayoutForFragment, fm).commit();
-                                break;
-                            case R.id.adopt:
-                                Intent intent = new Intent(MainActivity.this, PetWallMiddle.class);
-                                startActivity(intent);
+                                fmgr.beginTransaction().replace(R.id.forMainFragment, fm).commit();
                                 break;
                             default:
                                 fm = ShopFragment.newInstance("", "");
-                                fmgr.beginTransaction().replace(R.id.frameLayoutForFragment, fm).commit();
+                                fmgr.beginTransaction().replace(R.id.forMainFragment, fm).commit();
                                 break;
                         }
                         return false;
