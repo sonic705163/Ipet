@@ -14,10 +14,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="com.example.java.iPet.MainActivity"
+            android:name=".MainActivity"
             android:label="iPet">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -26,6 +27,7 @@
         <activity
             android:name="idv.randy.petwall.PetWallM"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name="idv.randy.me.Login"></activity>
     </application>
 
 </manifest>

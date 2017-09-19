@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements ShopFragment.OnFr
                                 break;
                             case R.id.me:
                                 fm = MeFragment.newInstance("", "");
-                                fmgr.beginTransaction().replace(R.id.forMainFragment, fm).commit();
+                                fmgr.beginTransaction().replace(R.id.forMainFragment, fm, getClass().getSimpleName()).commit();
                                 break;
                             default:
                                 fm = ShopFragment.newInstance("", "");

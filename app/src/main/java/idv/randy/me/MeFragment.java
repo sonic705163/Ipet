@@ -47,8 +47,6 @@ public class MeFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View v = inflater.inflate(R.layout.fragment_me, container, false);
-
-
         return v;
     }
 
