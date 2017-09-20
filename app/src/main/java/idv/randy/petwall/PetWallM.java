@@ -1,7 +1,6 @@
 package idv.randy.petwall;
 
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -23,18 +22,19 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import idv.randy.ut.ASAdapter;
+import idv.randy.ut.AsyncListener;
+import idv.randy.ut.ByteListener;
 import idv.randy.ut.GetByteTask;
 import idv.randy.ut.GetVOTask;
 import idv.randy.ut.Me;
 
-import com.example.java.iPet.MainActivity;
 import com.example.java.iPet.R;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.Serializable;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -43,7 +43,7 @@ import java.util.Set;
 public class PetWallM extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "RetrieveActivity";
-    private static final String URL = "http://10.0.2.2:8081/AccessServer/petServlet";
+    private static final String URL = Me.PetServlet;
     int resCode;
     private ProgressDialog progressDialog;
     private List<PetWallVO> petWallVO;
@@ -78,7 +78,20 @@ public class PetWallM extends AppCompatActivity implements View.OnClickListener 
             List petWallVO = decodeArray(result);
             updateRv(petWallVO);
         }
+    };
 
+    ASAdapter ASAdapter = new ASAdapter(){
+        @Override
+        public void onGoing(int progress) {
+            progressDialog.setMessage("Loading..." + progress + "%");
+            Log.d(TAG, "onGoing: " + progress);
+        }
+
+        @Override
+        public void onFinish(String result) {
+            List petWallVO = decodeArray(result);
+            updateRv(petWallVO);
+        }
     };
 
 
@@ -110,7 +123,7 @@ public class PetWallM extends AppCompatActivity implements View.OnClickListener 
         hideKeyPad();
         switch (v.getId()) {
             case R.id.tvDog:
-                getDataTask = new GetVOTask(asyncListener, "dog", this).execute(URL);
+                getDataTask = new GetVOTask(ASAdapter, "dog", this).execute(URL);
 
                 break;
             case R.id.tvCat:

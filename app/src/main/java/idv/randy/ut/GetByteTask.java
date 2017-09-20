@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import java.io.BufferedWriter;
@@ -17,7 +18,6 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import idv.randy.petwall.ByteListener;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -131,8 +131,10 @@ public class GetByteTask extends AsyncTask<String, Integer, Bitmap> {
             JsonObject jsonObject = new JsonObject();
             jsonObject.addProperty("param", "getImg");
             jsonObject.addProperty("id", id);
-            Log.d(TAG, "outPutString: " + jsonObject.toString());
-            RequestBody requestBody = RequestBody.create(JSON, jsonObject.toString());
+            JsonArray jsonArray = new JsonArray();
+            jsonArray.add(jsonObject);
+            Log.d(TAG, "outPutString: " + jsonArray.toString());
+            RequestBody requestBody = RequestBody.create(JSON, jsonArray.toString());
             Request request = new Request.Builder().url(serverAddr).post(requestBody).build();
             Response response = okHttpClient.newCall(request).execute();
             responseData = response.body().byteStream();

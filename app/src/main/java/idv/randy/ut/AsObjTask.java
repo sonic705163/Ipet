@@ -6,51 +6,28 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.support.annotation.Nullable;
 import android.util.Log;
-
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-
 import java.io.IOException;
-
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class GetVOTask extends AsyncTask<String, Integer, String> {
+public class AsObjTask extends AsyncTask<String, Integer, String> {
     private static final String TAG = "GetVOTask";
     private AsyncListener asyncListener;
-    private String keyWord;
-    private ProgressDialog progressDialog;
+    private JsonObject jsonObject;
     private Context context;
     public static final MediaType JSON
             = MediaType.parse("application/json; charset=utf-8");
-    private int tempProgress;
-    int progress;
 
-    public GetVOTask(@Nullable AsyncListener asyncListener, String keyWord, Context context) {
+
+    public AsObjTask(@Nullable AsyncListener asyncListener, JsonObject jsonObject, Context context) {
         this.asyncListener = asyncListener;
-        this.keyWord = keyWord;
+        this.jsonObject = jsonObject;
         this.context = context;
-    }
-
-    @Override
-    protected void onPreExecute() {
-        Log.d(TAG, "onPreExecute: ");
-        super.onPreExecute();
-
-    }
-
-    @Override
-    protected void onProgressUpdate(Integer... values) {
-//        progress = values[0];
-//            progressDialog.setMessage("Loading..." + progress + "%");
-//        if (progress > tempProgress) {
-//            asyncListener.onGoing(progress);
-//            tempProgress = progress;
-//            Log.d(TAG, "onProgressUpdate: " + tempProgress);
-//        }
     }
 
     @Override
@@ -64,8 +41,6 @@ public class GetVOTask extends AsyncTask<String, Integer, String> {
         String responseData = null;
         try {
             OkHttpClient okHttpClient = new OkHttpClient();
-            JsonObject jsonObject = new JsonObject();
-            jsonObject.addProperty("param", keyWord);
             JsonArray jsonArray = new JsonArray();
             jsonArray.add(jsonObject);
             Log.d(TAG, "OutputString: " + jsonArray.toString());
@@ -88,7 +63,5 @@ public class GetVOTask extends AsyncTask<String, Integer, String> {
         if (asyncListener != null) {
             asyncListener.onFinish(result);
         }
-
-//        progressDialog.cancel();
     }
 }
