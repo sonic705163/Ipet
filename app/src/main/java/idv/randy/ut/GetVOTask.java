@@ -30,7 +30,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class GetVOTask extends AsyncTask<String, Integer, List<PetWallVO>> {
+public class GetVOTask extends AsyncTask<String, Integer, String> {
     private static final String TAG = "GetVOTask";
     private AsyncListener asyncListener;
     private String keyWord;
@@ -58,97 +58,20 @@ public class GetVOTask extends AsyncTask<String, Integer, List<PetWallVO>> {
 
     @Override
     protected void onProgressUpdate(Integer... values) {
-        progress = values[0];
-        Log.d(TAG, "onProgressUpdate: " + progress);
+//        progress = values[0];
 //            progressDialog.setMessage("Loading..." + progress + "%");
-        if (progress > tempProgress) {
-            asyncListener.onGoing(progress);
-            tempProgress = progress;
-            Log.d(TAG, "onProgressUpdate: " + tempProgress);
-        }
+//        if (progress > tempProgress) {
+//            asyncListener.onGoing(progress);
+//            tempProgress = progress;
+//            Log.d(TAG, "onProgressUpdate: " + tempProgress);
+//        }
     }
 
     @Override
-    protected List<PetWallVO> doInBackground(String... params) {
+    protected String doInBackground(String... params) {
         Log.d(TAG, "doInBackground: ");
         String serverAddr = params[0];
-        List<PetWallVO> list = null;
-
-//        HttpURLConnection connection = getConnetion(serverAddr);
-//        int resCode = output(connection);
-//        if (resCode == 200) {
-//            list = decodeArray(input(connection));
-//        } else {
-//            Log.d(TAG, "doInBackground: not 200" + resCode);
-//        }
-        list = decodeArray(getStringData(serverAddr));
-        return list;
-
-
-    }
-
-    private String input(HttpURLConnection connection) {
-        String stringIn = null;
-        try {
-            InputStream in = connection.getInputStream();
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(in));
-            StringBuilder jsonIn = new StringBuilder();
-            String s;
-            while ((s = bufferedReader.readLine()) != null) {
-                jsonIn.append(s);
-            }
-            Log.d(TAG, "inPutString" + jsonIn);
-            connection.disconnect();
-            stringIn = jsonIn.toString();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return stringIn;
-    }
-
-    private List<PetWallVO> decodeArray(String stringIn) {
-        Gson gsonb = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
-        List<PetWallVO> list = gsonb.fromJson(stringIn, new TypeToken<List<PetWallVO>>() {
-        }.getType());
-        return list;
-    }
-
-    private int output(HttpURLConnection connection) {
-        JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("param", keyWord);
-        OutputStream out = null;
-        int resCode = 0;
-        try {
-            out = connection.getOutputStream();
-            BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(out));
-            bufferedWriter.write(jsonObject.toString());
-            bufferedWriter.close();
-            resCode = connection.getResponseCode();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        Log.d(TAG, "doInBackgroundOut: jsonOut" + jsonObject.toString());
-
-        return resCode;
-    }
-
-    private HttpURLConnection getConnetion(String serverAddr) {
-        HttpURLConnection connection = null;
-        try {
-            URL url = new URL(serverAddr);
-            connection = (HttpURLConnection) url.openConnection();
-            connection.setDoInput(true);
-            connection.setDoOutput(true);
-            connection.setUseCaches(false);
-            connection.setConnectTimeout(10000);
-            connection.setReadTimeout(10000);
-            connection.setRequestMethod("POST");
-            connection.setRequestProperty("charset", "UTF-8");
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return connection;
+        return getStringData(serverAddr);
     }
 
     private String getStringData(String serverAddr) {
@@ -171,8 +94,8 @@ public class GetVOTask extends AsyncTask<String, Integer, List<PetWallVO>> {
 
 
     @Override
-    protected void onPostExecute(List<PetWallVO> petWallVO) {
-        Log.d(TAG, "onPostExecute: ");
+    protected void onPostExecute(String petWallVO) {
+//        Log.d(TAG, "onPostExecute: ");
         super.onPostExecute(petWallVO);
         asyncListener.onFinish(petWallVO);
 //        progressDialog.cancel();

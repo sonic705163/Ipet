@@ -1,6 +1,7 @@
 package idv.randy.petwall;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -24,10 +25,16 @@ import android.widget.TextView;
 
 import idv.randy.ut.GetByteTask;
 import idv.randy.ut.GetVOTask;
-import idv.randy.ut.MyApp;
+import idv.randy.ut.Me;
+
+import com.example.java.iPet.MainActivity;
 import com.example.java.iPet.R;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.Serializable;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -46,6 +53,14 @@ public class PetWallM extends AppCompatActivity implements View.OnClickListener 
     private RecyclerView rv;
     MyVOAdapter myVOAdapter;
 
+    private List decodeArray(String stringIn) {
+        Gson gsonb = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+        List<PetWallVO> list = gsonb.fromJson(stringIn, new TypeToken<List<PetWallVO>>() {
+        }.getType());
+        return list;
+    }
+
+
     AsyncListener asyncListener = new AsyncListener() {
         @Override
         public void onError() {
@@ -59,7 +74,8 @@ public class PetWallM extends AppCompatActivity implements View.OnClickListener 
         }
 
         @Override
-        public void onFinish(List<PetWallVO> petWallVO) {
+        public void onFinish(String result) {
+            List petWallVO = decodeArray(result);
             updateRv(petWallVO);
         }
 
@@ -158,7 +174,7 @@ public class PetWallM extends AppCompatActivity implements View.OnClickListener 
 
         @Override
         public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            LayoutInflater layoutInflater = LayoutInflater.from(MyApp.gc());
+            LayoutInflater layoutInflater = LayoutInflater.from(Me.gc());
             View v = layoutInflater.inflate(R.layout.fragment_petwall_m_rv_row_item, parent, false);
             final MyViewHolder myViewHolder = new MyViewHolder(v);
             myViewHolder.itemView.setOnClickListener(v1 -> {

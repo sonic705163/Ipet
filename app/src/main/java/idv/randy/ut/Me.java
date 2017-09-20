@@ -3,7 +3,7 @@ package idv.randy.ut;
 import android.app.Application;
 import android.content.Context;
 
-public class MyApp extends Application {
+public class Me extends Application {
     private static Context context;
 
     @Override
