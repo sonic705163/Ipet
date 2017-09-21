@@ -53,7 +53,7 @@ public class PetWallM extends AppCompatActivity implements View.OnClickListener 
     private RecyclerView rv;
     MyVOAdapter myVOAdapter;
 
-    private List decodeArray(String stringIn) {
+    private List<PetWallVO> decodeArray(String stringIn) {
         Gson gsonb = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
         List<PetWallVO> list = gsonb.fromJson(stringIn, new TypeToken<List<PetWallVO>>() {
         }.getType());

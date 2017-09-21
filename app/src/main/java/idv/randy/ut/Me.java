@@ -16,4 +16,7 @@ public class Me extends Application {
     public static Context gc() {
         return context;
     }
+    public static void replaceFragment(){
+
+    }
 }

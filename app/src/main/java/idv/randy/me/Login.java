@@ -3,17 +3,13 @@ package idv.randy.me;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import com.example.java.iPet.R;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-
 import java.util.concurrent.ExecutionException;
-
 import idv.randy.ut.AsObjTask;
 import idv.randy.ut.ASAdapter;
 import idv.randy.ut.Me;
@@ -23,22 +19,6 @@ public class Login extends AppCompatActivity {
     private EditText etID;
     private EditText etPD;
     Button btLogin;
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        SharedPreferences pref = getSharedPreferences("UserData", MODE_PRIVATE);
-        boolean loginStatus = pref.getBoolean("login", false);
-        if (loginStatus) {
-            String name = pref.getString("id", "");
-            String password = pref.getString("pd", "");
-            if (isValid(name, password)) {
-//                finish();
-            } else {
-                Toast.makeText(Me.gc(), "Account or Password is invalid", Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
