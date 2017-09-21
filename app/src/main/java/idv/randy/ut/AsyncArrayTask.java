@@ -13,7 +13,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class AsArrayTask extends AsyncTask<String, Integer, String> {
+public class AsyncArrayTask extends AsyncTask<String, Integer, String> {
     private static final String TAG = "GetVOTask";
     private AsyncListener asyncListener;
     private JsonArray jsonArray;
@@ -22,7 +22,7 @@ public class AsArrayTask extends AsyncTask<String, Integer, String> {
             = MediaType.parse("application/json; charset=utf-8");
 
 
-    public AsArrayTask(@Nullable AsyncListener asyncListener, JsonArray jsonArray, Context context) {
+    public AsyncArrayTask(@Nullable AsyncListener asyncListener, JsonArray jsonArray, Context context) {
         this.asyncListener = asyncListener;
         this.jsonArray = jsonArray;
         this.context = context;

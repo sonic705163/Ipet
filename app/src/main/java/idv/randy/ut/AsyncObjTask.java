@@ -15,7 +15,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class AsObjTask extends AsyncTask<String, Integer, String> {
+public class AsyncObjTask extends AsyncTask<String, Integer, String> {
     private static final String TAG = "GetVOTask";
     private AsyncListener asyncListener;
     private JsonObject jsonObject;
@@ -24,7 +24,7 @@ public class AsObjTask extends AsyncTask<String, Integer, String> {
             = MediaType.parse("application/json; charset=utf-8");
 
 
-    public AsObjTask(@Nullable AsyncListener asyncListener, JsonObject jsonObject, Context context) {
+    public AsyncObjTask(@Nullable AsyncListener asyncListener, JsonObject jsonObject, Context context) {
         this.asyncListener = asyncListener;
         this.jsonObject = jsonObject;
         this.context = context;
@@ -41,10 +41,8 @@ public class AsObjTask extends AsyncTask<String, Integer, String> {
         String responseData = null;
         try {
             OkHttpClient okHttpClient = new OkHttpClient();
-            JsonArray jsonArray = new JsonArray();
-            jsonArray.add(jsonObject);
-            Log.d(TAG, "OutputString: " + jsonArray.toString());
-            RequestBody requestBody = RequestBody.create(JSON, jsonArray.toString());
+            Log.d(TAG, "OutputString: " + jsonObject.toString());
+            RequestBody requestBody = RequestBody.create(JSON, jsonObject.toString());
             Request request = new Request.Builder().url(serverAddr).post(requestBody).build();
             Response response = okHttpClient.newCall(request).execute();
             responseData = response.body().string();

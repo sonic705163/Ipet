@@ -1,14 +1,19 @@
 package idv.randy.me;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.java.iPet.R;
+
+import static android.content.Context.MODE_PRIVATE;
 
 
 public class MeFragment extends Fragment {
@@ -23,6 +28,7 @@ public class MeFragment extends Fragment {
 
     public MeFragment() {
     }
+
 
     public static MeFragment newInstance(String param1, String param2) {
         MeFragment fragment = new MeFragment();
@@ -46,7 +52,19 @@ public class MeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View v = inflater.inflate(R.layout.fragment_me, container, false);
+        View v = inflater.inflate(R.layout.r_fragment_me, container, false);
+        ImageView ivLogOut = (ImageView)v.findViewById(R.id.ivLogOut);
+        TextView textView2 = (TextView) v.findViewById(R.id.textView2);
+        ivLogOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SharedPreferences.Editor editor = getActivity().getSharedPreferences("UserData", MODE_PRIVATE).edit();
+                editor.putBoolean("login", false);
+                editor.apply();
+            }
+        });
+        textView2.setText(mParam1);
+
         return v;
     }
 

@@ -2,7 +2,7 @@ package idv.randy.ut;
 
 
 
-public class ASAdapter implements AsyncListener {
+public class AsyncAdapter implements AsyncListener {
     @Override
     public void onError() {
     }

@@ -4,20 +4,18 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.MenuItem;
 
 import idv.jack.ApdotionActivity;
-import idv.randy.me.Login;
+import idv.randy.me.LoginFragment;
 import idv.randy.me.MeFragment;
 import idv.randy.petwall.PetWallFragmentS;
-import idv.randy.petwall.PetWallM;
+import idv.randy.petwall.PetWallActivityM;
 import idv.randy.zNouse.ShopFragment;
 
 public class MainActivity extends AppCompatActivity implements ShopFragment.OnFragmentInteractionListener, PetWallFragmentS.OnFragmentInteractionListener, MeFragment.OnFragmentInteractionListener {
@@ -25,6 +23,7 @@ public class MainActivity extends AppCompatActivity implements ShopFragment.OnFr
     private static final String TAG = "MainActivity";
     private FragmentManager fragmentManager = getSupportFragmentManager();
     boolean loginStatus;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +39,7 @@ public class MainActivity extends AppCompatActivity implements ShopFragment.OnFr
                     loginStatus = pref.getBoolean("login", false);
                     switch (item.getItemId()) {
                         case R.id.adopt:
-                            Intent intent2 = new Intent(MainActivity.this,ApdotionActivity.class);
+                            Intent intent2 = new Intent(MainActivity.this, ApdotionActivity.class);
                             startActivity(intent2);
                             break;
                         case R.id.shop:
@@ -49,16 +48,18 @@ public class MainActivity extends AppCompatActivity implements ShopFragment.OnFr
                         case R.id.petWall:
 //                                fm = PetWallFragmentS.newInstance("", "");
 //                                fragmentManager.beginTransaction().replace(R.id.forMainFragment, fm).commit();
-                            Intent intent = new Intent(MainActivity.this, PetWallM.class);
+                            Intent intent = new Intent(MainActivity.this, PetWallActivityM.class);
                             startActivity(intent);
+
                             break;
                         case R.id.me:
 
-                            if(loginStatus){
+                            if (loginStatus) {
+                                fm = MeFragment.newInstance("", "").newInstance("", "");
                                 fragmentManager.beginTransaction().replace(R.id.forMainFragment, MeFragment.newInstance("", ""), fm.getClass().getSimpleName()).commit();
-                            }else{
-                                Intent loginIntent = new Intent(MainActivity.this, Login.class);
-                                startActivity(loginIntent);
+                            } else {
+                                fm = MeFragment.newInstance("", "").newInstance("", "");
+                                fragmentManager.beginTransaction().replace(R.id.forMainFragment, new LoginFragment(), "").commit();
                             }
                             break;
 

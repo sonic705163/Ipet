@@ -1,23 +1,22 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp"
-    tools:context="idv.randy.me.Login">
+    tools:context="idv.randy.me.LoginFragment">
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:hint="帳號"
+        android:hint="jack8124"
         android:id="@+id/etID"
-        android:textSize="14sp"/>
+        android:textSize="14sp"
+        />
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:hint="密碼"
+        android:hint="123456"
         android:inputType="textPassword"
         android:id="@+id/etPD"
         android:textSize="14sp"/>

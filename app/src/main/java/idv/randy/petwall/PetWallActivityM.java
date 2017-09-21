@@ -22,7 +22,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import idv.randy.ut.ASAdapter;
+import idv.randy.ut.AsyncAdapter;
 import idv.randy.ut.AsyncListener;
 import idv.randy.ut.ByteListener;
 import idv.randy.ut.GetByteTask;
@@ -40,7 +40,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class PetWallM extends AppCompatActivity implements View.OnClickListener {
+public class PetWallActivityM extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "RetrieveActivity";
     private static final String URL = Me.PetServlet;
@@ -54,6 +54,7 @@ public class PetWallM extends AppCompatActivity implements View.OnClickListener 
     MyVOAdapter myVOAdapter;
 
     private List<PetWallVO> decodeArray(String stringIn) {
+
         Gson gsonb = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
         List<PetWallVO> list = gsonb.fromJson(stringIn, new TypeToken<List<PetWallVO>>() {
         }.getType());
@@ -80,7 +81,7 @@ public class PetWallM extends AppCompatActivity implements View.OnClickListener 
         }
     };
 
-    ASAdapter ASAdapter = new ASAdapter(){
+    AsyncAdapter AsyncAdapter = new AsyncAdapter(){
         @Override
         public void onGoing(int progress) {
             progressDialog.setMessage("Loading..." + progress + "%");
@@ -123,7 +124,7 @@ public class PetWallM extends AppCompatActivity implements View.OnClickListener 
         hideKeyPad();
         switch (v.getId()) {
             case R.id.tvDog:
-                getDataTask = new GetVOTask(ASAdapter, "dog", this).execute(URL);
+                getDataTask = new GetVOTask(AsyncAdapter, "dog", this).execute(URL);
 
                 break;
             case R.id.tvCat:
@@ -188,7 +189,7 @@ public class PetWallM extends AppCompatActivity implements View.OnClickListener 
         @Override
         public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             LayoutInflater layoutInflater = LayoutInflater.from(Me.gc());
-            View v = layoutInflater.inflate(R.layout.fragment_petwall_m_rv_row_item, parent, false);
+            View v = layoutInflater.inflate(R.layout.r_fragment_petwall_m_rv_row_item, parent, false);
             final MyViewHolder myViewHolder = new MyViewHolder(v);
             myViewHolder.itemView.setOnClickListener(v1 -> {
                 int position = myViewHolder.getAdapterPosition();
@@ -212,7 +213,7 @@ public class PetWallM extends AppCompatActivity implements View.OnClickListener 
             if (pw.getPwPicture() == null) {
                 if (!set.contains(id)) {
                     set.add(id);
-                    new GetByteTask(byteListener, PetWallM.this, id).execute(URL);
+                    new GetByteTask(byteListener, PetWallActivityM.this, id).execute(URL);
                 }
             } else {
                 byte[] imgByte = pw.getPwPicture();

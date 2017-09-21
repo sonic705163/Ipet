@@ -1,10 +1,10 @@
-package idv.randy.petwall;
+package idv.randy.zNouse;
 
-public class DogPic {
+public class DogPicVO {
     private int id;
     private int img;
 
-    public DogPic(int id, int img) {
+    public DogPicVO(int id, int img) {
 
         this.id = id;
         this.img = img;

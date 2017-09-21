@@ -133,12 +133,12 @@ public class GetByteTask extends AsyncTask<String, Integer, Bitmap> {
             jsonObject.addProperty("id", id);
             JsonArray jsonArray = new JsonArray();
             jsonArray.add(jsonObject);
-            Log.d(TAG, "outPutString: " + jsonArray.toString());
+            Log.d(TAG, "outputString: " + jsonArray.toString());
             RequestBody requestBody = RequestBody.create(JSON, jsonArray.toString());
             Request request = new Request.Builder().url(serverAddr).post(requestBody).build();
             Response response = okHttpClient.newCall(request).execute();
             responseData = response.body().byteStream();
-            Log.d(TAG, "InPutString: " + responseData);
+            Log.d(TAG, "inputByteStream: " + responseData);
         } catch (IOException e) {
             e.printStackTrace();
         }
