@@ -3,6 +3,7 @@ package idv.jack;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -31,6 +32,8 @@ public class ApdotionActivity extends AppCompatActivity {
     ListView csListView;
     private SpotGetImageTask spotGetImageTask;
     private FragmentManager petinformation = getSupportFragmentManager();
+    private FragmentManager ApdoInsert = getSupportFragmentManager();
+    private FloatingActionButton fabtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +43,15 @@ public class ApdotionActivity extends AppCompatActivity {
         csRecycleView.setLayoutManager(new LinearLayoutManager(this));
         getpetList();
         csRecycleView.setAdapter(new CaseAdapter(this, csLists));
+        fabtn = (FloatingActionButton) findViewById(R.id.btnAdd);
+        fabtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("aaa", "aaaaaaa");
+                ApdoInsert fai = new ApdoInsert();
+                ApdoInsert.beginTransaction().replace(R.id.flMainActivity, fai).addToBackStack(null).commit();
+            }
+        });
     }
     private void getpetList() {
         if (Common.networkConnected(this)) {
@@ -97,15 +109,15 @@ public class ApdotionActivity extends AppCompatActivity {
         public void onBindViewHolder(MyViewHolder myViewHolder, int position) {
             final Case cs = csList.get(position);
             String url = Common.URL;
-            spotGetImageTask = new SpotGetImageTask(Common.URL, cs.getPetno(), imageSize, myViewHolder.tvImg);
+            spotGetImageTask = new SpotGetImageTask(Common.URL, cs.getPetNo(), imageSize, myViewHolder.tvImg);
             spotGetImageTask.execute();
-            myViewHolder.tvName.setText(cs.getPetname());
-            myViewHolder.tvPetcolor.setText(cs.getPetcolor());
-            myViewHolder.tvAge.setText(cs.getPetage());
-            myViewHolder.tvSize.setText(cs.getPetsize());
+            myViewHolder.tvName.setText(cs.getPetName());
+            myViewHolder.tvPetcolor.setText(cs.getPetColor());
+            myViewHolder.tvAge.setText(cs.getPetAge());
+            myViewHolder.tvSize.setText(cs.getPetSize());
             myViewHolder.tvStatus.setText(cs.getStatus());
             myViewHolder.tvSituation.setText(cs.getSituation());
-            myViewHolder.tvPetsex.setText(cs.getPetsize());
+            myViewHolder.tvPetsex.setText(cs.getPetSize());
             myViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

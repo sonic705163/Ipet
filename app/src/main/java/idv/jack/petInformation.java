@@ -35,14 +35,14 @@ public class petInformation extends Fragment {
 
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        petName.setText(cs.getPetname());
-        petColor.setText(cs.getPetcolor());
-        petAge.setText(cs.getPetage());
-        petSize.setText(cs.getPetsize());
-        petTnr.setText(cs.getTnr());
-        petIc.setText(cs.getPetic());
-        petPosition.setText(cs.getPetposition());
-        petSex.setText(cs.getPetsex());
+        petName.setText(cs.getPetName());
+        petColor.setText(cs.getPetColor());
+        petAge.setText(cs.getPetAge());
+        petSize.setText(cs.getPetSize());
+        petTnr.setText(cs.getTNR());
+        petIc.setText(cs.getPetIc());
+        petPosition.setText(cs.getPetPosition());
+        petSex.setText(cs.getPetSex());
 
 
     }

@@ -6,89 +6,61 @@ import java.sql.Date;
 
 public class Case implements Serializable {
 
-    private Integer petno;
-    private Integer memno;
-    private Integer breedno;
-    private String status;
-    private String petname;
-    private String petage;
-    private String petsize;
-    private String petcolor;
-    private String petposition;
-    private String petic;
-    private String tnr;
-    private String situation;
-    private Date petdate;
-    private Integer memn02;
-    private String petitle;
-    private Double petLongitude;
-    private Double petlatitude;
-    private String petsex;
-
-
-    public Case(Integer petno, Integer memno, Integer breedno, String status, String petname, String petage, String petsize, String petcolor, String petposition, String petic, String tnr, String situation, Date petdate, Integer memn02, String petitle, Double petLongitude, Double petlatitude, String petsex) {
-        this.petno = petno;
-        this.memno = memno;
-        this.breedno = breedno;
-        this.status = status;
-        this.petname = petname;
-        this.petage = petage;
-        this.petsize = petsize;
-        this.petcolor = petcolor;
-        this.petposition = petposition;
-        this.petic = petic;
-        this.tnr = tnr;
-        this.situation = situation;
-        this.petdate = petdate;
-        this.memn02 = memn02;
-        this.petitle = petitle;
-        this.petLongitude = petLongitude;
-        this.petlatitude = petlatitude;
-        this.petsex = petsex;
-    }
+    private Integer petNo; // 動物編號 PK
+    private Integer memNo; // 送養人 FK
+    private Integer breedNo; // 品種編號 FK
+    private String status; // 狀態
+    private String petName; // 動物暱稱
+    private String petAge; // 動物年紀
+    private String petSize; // 動物體型
+    private String petColor; // 動物顏色
+    private String petPosition; // 送養地點
+    private String petIc; // 有無IC
+    private String TNR; // 有無節育
+    private String situation; // 動物狀況
+    private Date petDate; // 發文日
+    private Integer memNo2; // 領養人
+    //private byte[] petFilm; // 動物影片
+    private String petTitle; // 送養標題
+    private Double petLongitude; // 經度
+    private Double petLatitude; // 緯度
+    private String petSex; // 動物性別
 
     public Case() {
         super();
+        // TODO Auto-generated constructor stub
     }
 
-    public String getPetname() {
-        return petname;
+    public String getPetSex() {
+        return petSex;
     }
 
-    public void setPetname(String petname) {
-        this.petname = petname;
+    public void setPetSex(String petSex) {
+        this.petSex = petSex;
     }
 
-    public String getPetage() {
-        return petage;
+    public Integer getPetNo() {
+        return petNo;
     }
 
-    public void setPetage(String petage) {
-        this.petage = petage;
+    public void setPetNo(Integer petNo) {
+        this.petNo = petNo;
     }
 
-    public Integer getPetno() {
-        return petno;
+    public Integer getMemNo() {
+        return memNo;
     }
 
-    public void setPetno(Integer petno) {
-        this.petno = petno;
+    public void setMemNo(Integer memNo) {
+        this.memNo = memNo;
     }
 
-    public Integer getMemno() {
-        return memno;
+    public Integer getBreedNo() {
+        return breedNo;
     }
 
-    public void setMemno(Integer memno) {
-        this.memno = memno;
-    }
-
-    public Integer getBreedno() {
-        return breedno;
-    }
-
-    public void setBreedno(Integer breedno) {
-        this.breedno = breedno;
+    public void setBreedNo(Integer breedNo) {
+        this.breedNo = breedNo;
     }
 
     public String getStatus() {
@@ -96,24 +68,63 @@ public class Case implements Serializable {
     }
 
     public void setStatus(String status) {
-        this.status = status;
+        status = status;
     }
 
-    public String getPetcolor() {
-        return petcolor;
+    public String getPetName() {
+        return petName;
     }
 
-    public String getPetposition() {
-        return petposition;
+    public void setPetName(String petName) {
+        this.petName = petName;
     }
 
-    public void setPetposition(String petposition) {
-        this.petposition = petposition;
+    public String getPetAge() {
+        return petAge;
     }
 
-    public void setPetcolor(String petcolor) {
-        this.petcolor = petcolor;
+    public void setPetAge(String petAge) {
+        this.petAge = petAge;
+    }
 
+    public String getPetSize() {
+        return petSize;
+    }
+
+    public void setPetSize(String petSize) {
+        this.petSize = petSize;
+    }
+
+    public String getPetColor() {
+        return petColor;
+    }
+
+    public void setPetColor(String petColor) {
+        this.petColor = petColor;
+    }
+
+    public String getPetPosition() {
+        return petPosition;
+    }
+
+    public void setPetPosition(String petPosition) {
+        this.petPosition = petPosition;
+    }
+
+    public String getPetIc() {
+        return petIc;
+    }
+
+    public void setPetIc(String petIc) {
+        this.petIc = petIc;
+    }
+
+    public String getTNR() {
+        return TNR;
+    }
+
+    public void setTNR(String tNR) {
+        TNR = tNR;
     }
 
     public String getSituation() {
@@ -123,56 +134,37 @@ public class Case implements Serializable {
     public void setSituation(String situation) {
         this.situation = situation;
     }
-    public interface pet {
-        void pet(String petname);
+
+    public Date getPetDate() {
+        return petDate;
     }
 
-    public String getPetsize() {
-        return petsize;
+    public void setPetDate(Date petDate) {
+        this.petDate = petDate;
     }
 
-    public void setPetsize(String petsize) {
-        this.petsize = petsize;
+    public Integer getMemNo2() {
+        return memNo2;
     }
 
-    public String getPetic() {
-        return petic;
+    public void setMemNo2(Integer memNo2) {
+        this.memNo2 = memNo2;
     }
 
-    public void setPetic(String petic) {
-        this.petic = petic;
+//    public byte[] getPetFilm() {
+//        return petFilm;
+//    }
+//
+//    public void setPetFilm(byte[] petFilm) {
+//        this.petFilm = petFilm;
+//    }
+
+    public String getPetTitle() {
+        return petTitle;
     }
 
-    public String getTnr() {
-        return tnr;
-    }
-
-    public void setTnr(String tnr) {
-        this.tnr = tnr;
-    }
-
-    public Date getPetdate() {
-        return petdate;
-    }
-
-    public void setPetdate(Date petdate) {
-        this.petdate = petdate;
-    }
-
-    public Integer getMemn02() {
-        return memn02;
-    }
-
-    public void setMemn02(Integer memn02) {
-        this.memn02 = memn02;
-    }
-
-    public String getPetitle() {
-        return petitle;
-    }
-
-    public void setPetitle(String petitle) {
-        this.petitle = petitle;
+    public void setPetTitle(String petTitle) {
+        this.petTitle = petTitle;
     }
 
     public Double getPetLongitude() {
@@ -183,22 +175,12 @@ public class Case implements Serializable {
         this.petLongitude = petLongitude;
     }
 
-    public Double getPetlatitude() {
-        return petlatitude;
+    public Double getPetLatitude() {
+        return petLatitude;
     }
 
-    public void setPetlatitude(Double petlatitude) {
-        this.petlatitude = petlatitude;
+    public void setPetLatitude(Double petLatitude) {
+        this.petLatitude = petLatitude;
     }
-
-    public String getPetsex() {
-        return petsex;
-    }
-
-    public void setPetsex(String petsex) {
-        this.petsex = petsex;
-    }
-
 
 }
-
