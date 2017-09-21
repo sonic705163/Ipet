@@ -8,4 +8,13 @@
     <string name="title_activity_wall3">wall3</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_wall4">wall4</string>
+    <!-- TODO: Remove or change this placeholder text -->
+
+    <string name="msg_NoSpotsFound">沒有網路</string>
+    <string name="IPet">IPet</string>
+    <string name="Adoption">領養資訊</string>
+    <string name="Shop">商店</string>
+    <string name="mag_NoFind">找不到</string>
+    <string name="msg_NoNetwork">沒網路</string>
+    <string name="tvTitle">PetInformation</string>
 </resources>
