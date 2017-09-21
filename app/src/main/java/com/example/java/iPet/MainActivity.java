@@ -13,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 
+import idv.jack.ApdotionActivity;
 import idv.randy.me.Login;
 import idv.randy.me.MeFragment;
 import idv.randy.petwall.PetWallFragmentS;
@@ -39,7 +40,8 @@ public class MainActivity extends AppCompatActivity implements ShopFragment.OnFr
                     loginStatus = pref.getBoolean("login", false);
                     switch (item.getItemId()) {
                         case R.id.adopt:
-
+                            Intent intent2 = new Intent(MainActivity.this,ApdotionActivity.class);
+                            startActivity(intent2);
                             break;
                         case R.id.shop:
 
