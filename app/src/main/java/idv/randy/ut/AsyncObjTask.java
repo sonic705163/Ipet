@@ -16,7 +16,7 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class AsyncObjTask extends AsyncTask<String, Integer, String> {
-    private static final String TAG = "GetVOTask";
+    private static final String TAG = "AsyncObjTask";
     private AsyncListener asyncListener;
     private JsonObject jsonObject;
     private Context context;

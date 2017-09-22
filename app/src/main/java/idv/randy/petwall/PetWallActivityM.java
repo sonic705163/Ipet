@@ -81,7 +81,7 @@ public class PetWallActivityM extends AppCompatActivity implements View.OnClickL
         }
     };
 
-    AsyncAdapter AsyncAdapter = new AsyncAdapter(){
+    AsyncAdapter asyncAdapter = new AsyncAdapter(){
         @Override
         public void onGoing(int progress) {
             progressDialog.setMessage("Loading..." + progress + "%");
@@ -124,15 +124,15 @@ public class PetWallActivityM extends AppCompatActivity implements View.OnClickL
         hideKeyPad();
         switch (v.getId()) {
             case R.id.tvDog:
-                getDataTask = new GetVOTask(AsyncAdapter, "dog", this).execute(URL);
+                getDataTask = new GetVOTask(asyncAdapter, "dog", this).execute(URL);
 
                 break;
             case R.id.tvCat:
-                getDataTask = new GetVOTask(asyncListener, "cat", this).execute(URL);
+                getDataTask = new GetVOTask(asyncAdapter, "cat", this).execute(URL);
                 break;
             case R.id.ivSearch:
                 String keyword = etSearch.getText().toString();
-                getDataTask = new GetVOTask(asyncListener, keyword, this).execute(URL);
+                getDataTask = new GetVOTask(asyncAdapter, keyword, this).execute(URL);
             default:
                 break;
         }

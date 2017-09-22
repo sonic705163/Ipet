@@ -10,8 +10,6 @@ public class Me extends Application {
     public static final String MembersServlet = ip + "MembersServlet";
     public static final String PetServlet = ip + "PetServlet";
 
-    //    public static final String PetServlet = "http://10.120.38.31:8081/BA103G1/PetServlet";
-//    public static final String MembersServlet = "http://10.120.38.31:8081/BA103G1/MembersServlet";
     @Override
     public void onCreate() {
         super.onCreate();
