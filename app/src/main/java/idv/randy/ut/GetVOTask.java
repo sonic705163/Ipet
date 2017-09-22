@@ -66,14 +66,12 @@ public class GetVOTask extends AsyncTask<String, Integer, String> {
             OkHttpClient okHttpClient = new OkHttpClient();
             JsonObject jsonObject = new JsonObject();
             jsonObject.addProperty("param", keyWord);
-            JsonArray jsonArray = new JsonArray();
-            jsonArray.add(jsonObject);
-            Log.d(TAG, "OutputString: " + jsonArray.toString());
-            RequestBody requestBody = RequestBody.create(JSON, jsonArray.toString());
+            Log.d(TAG, "outputString: " + jsonObject.toString());
+            RequestBody requestBody = RequestBody.create(JSON, jsonObject.toString());
             Request request = new Request.Builder().url(serverAddr).post(requestBody).build();
             Response response = okHttpClient.newCall(request).execute();
             responseData = response.body().string();
-            Log.d(TAG, "InputString: " + responseData);
+            Log.d(TAG, "inputString: " + responseData);
         } catch (IOException e) {
             e.printStackTrace();
         }

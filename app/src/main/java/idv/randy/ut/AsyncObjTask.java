@@ -19,15 +19,13 @@ public class AsyncObjTask extends AsyncTask<String, Integer, String> {
     private static final String TAG = "AsyncObjTask";
     private AsyncListener asyncListener;
     private JsonObject jsonObject;
-    private Context context;
     public static final MediaType JSON
             = MediaType.parse("application/json; charset=utf-8");
 
 
-    public AsyncObjTask(@Nullable AsyncListener asyncListener, JsonObject jsonObject, Context context) {
+    public AsyncObjTask(@Nullable AsyncListener asyncListener, JsonObject jsonObject) {
         this.asyncListener = asyncListener;
         this.jsonObject = jsonObject;
-        this.context = context;
     }
 
     @Override

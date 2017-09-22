@@ -26,8 +26,7 @@ import idv.randy.zNouse.DogPicVO;
 import idv.randy.zNouse.wall_m;
 
 public class PetWallFragmentS extends Fragment {
-
-    private static final String Tag = "PetWallFragmentS";
+    private static final String TAG = "PetWallFragmentS";
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     public List<DogPicVO> mDogPicVOList = getDogPicVOList();
@@ -55,7 +54,7 @@ public class PetWallFragmentS extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d(Tag, ": onAttach");
+        Log.d(TAG, "onCreate: ");
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -67,7 +66,7 @@ public class PetWallFragmentS extends Fragment {
                              Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
-        Log.d(Tag, ": onCreateView");
+        Log.d(TAG, "onCreateView: ");
         View view = inflater.inflate(R.layout.r_fragment_petwall_s, container, false);
         FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -92,7 +91,7 @@ public class PetWallFragmentS extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        Log.d(Tag, ": onCreateView");
+        Log.d(TAG, "onAttach: ");
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {
@@ -104,7 +103,7 @@ public class PetWallFragmentS extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
-        Log.d(Tag, ": onCreateView");
+        Log.d(TAG, "onDetach: ");
         mListener = null;
     }
 
@@ -212,5 +211,11 @@ public class PetWallFragmentS extends Fragment {
             }
         }
 
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.d(TAG, "onDestroy: ");
     }
 }

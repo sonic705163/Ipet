@@ -22,23 +22,25 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import idv.randy.ut.AsyncAdapter;
-import idv.randy.ut.AsyncListener;
-import idv.randy.ut.ByteListener;
-import idv.randy.ut.GetByteTask;
-import idv.randy.ut.GetVOTask;
-import idv.randy.ut.Me;
-
 import com.example.java.iPet.R;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+
+import idv.randy.me.MembersVO;
+import idv.randy.ut.AsyncAdapter;
+import idv.randy.ut.AsyncByteTask;
+import idv.randy.ut.AsyncImageTask;
+import idv.randy.ut.AsyncListener;
+import idv.randy.ut.AsyncObjTask;
+import idv.randy.ut.ByteListener;
+import idv.randy.ut.GetVOTask;
+import idv.randy.ut.Me;
 
 public class PetWallActivityM extends AppCompatActivity implements View.OnClickListener {
 
@@ -52,9 +54,9 @@ public class PetWallActivityM extends AppCompatActivity implements View.OnClickL
     private EditText etSearch;
     private RecyclerView rv;
     MyVOAdapter myVOAdapter;
+    String id;
 
     private List<PetWallVO> decodeArray(String stringIn) {
-
         Gson gsonb = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
         List<PetWallVO> list = gsonb.fromJson(stringIn, new TypeToken<List<PetWallVO>>() {
         }.getType());
@@ -81,7 +83,7 @@ public class PetWallActivityM extends AppCompatActivity implements View.OnClickL
         }
     };
 
-    AsyncAdapter asyncAdapter = new AsyncAdapter(){
+    AsyncAdapter asyncAdapter = new AsyncAdapter() {
         @Override
         public void onGoing(int progress) {
             progressDialog.setMessage("Loading..." + progress + "%");
@@ -167,10 +169,10 @@ public class PetWallActivityM extends AppCompatActivity implements View.OnClickL
         Log.d(TAG, "onOptionsItemSelected: ");
         switch (item.getItemId()) {
             case R.id.menuItem2:
-                getDataTask = new GetVOTask(asyncListener, "cat", this).execute(URL);
+                getDataTask = new GetVOTask(asyncAdapter, "cat", this).execute(URL);
                 break;
             case R.id.menuItem3:
-                getDataTask = new GetVOTask(asyncListener, "all", this).execute(URL);
+                getDataTask = new GetVOTask(asyncAdapter, "all", this).execute(URL);
                 break;
             default:
                 break;
@@ -180,7 +182,6 @@ public class PetWallActivityM extends AppCompatActivity implements View.OnClickL
 
     public class MyVOAdapter extends RecyclerView.Adapter<MyVOAdapter.MyViewHolder> implements Serializable {
         private List<PetWallVO> petWallVO;
-        Set<Integer> set = new HashSet<>();
 
         public MyVOAdapter(List<PetWallVO> petWallVO) {
             this.petWallVO = petWallVO;
@@ -208,13 +209,11 @@ public class PetWallActivityM extends AppCompatActivity implements View.OnClickL
                 }
             };
             final PetWallVO pw = petWallVO.get(position);
-            holder.tvRight.setText(pw.getPwContent());
-            int id = pw.getPwNo();
+            holder.tvPwContent.setText(pw.getPwContent());
+            holder.tvPwContent.setText("xxx");
+            int pwNo = pw.getPwNo();
             if (pw.getPwPicture() == null) {
-                if (!set.contains(id)) {
-                    set.add(id);
-                    new GetByteTask(byteListener, PetWallActivityM.this, id).execute(URL);
-                }
+                new AsyncByteTask(byteListener, PetWallActivityM.this, pwNo).execute(URL);
             } else {
                 byte[] imgByte = pw.getPwPicture();
                 String imgString = Base64.encodeToString(imgByte, Base64.DEFAULT);
@@ -222,6 +221,21 @@ public class PetWallActivityM extends AppCompatActivity implements View.OnClickL
                 Bitmap bitmap = BitmapFactory.decodeByteArray(decodeString, 0, decodeString.length);
                 holder.ivPet.setImageBitmap(bitmap);
             }
+            int memNo = pw.getMemno();
+            new AsyncImageTask(memNo, holder.ivMemImg).execute(Me.MembersServlet);
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("action", "getVO");
+            jsonObject.addProperty("memNo", memNo);
+            new AsyncObjTask(new AsyncAdapter(){
+                @Override
+                public void onFinish(String result) {
+                    super.onFinish(result);
+                    Gson gsonb = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+                    MembersVO membersVO = gsonb.fromJson(result, MembersVO.class);
+                    id = membersVO.getMenId();
+                    holder.tvPwContent.setText(id);
+                }
+            }, jsonObject).execute(Me.MembersServlet);
         }
 
         @Override
@@ -231,14 +245,18 @@ public class PetWallActivityM extends AppCompatActivity implements View.OnClickL
 
         class MyViewHolder extends RecyclerView.ViewHolder {
             TextView tvLeft;
-            TextView tvRight;
+            TextView tvPwContent;
             ImageView ivPet;
+            ImageView ivMemImg;
+            TextView tvMemID;
 
             public MyViewHolder(View itemView) {
                 super(itemView);
                 tvLeft = (TextView) itemView.findViewById(R.id.tvLeft);
-                tvRight = (TextView) itemView.findViewById(R.id.tvRight);
+                tvPwContent = (TextView) itemView.findViewById(R.id.tvPwContent);
                 ivPet = (ImageView) itemView.findViewById((R.id.ivPet));
+                ivMemImg = (ImageView) itemView.findViewById((R.id.ivMemImg));
+                tvMemID = (TextView) itemView.findViewById(R.id.tvMemID);
             }
         }
     }
