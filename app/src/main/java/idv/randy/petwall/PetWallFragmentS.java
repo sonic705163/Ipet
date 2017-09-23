@@ -76,6 +76,9 @@ public class PetWallFragmentS extends Fragment {
             }
         });
         RecyclerView rcView = (RecyclerView) view.findViewById(R.id.rcView);
+
+
+
         rcView.setLayoutManager(new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL));
         rcView.setAdapter(new MyAdapter(getContext(), mDogPicVOList));
 

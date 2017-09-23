@@ -210,7 +210,7 @@ public class PetWallActivityM extends AppCompatActivity implements View.OnClickL
             };
             final PetWallVO pw = petWallVO.get(position);
             holder.tvPwContent.setText(pw.getPwContent());
-            holder.tvPwContent.setText("xxx");
+
             int pwNo = pw.getPwNo();
             if (pw.getPwPicture() == null) {
                 new AsyncByteTask(byteListener, PetWallActivityM.this, pwNo).execute(URL);
@@ -233,7 +233,7 @@ public class PetWallActivityM extends AppCompatActivity implements View.OnClickL
                     Gson gsonb = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
                     MembersVO membersVO = gsonb.fromJson(result, MembersVO.class);
                     id = membersVO.getMenId();
-                    holder.tvPwContent.setText(id);
+                    holder.tvMemID.setText(id);
                 }
             }, jsonObject).execute(Me.MembersServlet);
         }

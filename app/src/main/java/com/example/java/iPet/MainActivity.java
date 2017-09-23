@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity implements ShopFragment.OnFr
     private BottomNavigationView bnv;
     private static final String TAG = "MainActivity";
     private FragmentManager fragmentManager = getSupportFragmentManager();
+    private Fragment currentFragment;
     boolean loginStatus;
 
 
@@ -75,6 +76,8 @@ public class MainActivity extends AppCompatActivity implements ShopFragment.OnFr
     @Override
     public void onFragmentInteraction(Uri uri) {
     }
+
+
 
 
 }
