@@ -7,21 +7,22 @@ import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import idv.jack.ApdotionActivity;
-import idv.randy.me.LoginFragment;
 import idv.randy.me.MeFragment;
-import idv.randy.petwall.PetWallFragmentS;
 import idv.randy.petwall.PetWallActivityM;
+import idv.randy.petwall.PetWallFragmentS;
 import idv.randy.zNouse.ShopFragment;
 
 public class MainActivity extends AppCompatActivity implements ShopFragment.OnFragmentInteractionListener, PetWallFragmentS.OnFragmentInteractionListener, MeFragment.OnFragmentInteractionListener {
     private BottomNavigationView bnv;
     private static final String TAG = "MainActivity";
     private FragmentManager fragmentManager = getSupportFragmentManager();
+    private Fragment currentFragment;
     boolean loginStatus;
 
 
@@ -53,13 +54,12 @@ public class MainActivity extends AppCompatActivity implements ShopFragment.OnFr
 
                             break;
                         case R.id.me:
-
-                            if (loginStatus) {
-                                fm = MeFragment.newInstance("", "").newInstance("", "");
-                                fragmentManager.beginTransaction().replace(R.id.forMainFragment, MeFragment.newInstance("", ""), fm.getClass().getSimpleName()).commit();
+                            Fragment meFragment = fragmentManager.findFragmentByTag("MeFragment");
+                            FragmentTransaction transaction = fragmentManager.beginTransaction();
+                            if (meFragment == null) {
+                                fragmentManager.beginTransaction().replace(R.id.forMainFragment, MeFragment.newInstance("", "").newInstance("", ""), "MeFragment").commit();
                             } else {
-                                fm = MeFragment.newInstance("", "").newInstance("", "");
-                                fragmentManager.beginTransaction().replace(R.id.forMainFragment, new LoginFragment(), "").commit();
+                                transaction.replace(R.id.forMainFragment, meFragment).commit();
                             }
                             break;
 
@@ -75,6 +75,28 @@ public class MainActivity extends AppCompatActivity implements ShopFragment.OnFr
 
     @Override
     public void onFragmentInteraction(Uri uri) {
+    }
+
+    private FragmentTransaction switchFragment(Fragment targetFragment) {
+
+        FragmentTransaction transaction = getSupportFragmentManager()
+                .beginTransaction();
+        if (!targetFragment.isAdded()) {
+            //第一次使用switchFragment()時currentFragment為null，所以要判斷一下
+            if (currentFragment != null) {
+                transaction.hide(currentFragment);
+            }
+            transaction.add(R.id.forMainFragment, targetFragment, targetFragment.getClass().getName());
+
+        } else {
+            transaction
+                    .hide(currentFragment)
+                    .show(targetFragment);
+
+
+        }
+        currentFragment = targetFragment;
+        return transaction;
     }
 
 

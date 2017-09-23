@@ -1,30 +1,45 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="idv.randy.me.LoginFragment">
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              tools:context="idv.randy.me.LoginFragment">
 
     <EditText
+        android:id="@+id/etID"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:hint="jack8124"
-        android:id="@+id/etID"
         android:textSize="14sp"
         />
 
     <EditText
+        android:id="@+id/etPD"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:hint="123456"
         android:inputType="textPassword"
-        android:id="@+id/etPD"
         android:textSize="14sp"/>
 
     <Button
+        android:id="@+id/btLogin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="登入"
-        android:id="@+id/btLogin"/>
+        android:text="登入"/>
+
+    <Button
+        android:id="@+id/btSet1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:text="set1"/>
+
+    <Button
+        android:id="@+id/btSet2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:text="set2"/>
+
 
 </LinearLayout>
