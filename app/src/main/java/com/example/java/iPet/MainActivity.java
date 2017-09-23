@@ -77,7 +77,27 @@ public class MainActivity extends AppCompatActivity implements ShopFragment.OnFr
     public void onFragmentInteraction(Uri uri) {
     }
 
+    private FragmentTransaction switchFragment(Fragment targetFragment) {
 
+        FragmentTransaction transaction = getSupportFragmentManager()
+                .beginTransaction();
+        if (!targetFragment.isAdded()) {
+            //第一次使用switchFragment()時currentFragment為null，所以要判斷一下
+            if (currentFragment != null) {
+                transaction.hide(currentFragment);
+            }
+            transaction.add(R.id.forMainFragment, targetFragment, targetFragment.getClass().getName());
+
+        } else {
+            transaction
+                    .hide(currentFragment)
+                    .show(targetFragment);
+
+
+        }
+        currentFragment = targetFragment;
+        return transaction;
+    }
 
 
 }
