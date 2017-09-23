@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.example.java.iPet.R;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import java.util.concurrent.ExecutionException;
@@ -78,6 +79,9 @@ public class LoginFragment extends Fragment {
             String s = new AsyncObjTask(new AsyncAdapter(), jsonObject, Me.gc()).execute(Me.MembersServlet).get();
             jsonObject = new Gson().fromJson(s, JsonObject.class);
             isValid = jsonObject.get("param").getAsBoolean();
+            JsonArray jsonArray = new Gson().fromJson(s, JsonArray.class);
+            
+
 
         } catch (InterruptedException e) {
             e.printStackTrace();
