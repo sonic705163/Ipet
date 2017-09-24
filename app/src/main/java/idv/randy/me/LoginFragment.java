@@ -19,6 +19,9 @@ import com.example.java.iPet.R;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.concurrent.ExecutionException;
 
 import idv.randy.ut.AsyncAdapter;
@@ -58,18 +61,22 @@ public class LoginFragment extends Fragment {
             String id = etID.getText().toString().trim();
             String pd = etPD.getText().toString().trim();
 
-            if (isValid(id, pd)) {
-                SharedPreferences.Editor editor = getActivity().getSharedPreferences("UserData", MODE_PRIVATE).edit();
-                editor.putString("id", id);
-                editor.putString("pd", pd);
-                editor.putInt("memNo", memNo);
-                editor.putBoolean("login", true);
-                editor.apply();
-                FragmentManager fragmentManager = getFragmentManager();
-                MeFragment meFragment = MeFragment.newInstance("", "");
-                fragmentManager.beginTransaction().replace(R.id.forMainFragment, meFragment, "MeFragment").commit();
-            } else {
-                Toast.makeText(Me.gc(), "Account or Password is invalid", Toast.LENGTH_SHORT).show();
+            try {
+                if (isValid(id, pd)) {
+                    SharedPreferences.Editor editor = getActivity().getSharedPreferences("UserData", MODE_PRIVATE).edit();
+                    editor.putString("id", id);
+                    editor.putString("pd", pd);
+                    editor.putInt("memNo", memNo);
+                    editor.putBoolean("login", true);
+                    editor.apply();
+                    FragmentManager fragmentManager = getFragmentManager();
+                    MeFragment meFragment = MeFragment.newInstance("", "");
+                    fragmentManager.beginTransaction().replace(R.id.forMainFragment, meFragment, "MeFragment").commit();
+                } else {
+                    Toast.makeText(Me.gc(), "Account or Password is invalid", Toast.LENGTH_SHORT).show();
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
         });
 
@@ -85,7 +92,7 @@ public class LoginFragment extends Fragment {
         btSet2 = (Button) v.findViewById(R.id.btSet2);
     }
 
-    private boolean isValid(String id, String pd) {
+    private boolean isValid(String id, String pd) throws JSONException {
         jsonObject = new JsonObject();
         jsonObject.addProperty("action", "checkValid");
         jsonObject.addProperty("id", id);
@@ -96,14 +103,18 @@ public class LoginFragment extends Fragment {
             jsonObject = new Gson().fromJson(inputString, JsonObject.class);
             isValid = jsonObject.get("isValid").getAsBoolean();
             memNo = jsonObject.get("memNo").getAsInt();
-//            JsonObject inputJsonObject = jsonObject.get("membersVO").getAsJsonObject();
-//            String s = inputJsonObject.get("memPhone").getAsString();
+            Log.d(TAG, "isValid: " + isValid);
+            Log.d(TAG, "memNo: " + memNo);
+
+////            String s = inputJsonObject.get("memPhone").getAsString();
             JsonObject inputJsonObject = jsonObject.get("membersVO").getAsJsonObject();
             String s = inputJsonObject.get("id").getAsString();
+            Log.d(TAG, "id: " + s);
 
-
-            Log.d(TAG, "isValid: " + s);
-
+//            JSONObject jsonObj = new JSONObject(inputString);
+//           int iw = jsonObj.getInt("memNo");
+//           isValid = jsonObj.getBoolean("memNo");
+//            Log.d(TAG, "isValid: " + String.valueOf(iw));
 
         } catch (InterruptedException e) {
             e.printStackTrace();
