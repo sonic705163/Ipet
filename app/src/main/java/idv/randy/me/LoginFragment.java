@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,7 +19,6 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.concurrent.ExecutionException;
 
@@ -40,6 +38,8 @@ public class LoginFragment extends Fragment {
     private EditText etID;
     private EditText etPD;
     Integer memNo;
+    String memName;
+    LoginFragmentListener mLoginFragmentListener;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -60,26 +60,25 @@ public class LoginFragment extends Fragment {
         btLogin.setOnClickListener(v -> {
             String id = etID.getText().toString().trim();
             String pd = etPD.getText().toString().trim();
-
-            try {
-                if (isValid(id, pd)) {
-                    SharedPreferences.Editor editor = getActivity().getSharedPreferences("UserData", MODE_PRIVATE).edit();
-                    editor.putString("id", id);
-                    editor.putString("pd", pd);
-                    editor.putInt("memNo", memNo);
-                    editor.putBoolean("login", true);
-                    editor.apply();
-                    FragmentManager fragmentManager = getFragmentManager();
-                    MeFragment meFragment = MeFragment.newInstance("", "");
-                    fragmentManager.beginTransaction().replace(R.id.forMainFragment, meFragment, "MeFragment").commit();
-                } else {
-                    Toast.makeText(Me.gc(), "Account or Password is invalid", Toast.LENGTH_SHORT).show();
+            if (id.length() == 0 || pd.length() == 0) {
+                Toast.makeText(Me.gc(), "Account or Password is invalid", Toast.LENGTH_SHORT).show();
+            } else {
+                try {
+                    if (isValid(id, pd)) {
+                        SharedPreferences.Editor editor = getActivity().getSharedPreferences("UserData", MODE_PRIVATE).edit();
+                        editor.putString("id", id);
+                        editor.putInt("memNo", memNo);
+                        editor.putBoolean("login", true);
+                        editor.putString("memName", memName);
+                        editor.apply();
+                    } else {
+                        Toast.makeText(Me.gc(), "Account or Password is invalid", Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-            } catch (JSONException e) {
-                e.printStackTrace();
             }
         });
-
         return v;
     }
 
@@ -103,19 +102,9 @@ public class LoginFragment extends Fragment {
             jsonObject = new Gson().fromJson(inputString, JsonObject.class);
             isValid = jsonObject.get("isValid").getAsBoolean();
             memNo = jsonObject.get("memNo").getAsInt();
-            Log.d(TAG, "isValid: " + isValid);
-            Log.d(TAG, "memNo: " + memNo);
-
-////            String s = inputJsonObject.get("memPhone").getAsString();
-            JsonObject inputJsonObject = jsonObject.get("membersVO").getAsJsonObject();
-            String s = inputJsonObject.get("id").getAsString();
-            Log.d(TAG, "id: " + s);
-
-//            JSONObject jsonObj = new JSONObject(inputString);
-//           int iw = jsonObj.getInt("memNo");
-//           isValid = jsonObj.getBoolean("memNo");
-//            Log.d(TAG, "isValid: " + String.valueOf(iw));
-
+            memName = jsonObject.get("memName").getAsString();
+//            JsonObject inputJsonObject = jsonObject.get("membersVO").getAsJsonObject();
+            mLoginFragmentListener.logIn();
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
@@ -127,6 +116,11 @@ public class LoginFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         Log.d(TAG, "onAttach: ");
+        try {
+            mLoginFragmentListener = (LoginFragmentListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString());
+        }
     }
 
     @Override
@@ -182,5 +176,9 @@ public class LoginFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         Log.d(TAG, "onDetach: ");
+    }
+
+    public interface LoginFragmentListener {
+        void logIn();
     }
 }
