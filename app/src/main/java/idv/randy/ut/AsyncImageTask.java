@@ -39,12 +39,6 @@ public class AsyncImageTask extends AsyncTask<String, Integer, Bitmap> {
     }
 
     @Override
-    protected void onPreExecute() {
-        Log.d(TAG, "onPreExecute: ");
-        super.onPreExecute();
-    }
-
-    @Override
     protected Bitmap doInBackground(String... params) {
         Log.d(TAG, "doInBackground: ");
         String serverAddr = params[0];
@@ -53,15 +47,8 @@ public class AsyncImageTask extends AsyncTask<String, Integer, Bitmap> {
         return bitmap;
     }
 
-
-    @Override
-    protected void onProgressUpdate(Integer... values) {
-        Log.d(TAG, "onProgressUpdate: ");
-    }
-
     @Override
     protected void onPostExecute(Bitmap bitmap) {
-        Log.d(TAG, "onPostExecute: ");
         super.onPostExecute(bitmap);
         imageView.setImageBitmap(bitmap);
     }

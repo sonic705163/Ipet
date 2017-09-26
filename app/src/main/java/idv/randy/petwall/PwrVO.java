@@ -16,6 +16,12 @@ public class PwrVO {
     private Date pwrdate;
     private String pwrcontent;
 
+    public static List<PwrVO> decodeToList(String stringIn) {
+        Gson gsonb = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+        List<PwrVO> list = gsonb.fromJson(stringIn, new TypeToken<List<PwrVO>>() {
+        }.getType());
+        return list;
+    }
 
     public Integer getPwrno() {
         return pwrno;
@@ -55,12 +61,5 @@ public class PwrVO {
 
     public void setPwrcontent(String pwrcontent) {
         this.pwrcontent = pwrcontent;
-    }
-
-    public static List<PwrVO> decodeToList(String stringIn) {
-        Gson gsonb = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
-        List<PwrVO> list = gsonb.fromJson(stringIn, new TypeToken<List<PwrVO>>() {
-        }.getType());
-        return list;
     }
 }

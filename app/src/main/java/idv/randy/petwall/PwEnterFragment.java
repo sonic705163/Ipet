@@ -1,7 +1,6 @@
 package idv.randy.petwall;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -13,18 +12,15 @@ import android.view.ViewGroup;
 
 import com.example.java.iPet.R;
 
-import idv.randy.ut.Me;
-
 public class PwEnterFragment extends Fragment {
 
 
     private PwEnterFragmentListener mListener;
 
     public PwEnterFragment() {
-        // Required empty public constructor
     }
 
-    public static idv.randy.petwall.PwEnterFragment newInstance(String param1, String param2) {
+    public static PwEnterFragment newInstance(String param1, String param2) {
         idv.randy.petwall.PwEnterFragment fragment = new idv.randy.petwall.PwEnterFragment();
         return fragment;
     }
@@ -47,20 +43,9 @@ public class PwEnterFragment extends Fragment {
             }
         });
         CardView cardViewDog = (CardView) view.findViewById(R.id.cardViewDog);
-        cardViewDog.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                PwActivity.start(getActivity(), "dog");
-            }
-        });
+        cardViewDog.setOnClickListener(v -> PwActivity.start(getActivity(), "dog"));
         CardView carViewCat = (CardView) view.findViewById(R.id.carViewCat);
-        carViewCat.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), PwActivity.class);
-                PwActivity.start(getActivity(), "cat");
-            }
-        });
+        carViewCat.setOnClickListener(v -> PwActivity.start(getActivity(), "cat"));
 
 
         return view;

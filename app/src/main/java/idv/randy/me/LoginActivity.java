@@ -10,17 +10,17 @@ import com.google.gson.JsonObject;
 
 public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
-    private EditText etID;
-    private EditText etPD;
     Button btLogin;
     JsonObject jsonObject;
+    private EditText etID;
+    private EditText etPD;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.r_activity_login);
 //        findViews();
-//        btLogin.setOnClickListener(v -> {
+//        btLogin.setOnClickListener(view -> {
 //            String id = etID.getText().toString().trim();
 //            String pd = etPD.getText().toString().trim();
 //            if (isValid(id, pd)) {

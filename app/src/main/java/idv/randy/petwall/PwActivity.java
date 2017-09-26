@@ -1,7 +1,6 @@
 package idv.randy.petwall;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -28,7 +27,6 @@ import com.example.java.iPet.R;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
-import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,17 +44,14 @@ public class PwActivity extends AppCompatActivity implements View.OnClickListene
 
     private static final String TAG = "RetrieveActivity";
     private static final String URL = Me.PetServlet;
+    MyVOAdapter myVOAdapter;
+    Toolbar toolbar;
+    TextView tvDog;
+    TextView tvCat;
     private List<PwVO> mPwVO;
     private AsyncTask getDataTask;
     private ImageView ivSearch;
     private EditText etSearch;
-    private RecyclerView rv;
-    MyVOAdapter myVOAdapter;
-    String id;
-    Toolbar toolbar;
-    TextView tvDog;
-    TextView tvCat;
-
     AsyncAdapter asyncAdapter = new AsyncAdapter() {
         @Override
         public void onGoing(int progress) {
@@ -70,11 +65,17 @@ public class PwActivity extends AppCompatActivity implements View.OnClickListene
         }
     };
 
+    public static void start(Activity context, String param) {
+        Intent intent = new Intent(context, PwActivity.class);
+        intent.putExtra("param", param);
+        context.startActivity(intent);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate: ");
-        setContentView(R.layout.r_activity_pwitem_list);
+        setContentView(R.layout.r_activity_pw_item_list);
         findViews();
         Intent intent = getIntent();
         String param = intent.getExtras().getString("param");
@@ -84,7 +85,7 @@ public class PwActivity extends AppCompatActivity implements View.OnClickListene
         tvCat.setOnClickListener(this);
         ivSearch.setOnClickListener(this);
         if (savedInstanceState != null) {
-            mPwVO = savedInstanceState.getParcelableArrayList("vo");
+            mPwVO = savedInstanceState.getParcelableArrayList("mPwVO");
         }
         if (myVOAdapter != null) {
             updateRv(mPwVO);
@@ -129,10 +130,10 @@ public class PwActivity extends AppCompatActivity implements View.OnClickListene
     public void updateRv(List<PwVO> pwVO) {
         Log.d(TAG, "updateRv: ");
         this.mPwVO = pwVO;
-        rv = (RecyclerView) findViewById(R.id.rv);
-        rv.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL));
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv);
+        recyclerView.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL));
         myVOAdapter = new MyVOAdapter(pwVO);
-        rv.setAdapter(myVOAdapter);
+        recyclerView.setAdapter(myVOAdapter);
     }
 
     @Override
@@ -158,6 +159,12 @@ public class PwActivity extends AppCompatActivity implements View.OnClickListene
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelableArrayList("mPwVO", (ArrayList<? extends Parcelable>) mPwVO);
+    }
+
     public class MyVOAdapter extends RecyclerView.Adapter<MyVOAdapter.MyViewHolder> {
         private List<PwVO> mPwVO;
 
@@ -168,7 +175,7 @@ public class PwActivity extends AppCompatActivity implements View.OnClickListene
         @Override
         public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             LayoutInflater layoutInflater = LayoutInflater.from(Me.gc());
-            View v = layoutInflater.inflate(R.layout.r_activity_pwitem, parent, false);
+            View v = layoutInflater.inflate(R.layout.r_activity_pw_item, parent, false);
             MyViewHolder myViewHolder = new MyViewHolder(v);
             myViewHolder.itemView.setOnClickListener(v1 -> {
                 int position = myViewHolder.getAdapterPosition();
@@ -238,18 +245,6 @@ public class PwActivity extends AppCompatActivity implements View.OnClickListene
                 tvMemID = (TextView) itemView.findViewById(R.id.tvMemID);
             }
         }
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putParcelableArrayList("vo", (ArrayList<? extends Parcelable>) mPwVO);
-    }
-
-    public static void start(Activity context, String param) {
-        Intent intent = new Intent(context, PwActivity.class);
-        intent.putExtra("param", param);
-        context.startActivity(intent);
     }
 
 }

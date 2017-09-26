@@ -28,23 +28,14 @@ public class MeFragment extends Fragment {
     private static final String TAG = "MeFragment";
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    int memNo;
+    MembersVO membersVO;
+    JsonObject jsonObject;
     private String id;
     private String mParam1;
     private String mParam2;
     private TextView tvMemName;
     private TextView tvMemID;
-    private MeFragmentListener mListener;
-    private String memName;
-    private ImageView ivMemImg;
-    private ImageView ivLogOut;
-    int memNo;
-    private View v;
-    MembersVO membersVO;
-    JsonObject jsonObject;
-
-    public MeFragment() {
-    }
-
     AsyncAdapter asyncAdapeter = new AsyncAdapter() {
         @Override
         public void onFinish(String result) {
@@ -54,6 +45,14 @@ public class MeFragment extends Fragment {
             tvMemID.setText(membersVO.getMenId());
         }
     };
+    private MeFragmentListener mListener;
+    private String memName;
+    private ImageView ivMemImg;
+    private ImageView ivLogOut;
+    private View view;
+
+    public MeFragment() {
+    }
 
     public static MeFragment newInstance(String param1, String param2) {
         MeFragment fragment = new MeFragment();
@@ -77,8 +76,7 @@ public class MeFragment extends Fragment {
         if (context instanceof MeFragmentListener) {
             mListener = (MeFragmentListener) context;
         } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement MeFragmentListener");
+            throw new RuntimeException(context.toString());
         }
 
         SharedPreferences pref = getActivity().getSharedPreferences("UserData", MODE_PRIVATE);
@@ -99,7 +97,7 @@ public class MeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         Log.d(TAG, "onCreateView: ");
-        v = inflater.inflate(R.layout.r_fragment_me, container, false);
+        view = inflater.inflate(R.layout.r_fragment_me, container, false);
         findViews();
         new AsyncImageTask(memNo, ivMemImg).execute(Me.MembersServlet);
         jsonObject = new JsonObject();
@@ -114,14 +112,14 @@ public class MeFragment extends Fragment {
             mListener.logOut();
         });
 
-        return v;
+        return view;
     }
 
     private void findViews() {
-        ivLogOut = (ImageView) v.findViewById(R.id.ivLogOut);
-        ivMemImg = (ImageView) v.findViewById(R.id.ivMemImg);
-        tvMemName = (TextView) v.findViewById(R.id.tvMemName);
-        tvMemID = (TextView) v.findViewById(R.id.tvMemId);
+        ivLogOut = (ImageView) view.findViewById(R.id.ivLogOut);
+        ivMemImg = (ImageView) view.findViewById(R.id.ivMemImg);
+        tvMemName = (TextView) view.findViewById(R.id.tvMemName);
+        tvMemID = (TextView) view.findViewById(R.id.tvMemId);
     }
 
     @Override
@@ -173,18 +171,18 @@ public class MeFragment extends Fragment {
         mListener = null;
     }
 
-    public interface MeFragmentListener {
-        void onFragmentInteraction(Uri uri);
-
-        void logOut();
-    }
-
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (hidden) {
         } else {
         }
+    }
+
+    public interface MeFragmentListener {
+        void onFragmentInteraction(Uri uri);
+
+        void logOut();
     }
 
 

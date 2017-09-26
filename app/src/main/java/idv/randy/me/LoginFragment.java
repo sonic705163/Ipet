@@ -31,28 +31,26 @@ import static android.content.Context.MODE_PRIVATE;
 public class LoginFragment extends Fragment {
     private static final String TAG = "LoginFragment";
     Button btLogin;
-    View v;
+    View view;
     JsonObject jsonObject;
     Button btSet1;
     Button btSet2;
-    private EditText etID;
-    private EditText etPD;
     Integer memNo;
     String memName;
     LoginFragmentListener mLoginFragmentListener;
+    private EditText etID;
+    private EditText etPD;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         Log.d(TAG, "onCreateView: ");
-        v = inflater.inflate(R.layout.r_fragment_login, container, false);
+        view = inflater.inflate(R.layout.r_fragment_login, container, false);
         findViews();
-        btSet1 = (Button) v.findViewById(R.id.btSet1);
         btSet1.setOnClickListener(v1 -> {
             etID.setText("jack8124");
             etPD.setText("123456");
         });
-        btSet2 = (Button) v.findViewById(R.id.btSet2);
         btSet2.setOnClickListener(v1 -> {
             etID.setText("j43343");
             etPD.setText("841284");
@@ -79,16 +77,15 @@ public class LoginFragment extends Fragment {
                 }
             }
         });
-        return v;
+        return view;
     }
 
-
     private void findViews() {
-        etID = (EditText) v.findViewById(R.id.etID);
-        etPD = (EditText) v.findViewById(R.id.etPD);
-        btLogin = (Button) v.findViewById(R.id.btLogin);
-        btSet1 = (Button) v.findViewById(R.id.btSet1);
-        btSet2 = (Button) v.findViewById(R.id.btSet2);
+        etID = (EditText) view.findViewById(R.id.etID);
+        etPD = (EditText) view.findViewById(R.id.etPD);
+        btLogin = (Button) view.findViewById(R.id.btLogin);
+        btSet1 = (Button) view.findViewById(R.id.btSet1);
+        btSet2 = (Button) view.findViewById(R.id.btSet2);
     }
 
     private boolean isValid(String id, String pd) throws JSONException {
@@ -103,11 +100,7 @@ public class LoginFragment extends Fragment {
             isValid = jsonObject.get("isValid").getAsBoolean();
             memNo = jsonObject.get("memNo").getAsInt();
             memName = jsonObject.get("memName").getAsString();
-//            String membersVOstring = jsonObject.get("membersVO").getAsString();
-//            MembersVO membersVO = new Gson().fromJson(membersVOstring, MembersVO.class);
-
-
-            mLoginFragmentListener.logIn();
+            mLoginFragmentListener.login();
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
@@ -182,6 +175,6 @@ public class LoginFragment extends Fragment {
     }
 
     public interface LoginFragmentListener {
-        void logIn();
+        void login();
     }
 }

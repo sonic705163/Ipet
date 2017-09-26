@@ -23,8 +23,8 @@ public class MyPwDetailRecyclerViewAdapter extends RecyclerView.Adapter<MyPwDeta
     private final List<MembersVO> mMembersVOs;
     private final OnListFragmentInteractionListener mListener;
 
-    public MyPwDetailRecyclerViewAdapter(List<PwrVO> items, List<MembersVO> mMembersVOs, OnListFragmentInteractionListener listener) {
-        mPwrVOs = items;
+    public MyPwDetailRecyclerViewAdapter(List<PwrVO> mPwrVOs, List<MembersVO> mMembersVOs, OnListFragmentInteractionListener listener) {
+        this.mPwrVOs = mPwrVOs;
         mListener = listener;
         this.mMembersVOs = mMembersVOs;
     }
@@ -32,16 +32,15 @@ public class MyPwDetailRecyclerViewAdapter extends RecyclerView.Adapter<MyPwDeta
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_pwdetail, parent, false);
+                .inflate(R.layout.r_fragment_pw_detail, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mPwrVOs.get(position);
-//        holder.mIdView.setText(mPwrVOs.get(position).);
         holder.tvMemID.setText(mMembersVOs.get(position).getMemName());
-        holder.mContentView.setText(mPwrVOs.get(position).getPwrcontent());
+        holder.tvPwrContent.setText(mPwrVOs.get(position).getPwrcontent());
         int memNo = mMembersVOs.get(position).getMemNo();
         new AsyncImageTask(memNo, holder.ivMemImg).execute(Me.MembersServlet);
         holder.mView.setOnClickListener(new View.OnClickListener() {
@@ -61,8 +60,7 @@ public class MyPwDetailRecyclerViewAdapter extends RecyclerView.Adapter<MyPwDeta
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
-        public final TextView mIdView;
-        public final TextView mContentView;
+        public final TextView tvPwrContent;
         public final TextView tvMemID;
         public final ImageView ivMemImg;
         public PwrVO mItem;
@@ -72,14 +70,12 @@ public class MyPwDetailRecyclerViewAdapter extends RecyclerView.Adapter<MyPwDeta
             mView = view;
             ivMemImg = (ImageView) view.findViewById(R.id.ivMemImg);
             tvMemID = (TextView) view.findViewById(R.id.tvMemID);
-            mIdView = (TextView) view.findViewById(R.id.pwrContent);
-            mContentView = (TextView) view.findViewById(R.id.content);
-
+            tvPwrContent = (TextView) view.findViewById(R.id.content);
         }
 
         @Override
         public String toString() {
-            return super.toString() + " '" + mContentView.getText() + "'";
+            return super.toString() + " '" + tvPwrContent.getText() + "'";
         }
     }
 }

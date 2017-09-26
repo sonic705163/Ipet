@@ -21,7 +21,6 @@ public class AsyncArrayTask extends AsyncTask<String, Integer, String> {
     public static final MediaType JSON
             = MediaType.parse("application/json; charset=utf-8");
 
-
     public AsyncArrayTask(@Nullable AsyncListener asyncListener, JsonArray jsonArray, Context context) {
         this.asyncListener = asyncListener;
         this.jsonArray = jsonArray;
@@ -54,7 +53,6 @@ public class AsyncArrayTask extends AsyncTask<String, Integer, String> {
 
     @Override
     protected void onPostExecute(String result) {
-//        Log.d(TAG, "onPostExecute: ");
         super.onPostExecute(result);
         if (asyncListener != null) {
             asyncListener.onFinish(result);

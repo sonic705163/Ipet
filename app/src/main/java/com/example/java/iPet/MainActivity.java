@@ -17,18 +17,17 @@ import idv.randy.me.MeFragment;
 import idv.randy.petwall.PetWallFragmentS;
 import idv.randy.petwall.PwDetailActivity;
 import idv.randy.petwall.PwEnterFragment;
+import idv.randy.ut.Me;
 import idv.randy.zNouse.ShopFragment;
 
-public class MainActivity extends AppCompatActivity implements ShopFragment.OnFragmentInteractionListener, PetWallFragmentS.OnFragmentInteractionListener, MeFragment.MeFragmentListener, LoginFragment.LoginFragmentListener, PwEnterFragment.PwEnterFragmentListener {
-    private BottomNavigationView bnv;
+public class MainActivity extends AppCompatActivity implements PetWallFragmentS.OnFragmentInteractionListener, MeFragment.MeFragmentListener, LoginFragment.LoginFragmentListener, PwEnterFragment.PwEnterFragmentListener {
     private static final String TAG = "MainActivity";
-    private FragmentManager fragmentManager = getSupportFragmentManager();
-    public Fragment currentFragment;
     public MeFragment mMeFragment = MeFragment.newInstance("", "");
     public LoginFragment mLoginFragment = new LoginFragment();
     public PwEnterFragment mPwEnterFragment = new PwEnterFragment();
     boolean loginStatus;
-
+    private BottomNavigationView bnv;
+    private FragmentManager fragmentManager = getSupportFragmentManager();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,23 +50,17 @@ public class MainActivity extends AppCompatActivity implements ShopFragment.OnFr
 
                             break;
                         case R.id.petWall:
-                            switchFragment(mPwEnterFragment).commit();
-//                            Intent intent = new Intent(MainActivity.this, PwDetailActivity.class);
-//                            startActivity(intent);
-//                            PwDetailActivity.start(MainActivity.this,10000);
+                            Me.switchFragment(this, R.id.forMainFragment, mPwEnterFragment).commit();
                             break;
                         case R.id.me:
                             if (loginStatus) {
-                                switchFragment(mMeFragment).commit();
+                                Me.switchFragment(this, R.id.forMainFragment, mMeFragment).commit();
                             } else {
-                                switchFragment(mLoginFragment).commit();
+                                Me.switchFragment(this, R.id.forMainFragment, mLoginFragment).commit();
                             }
                             break;
 
                         default:
-//                            fm = ShopFragment.newInstance("", "");
-//                            fragmentManager.beginTransaction().replace(R.id.forMainFragment, fm, fm.getClass().getSimpleName()).commit();
-//                            break;
                     }
                     return true;
                 }
@@ -80,36 +73,16 @@ public class MainActivity extends AppCompatActivity implements ShopFragment.OnFr
 
     @Override
     public void logOut() {
-        switchFragment(mLoginFragment).commit();
+        Me.switchFragment(this, R.id.forMainFragment, mLoginFragment).commit();
     }
-
-    public FragmentTransaction switchFragment(Fragment targetFragment) {
-        FragmentTransaction transaction = getSupportFragmentManager()
-                .beginTransaction();
-        if (!targetFragment.isAdded()) {
-            if (currentFragment != null) {
-                transaction.hide(currentFragment);
-            }
-            transaction.add(R.id.forMainFragment, targetFragment, targetFragment.getClass().getName());
-        } else {
-            transaction
-                    .hide(currentFragment)
-                    .show(targetFragment);
-        }
-        currentFragment = targetFragment;
-        return transaction;
-    }
-
 
     @Override
-    public void logIn() {
+    public void login() {
         mMeFragment = MeFragment.newInstance("", "");
-        switchFragment(mMeFragment).commit();
-
+        Me.switchFragment(this, R.id.forMainFragment, mMeFragment).commit();
     }
 
     @Override
     public void selectEnter() {
-
     }
 }

@@ -54,7 +54,6 @@ public class AsyncObjTask extends AsyncTask<String, Integer, String> {
 
     @Override
     protected void onPostExecute(String result) {
-//        Log.d(TAG, "onPostExecute: ");
         super.onPostExecute(result);
         if (asyncListener != null) {
             asyncListener.onFinish(result);

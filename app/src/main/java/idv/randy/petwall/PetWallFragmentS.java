@@ -40,7 +40,6 @@ public class PetWallFragmentS extends Fragment {
     }
 
 
-
     public static PetWallFragmentS newInstance(String param1, String param2) {
         PetWallFragmentS fragment = new PetWallFragmentS();
         Bundle args = new Bundle();
@@ -76,7 +75,6 @@ public class PetWallFragmentS extends Fragment {
             }
         });
         RecyclerView rcView = (RecyclerView) view.findViewById(R.id.rcView);
-
 
 
         rcView.setLayoutManager(new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL));

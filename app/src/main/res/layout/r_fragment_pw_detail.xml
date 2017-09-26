@@ -27,13 +27,6 @@
         android:layout_gravity="center_vertical"
         android:text="MemID"
         android:textSize="18sp"/>
-    <TextView
-        android:id="@+id/pwrContent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
-        android:textAppearance="?attr/textAppearanceListItem"
-        android:text="text"/>
 
     <TextView
         android:id="@+id/content"

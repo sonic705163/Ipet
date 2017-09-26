@@ -14,11 +14,17 @@ import com.example.java.iPet.R;
 public class PwDetailActivity extends AppCompatActivity implements PwDetailFragment.OnListFragmentInteractionListener {
     private static final String TAG = "PwDetailActivity";
 
+    public static void start(Context context, int pwNo) {
+        Intent intent = new Intent(context, PwDetailActivity.class);
+        intent.putExtra("pwNo", pwNo);
+        context.startActivity(intent);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate: ");
-        setContentView(R.layout.activity_pw_detail);
+        setContentView(R.layout.r_activity_pw_detail);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -29,8 +35,6 @@ public class PwDetailActivity extends AppCompatActivity implements PwDetailFragm
 
         Intent intent = getIntent();
         int pwNo = intent.getExtras().getInt("pwNo");
-        Log.d(TAG, "onCreate: " + pwNo);
-
 
         if (savedInstanceState == null) {
             Bundle arguments = new Bundle();
@@ -42,13 +46,6 @@ public class PwDetailActivity extends AppCompatActivity implements PwDetailFragm
                     .add(R.id.item_detail_container, fragment)
                     .commit();
         }
-
-    }
-
-    public static void start(Context context, int pwNo) {
-        Intent intent = new Intent(context, PwDetailActivity.class);
-        intent.putExtra("pwNo", pwNo);
-        context.startActivity(intent);
     }
 
     @Override

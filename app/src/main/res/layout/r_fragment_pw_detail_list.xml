@@ -11,4 +11,4 @@
     android:layout_marginRight="16dp"
     app:layoutManager="LinearLayoutManager"
     tools:context="idv.randy.petwall.PwDetailFragment"
-    tools:listitem="@layout/fragment_pwdetail"/>
+    tools:listitem="@layout/r_fragment_pw_detail"/>

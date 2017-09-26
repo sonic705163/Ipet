@@ -13,13 +13,6 @@ import java.util.List;
 
 public class PwVO implements Parcelable{
 
-    protected PwVO(Parcel in) {
-        pwPicture = in.createByteArray();
-        pwContent = in.readString();
-        pwFilm = in.createByteArray();
-        pwPraise = in.readString();
-    }
-
     public static final Creator<PwVO> CREATOR = new Creator<PwVO>() {
         @Override
         public PwVO createFromParcel(Parcel in) {
@@ -31,6 +24,27 @@ public class PwVO implements Parcelable{
             return new PwVO[size];
         }
     };
+    Integer pwNo;
+    Date pwDate;
+    byte[] pwPicture;
+    String pwContent;
+    byte[] pwFilm;
+    String pwPraise;
+    Integer memno;
+
+    protected PwVO(Parcel in) {
+        pwPicture = in.createByteArray();
+        pwContent = in.readString();
+        pwFilm = in.createByteArray();
+        pwPraise = in.readString();
+    }
+
+    public static List<PwVO> decodeToList(String stringIn) {
+        Gson gsonb = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+        List<PwVO> list = gsonb.fromJson(stringIn, new TypeToken<List<PwVO>>() {
+        }.getType());
+        return list;
+    }
 
     public Integer getPwNo() {
         return pwNo;
@@ -88,14 +102,6 @@ public class PwVO implements Parcelable{
         this.memno = memno;
     }
 
-    Integer pwNo;
-    Date pwDate;
-    byte[] pwPicture;
-    String pwContent;
-    byte[] pwFilm;
-    String pwPraise;
-    Integer memno;
-
     @Override
     public int describeContents() {
         return 0;
@@ -107,12 +113,6 @@ public class PwVO implements Parcelable{
         dest.writeString(pwContent);
         dest.writeByteArray(pwFilm);
         dest.writeString(pwPraise);
-    }
-    public static List<PwVO> decodeToList(String stringIn) {
-        Gson gsonb = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
-        List<PwVO> list = gsonb.fromJson(stringIn, new TypeToken<List<PwVO>>() {
-        }.getType());
-        return list;
     }
 
 }

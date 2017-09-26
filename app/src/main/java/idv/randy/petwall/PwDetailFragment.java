@@ -21,28 +21,15 @@ import idv.randy.ut.AsyncAdapter;
 import idv.randy.ut.AsyncObjTask;
 import idv.randy.ut.Me;
 
-/**
- * A fragment representing a list of Items.
- * <p/>
- * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
- * interface.
- */
 public class PwDetailFragment extends Fragment {
     private static final String TAG = "PwDetailFragment";
-    private List<PwrVO> pwrVOs;
-    private int pwNo;
-
-    // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
-    // TODO: Customize parameters
-
+    private int pwNo;
     private OnListFragmentInteractionListener mListener;
 
     public PwDetailFragment() {
     }
 
-    // TODO: Customize parameter initialization
-    @SuppressWarnings("unused")
     public static PwDetailFragment newInstance(int columnCount) {
         PwDetailFragment fragment = new PwDetailFragment();
         Bundle args = new Bundle();
@@ -67,7 +54,7 @@ public class PwDetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         Log.d(TAG, "onCreateView: ");
-        View view = inflater.inflate(R.layout.fragment_pwdetail_list, container, false);
+        View view = inflater.inflate(R.layout.r_fragment_pw_detail_list, container, false);
 
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("action", "getPwrVO");
@@ -76,24 +63,11 @@ public class PwDetailFragment extends Fragment {
             @Override
             public void onFinish(String result) {
                 super.onFinish(result);
-
-
                 JsonObject jsonObject = new Gson().fromJson(result, JsonObject.class);
-                //                pwrVOs = PwrVO.decodeToList(result);
-
-
-
-
                 String petWallReplyVOs = jsonObject.get("petWallReplyVOs").getAsString();
-                pwrVOs = PwrVO.decodeToList(petWallReplyVOs);
+                List<PwrVO> pwrVOs = PwrVO.decodeToList(petWallReplyVOs);
                 String stringMembersVOs = jsonObject.get("membersVOs").getAsString();
                 List<MembersVO> membersVOs = MembersVO.decodeToList(stringMembersVOs);
-
-
-
-
-
-                Log.d(TAG, "onFinish: " + pwrVOs.size());
                 if (view instanceof RecyclerView) {
                     Context context = view.getContext();
                     RecyclerView recyclerView = (RecyclerView) view;
@@ -102,11 +76,6 @@ public class PwDetailFragment extends Fragment {
                 }
             }
         }, jsonObject).execute(Me.PetServlet);
-
-
-        // Set the adapter
-
-
         return view;
     }
 
@@ -129,7 +98,6 @@ public class PwDetailFragment extends Fragment {
     }
 
     public interface OnListFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onListFragmentInteraction(PwrVO item);
     }
 }

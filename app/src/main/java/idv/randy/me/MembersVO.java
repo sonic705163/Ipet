@@ -11,9 +11,18 @@ import com.google.gson.reflect.TypeToken;
 import java.sql.Timestamp;
 import java.util.List;
 
-import idv.randy.petwall.PwVO;
-
 public class MembersVO implements Parcelable {
+    public static final Creator<MembersVO> CREATOR = new Creator<MembersVO>() {
+        @Override
+        public MembersVO createFromParcel(Parcel in) {
+            return new MembersVO(in);
+        }
+
+        @Override
+        public MembersVO[] newArray(int size) {
+            return new MembersVO[size];
+        }
+    };
     private Integer memNo;
     private String menId;
     private String memPassword;
@@ -55,17 +64,18 @@ public class MembersVO implements Parcelable {
         year = in.readString();
     }
 
-    public static final Creator<MembersVO> CREATOR = new Creator<MembersVO>() {
-        @Override
-        public MembersVO createFromParcel(Parcel in) {
-            return new MembersVO(in);
-        }
+    public static MembersVO decodeToVO(String stringIn) {
+        Gson gsonb = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+        MembersVO membersVO = gsonb.fromJson(stringIn, MembersVO.class);
+        return membersVO;
+    }
 
-        @Override
-        public MembersVO[] newArray(int size) {
-            return new MembersVO[size];
-        }
-    };
+    public static List<MembersVO> decodeToList(String stringIn) {
+        Gson gsonb = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+        List<MembersVO> list = gsonb.fromJson(stringIn, new TypeToken<List<MembersVO>>() {
+        }.getType());
+        return list;
+    }
 
     public Integer getMemNo() {
         return memNo;
@@ -251,18 +261,6 @@ public class MembersVO implements Parcelable {
         dest.writeString(day);
         dest.writeString(month);
         dest.writeString(year);
-    }
-
-    public static MembersVO decodeToVO(String stringIn) {
-        Gson gsonb = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
-        MembersVO membersVO = gsonb.fromJson(stringIn, MembersVO.class);
-        return membersVO;
-    };
-    public static List<MembersVO> decodeToList(String stringIn) {
-        Gson gsonb = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
-        List<MembersVO> list = gsonb.fromJson(stringIn, new TypeToken<List<MembersVO>>() {
-        }.getType());
-        return list;
     }
 
 };
