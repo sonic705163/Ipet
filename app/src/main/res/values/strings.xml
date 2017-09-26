@@ -17,4 +17,5 @@
     <string name="mag_NoFind">找不到</string>
     <string name="msg_NoNetwork">沒網路</string>
     <string name="tvTitle">PetInformation</string>
+    <string name="title_activity_pw_detail">PwDetailActivity</string>
 </resources>

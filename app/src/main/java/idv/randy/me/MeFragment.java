@@ -14,8 +14,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.java.iPet.R;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 
 import idv.randy.ut.AsyncAdapter;
@@ -51,17 +49,11 @@ public class MeFragment extends Fragment {
         @Override
         public void onFinish(String result) {
             super.onFinish(result);
-            membersVO = decodeObject(result);
+            membersVO = MembersVO.decodeToVO(result);
             tvMemName.setText(membersVO.getMemName());
             tvMemID.setText(membersVO.getMenId());
         }
     };
-
-    private MembersVO decodeObject(String stringIn) {
-        Gson gsonb = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
-        MembersVO membersVO = gsonb.fromJson(stringIn, MembersVO.class);
-        return membersVO;
-    }
 
     public static MeFragment newInstance(String param1, String param2) {
         MeFragment fragment = new MeFragment();

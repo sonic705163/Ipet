@@ -65,7 +65,7 @@ public class GetVOTask extends AsyncTask<String, Integer, String> {
         try {
             OkHttpClient okHttpClient = new OkHttpClient();
             JsonObject jsonObject = new JsonObject();
-            jsonObject.addProperty("param", keyWord);
+            jsonObject.addProperty("action", keyWord);
             Log.d(TAG, "outputString: " + jsonObject.toString());
             RequestBody requestBody = RequestBody.create(JSON, jsonObject.toString());
             Request request = new Request.Builder().url(serverAddr).post(requestBody).build();

@@ -3,26 +3,32 @@ package idv.randy.petwall;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
+
+import java.io.Serializable;
 import java.sql.Date;
+import java.util.List;
 
-public class PetWallVO implements Parcelable{
+public class PwVO implements Parcelable{
 
-    protected PetWallVO(Parcel in) {
+    protected PwVO(Parcel in) {
         pwPicture = in.createByteArray();
         pwContent = in.readString();
         pwFilm = in.createByteArray();
         pwPraise = in.readString();
     }
 
-    public static final Creator<PetWallVO> CREATOR = new Creator<PetWallVO>() {
+    public static final Creator<PwVO> CREATOR = new Creator<PwVO>() {
         @Override
-        public PetWallVO createFromParcel(Parcel in) {
-            return new PetWallVO(in);
+        public PwVO createFromParcel(Parcel in) {
+            return new PwVO(in);
         }
 
         @Override
-        public PetWallVO[] newArray(int size) {
-            return new PetWallVO[size];
+        public PwVO[] newArray(int size) {
+            return new PwVO[size];
         }
     };
 
@@ -102,4 +108,11 @@ public class PetWallVO implements Parcelable{
         dest.writeByteArray(pwFilm);
         dest.writeString(pwPraise);
     }
+    public static List<PwVO> decodeToList(String stringIn) {
+        Gson gsonb = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+        List<PwVO> list = gsonb.fromJson(stringIn, new TypeToken<List<PwVO>>() {
+        }.getType());
+        return list;
+    }
+
 }

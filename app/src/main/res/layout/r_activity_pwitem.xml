@@ -68,8 +68,8 @@
 
                     <ImageView
                         android:id="@+id/ivPwPraise"
-                        android:layout_width="32dp"
-                        android:layout_height="wrap_content"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
                         android:layout_gravity="center"
                         android:layout_margin="8dp"
                         android:src="@drawable/heart"
@@ -82,7 +82,7 @@
 
                         android:layout_toRightOf="@id/ivPwPraise"
                         android:text="讚"
-                        android:textSize="20sp"/>
+                        android:textSize="18sp"/>
                 </LinearLayout>
 
             </RelativeLayout>
@@ -100,8 +100,8 @@
 
                     <ImageView
                         android:id="@+id/ivPwReply"
-                        android:layout_width="32dp"
-                        android:layout_height="wrap_content"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
                         android:layout_gravity="center"
                         android:layout_margin="8dp"
 
@@ -113,7 +113,7 @@
                         android:layout_gravity="center"
                         android:layout_toRightOf="@id/ivPwReply"
                         android:text="留言"
-                        android:textSize="20sp"/>
+                        android:textSize="18sp"/>
                 </LinearLayout>
 
             </RelativeLayout>

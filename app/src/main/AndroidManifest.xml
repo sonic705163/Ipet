@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.java.iPet">
+          package="com.example.java.iPet">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
     <application
         android:name="idv.randy.ut.Me"
@@ -15,21 +15,26 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
-            android:launchMode="singleTask"
-            android:label="iPet">
+            android:label="iPet"
+            android:launchMode="singleTask">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name="idv.randy.zNouse.AdoptActivity" />
-        <activity android:name="idv.randy.zNouse.wall_m" />
+        <activity android:name="idv.randy.zNouse.AdoptActivity"/>
+        <activity android:name="idv.randy.zNouse.wall_m"/>
         <activity
-            android:name="idv.randy.petwall.PetWallActivityM"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name="idv.randy.me.LoginActivity"></activity>
-        <activity android:name="idv.jack.ApdotionActivity"></activity>
-
+            android:name="idv.randy.petwall.PwActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name="idv.randy.me.LoginActivity"/>
+        <activity android:name="idv.jack.ApdotionActivity"/>
+        <activity
+            android:name="idv.randy.petwall.PwDetailActivity"
+            android:label="@string/title_activity_pw_detail"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
     </application>
 
 </manifest>

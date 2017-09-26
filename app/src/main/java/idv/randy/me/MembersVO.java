@@ -4,9 +4,16 @@ package idv.randy.me;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.sql.Timestamp;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 
-public class MembersVO implements Parcelable{
+import java.sql.Timestamp;
+import java.util.List;
+
+import idv.randy.petwall.PwVO;
+
+public class MembersVO implements Parcelable {
     private Integer memNo;
     private String menId;
     private String memPassword;
@@ -245,4 +252,18 @@ public class MembersVO implements Parcelable{
         dest.writeString(month);
         dest.writeString(year);
     }
-}
+
+    public static MembersVO decodeToVO(String stringIn) {
+        Gson gsonb = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+        MembersVO membersVO = gsonb.fromJson(stringIn, MembersVO.class);
+        return membersVO;
+    };
+    public static List<MembersVO> decodeToList(String stringIn) {
+        Gson gsonb = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+        List<MembersVO> list = gsonb.fromJson(stringIn, new TypeToken<List<MembersVO>>() {
+        }.getType());
+        return list;
+    }
+
+};
+

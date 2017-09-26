@@ -10,158 +10,163 @@
     <!-- TODO: Update blank fragment layout -->
 
 
-        <android.support.v7.widget.CardView
+    <android.support.v7.widget.CardView
+        android:id="@+id/cardViewDog"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        app:cardCornerRadius="12dp">
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="130dp"
-            app:cardCornerRadius="12dp">
+            android:layout_height="match_parent"
+            android:layout_gravity="center">
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="2dp"
+                android:layout_weight="2"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/p08"
+                />
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="130dp"
-                android:layout_gravity="center">
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
 
                 <ImageView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
                     android:layout_gravity="center_vertical"
-                    android:paddingRight="1dp"
-                    android:layout_weight="2"
+                    android:layout_marginBottom="1dp"
+                    android:layout_marginRight="1dp"
+                    android:layout_weight="1"
                     android:adjustViewBounds="true"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/p08"
+                    android:src="@drawable/p19"
+
                     />
 
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_gravity="center_vertical"
-                        android:paddingRight="1dp"
-                        android:layout_marginBottom="1dp"
-                        android:paddingLeft="1dp"
-                        android:layout_weight="1"
-                        android:adjustViewBounds="true"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/p22"
-
-                        />
-
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_gravity="center_vertical"
-                        android:paddingRight="1dp"
-                        android:layout_marginTop="1dp"
-                        android:paddingLeft="1dp"
-                        android:layout_weight="1"
-                        android:adjustViewBounds="true"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/aa1418273"/>
-
-                </LinearLayout>
-
                 <ImageView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
                     android:layout_gravity="center_vertical"
-                    android:paddingLeft="1dp"
+                    android:layout_marginRight="1dp"
+                    android:layout_marginTop="1dp"
                     android:layout_weight="1"
+
                     android:adjustViewBounds="true"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/c"/>
+                    android:src="@drawable/p06"/>
 
             </LinearLayout>
 
-        </android.support.v7.widget.CardView>
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="1dp"
+                android:layout_weight="1"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/c"/>
 
-        <TextView
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:text="Dog"/>
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/carViewCat"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        app:cardCornerRadius="12dp">
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="64dp"
-            android:text="Dog"/>
-        <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="130dp"
-            app:cardCornerRadius="12dp">
+            android:layout_height="match_parent"
+            android:layout_gravity="center">
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="1dp"
+                android:layout_weight="1"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/a14241320352"/>
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="130dp"
-                android:layout_gravity="center">
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
                 <ImageView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
                     android:layout_gravity="center_vertical"
-                    android:paddingLeft="1dp"
+                    android:layout_marginBottom="1dp"
                     android:layout_weight="1"
                     android:adjustViewBounds="true"
+                    android:layout_marginLeft="1dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/a14241320352"/>
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
+                    android:src="@drawable/timg"
 
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_gravity="center_vertical"
-                        android:paddingRight="1dp"
-                        android:layout_marginBottom="1dp"
-                        android:paddingLeft="1dp"
-                        android:layout_weight="1"
-                        android:adjustViewBounds="true"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/p22"
-
-                        />
-
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_gravity="center_vertical"
-                        android:paddingRight="1dp"
-                        android:layout_marginTop="1dp"
-                        android:paddingLeft="1dp"
-                        android:layout_weight="1"
-                        android:adjustViewBounds="true"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/aa1418273"/>
-
-                </LinearLayout>
-                <ImageView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:paddingRight="1dp"
-                    android:layout_weight="2"
-                    android:adjustViewBounds="true"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/ad157aaf9d3cfd6d_0"
                     />
 
-
-
-
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginTop="1dp"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:layout_marginLeft="1dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/c235445f7b255b5b"/>
 
             </LinearLayout>
 
-        </android.support.v7.widget.CardView>
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="2dp"
+                android:layout_weight="2"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/p30"
+                />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="64dp"
-            android:text="Cat"/>
 
+        </LinearLayout>
 
+    </android.support.v7.widget.CardView>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:text="Cat"/>
 
-
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/btnFab"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:clickable="true"
+        app:fabSize="normal"
+        app:srcCompat="@drawable/ic_add"/>
 
 
 </LinearLayout>

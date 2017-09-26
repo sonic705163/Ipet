@@ -14,8 +14,8 @@ import android.util.Log;
 
 import idv.randy.me.LoginFragment;
 import idv.randy.me.MeFragment;
-import idv.randy.petwall.PetWallActivityM;
 import idv.randy.petwall.PetWallFragmentS;
+import idv.randy.petwall.PwDetailActivity;
 import idv.randy.petwall.PwEnterFragment;
 import idv.randy.zNouse.ShopFragment;
 
@@ -52,8 +52,9 @@ public class MainActivity extends AppCompatActivity implements ShopFragment.OnFr
                             break;
                         case R.id.petWall:
                             switchFragment(mPwEnterFragment).commit();
-//                            Intent intent = new Intent(MainActivity.this, PetWallActivityM.class);
+//                            Intent intent = new Intent(MainActivity.this, PwDetailActivity.class);
 //                            startActivity(intent);
+//                            PwDetailActivity.start(MainActivity.this,10000);
                             break;
                         case R.id.me:
                             if (loginStatus) {

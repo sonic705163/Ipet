@@ -84,7 +84,7 @@ public class AsyncByteTask extends AsyncTask<String, Integer, Bitmap> {
         try {
             OkHttpClient okHttpClient = new OkHttpClient();
             JsonObject jsonObject = new JsonObject();
-            jsonObject.addProperty("param", "getImg");
+            jsonObject.addProperty("action", "getImg");
             jsonObject.addProperty("id", id);
             Log.d(TAG, "outputString: " + jsonObject.toString());
             RequestBody requestBody = RequestBody.create(JSON, jsonObject.toString());

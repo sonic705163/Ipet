@@ -1,13 +1,19 @@
 package idv.randy.petwall;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.java.iPet.R;
+
+import idv.randy.ut.Me;
 
 public class PwEnterFragment extends Fragment {
 
@@ -32,6 +38,31 @@ public class PwEnterFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.r_fragment_pw_enter, container, false);
+        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.btnFab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Snackbar.make(view, "Fab clicked", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
+        CardView cardViewDog = (CardView) view.findViewById(R.id.cardViewDog);
+        cardViewDog.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PwActivity.start(getActivity(), "dog");
+            }
+        });
+        CardView carViewCat = (CardView) view.findViewById(R.id.carViewCat);
+        carViewCat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), PwActivity.class);
+                PwActivity.start(getActivity(), "cat");
+            }
+        });
+
+
         return view;
     }
 

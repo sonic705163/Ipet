@@ -103,7 +103,10 @@ public class LoginFragment extends Fragment {
             isValid = jsonObject.get("isValid").getAsBoolean();
             memNo = jsonObject.get("memNo").getAsInt();
             memName = jsonObject.get("memName").getAsString();
-//            JsonObject inputJsonObject = jsonObject.get("membersVO").getAsJsonObject();
+//            String membersVOstring = jsonObject.get("membersVO").getAsString();
+//            MembersVO membersVO = new Gson().fromJson(membersVOstring, MembersVO.class);
+
+
             mLoginFragmentListener.logIn();
         } catch (InterruptedException e) {
             e.printStackTrace();

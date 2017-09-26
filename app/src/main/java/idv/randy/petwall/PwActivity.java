@@ -1,6 +1,8 @@
 package idv.randy.petwall;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -28,7 +30,6 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,89 +37,66 @@ import idv.randy.me.MembersVO;
 import idv.randy.ut.AsyncAdapter;
 import idv.randy.ut.AsyncByteTask;
 import idv.randy.ut.AsyncImageTask;
-import idv.randy.ut.AsyncListener;
 import idv.randy.ut.AsyncObjTask;
 import idv.randy.ut.ByteListener;
 import idv.randy.ut.GetVOTask;
 import idv.randy.ut.Me;
 
-public class PetWallActivityM extends AppCompatActivity implements View.OnClickListener {
+public class PwActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "RetrieveActivity";
     private static final String URL = Me.PetServlet;
-    int resCode;
-    private ProgressDialog progressDialog;
-    private List<PetWallVO> petWallVO;
+    private List<PwVO> mPwVO;
     private AsyncTask getDataTask;
     private ImageView ivSearch;
     private EditText etSearch;
     private RecyclerView rv;
     MyVOAdapter myVOAdapter;
     String id;
-
-    private List<PetWallVO> decodeArray(String stringIn) {
-        Gson gsonb = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
-        List<PetWallVO> list = gsonb.fromJson(stringIn, new TypeToken<List<PetWallVO>>() {
-        }.getType());
-        return list;
-    }
-
-
-    AsyncListener asyncListener = new AsyncListener() {
-        @Override
-        public void onError() {
-            Log.d(TAG, "onError: " + resCode);
-        }
-
-        @Override
-        public void onGoing(int progress) {
-            progressDialog.setMessage("Loading..." + progress + "%");
-            Log.d(TAG, "onGoing: " + progress);
-        }
-
-        @Override
-        public void onFinish(String result) {
-            List petWallVO = decodeArray(result);
-            updateRv(petWallVO);
-        }
-    };
+    Toolbar toolbar;
+    TextView tvDog;
+    TextView tvCat;
 
     AsyncAdapter asyncAdapter = new AsyncAdapter() {
         @Override
         public void onGoing(int progress) {
-            progressDialog.setMessage("Loading..." + progress + "%");
             Log.d(TAG, "onGoing: " + progress);
         }
 
         @Override
         public void onFinish(String result) {
-            List petWallVO = decodeArray(result);
+            List petWallVO = PwVO.decodeToList(result);
             updateRv(petWallVO);
         }
     };
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate: ");
-        setContentView(R.layout.activity_retrieve);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setContentView(R.layout.r_activity_pwitem_list);
+        findViews();
+        Intent intent = getIntent();
+        String param = intent.getExtras().getString("param");
+        new GetVOTask(asyncAdapter, param, this).execute(URL);
         setSupportActionBar(toolbar);
-        TextView tvDog = (TextView) findViewById(R.id.tvDog);
-        TextView tvCat = (TextView) findViewById(R.id.tvCat);
-        etSearch = (EditText) findViewById(R.id.etSearch);
-        ivSearch = (ImageView) findViewById(R.id.ivSearch);
         tvDog.setOnClickListener(this);
         tvCat.setOnClickListener(this);
         ivSearch.setOnClickListener(this);
         if (savedInstanceState != null) {
-            myVOAdapter = (MyVOAdapter) savedInstanceState.getSerializable("adapter");
-            petWallVO = savedInstanceState.getParcelableArrayList("vo");
+            mPwVO = savedInstanceState.getParcelableArrayList("vo");
         }
         if (myVOAdapter != null) {
-            updateRv(petWallVO);
+            updateRv(mPwVO);
         }
+    }
+
+    private void findViews() {
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        tvDog = (TextView) findViewById(R.id.tvDog);
+        tvCat = (TextView) findViewById(R.id.tvCat);
+        etSearch = (EditText) findViewById(R.id.etSearch);
+        ivSearch = (ImageView) findViewById(R.id.ivSearch);
     }
 
     @Override
@@ -148,12 +126,12 @@ public class PetWallActivityM extends AppCompatActivity implements View.OnClickL
                         InputMethodManager.HIDE_NOT_ALWAYS);
     }
 
-    public void updateRv(List<PetWallVO> petWallVO) {
+    public void updateRv(List<PwVO> pwVO) {
         Log.d(TAG, "updateRv: ");
-        this.petWallVO = petWallVO;
+        this.mPwVO = pwVO;
         rv = (RecyclerView) findViewById(R.id.rv);
         rv.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL));
-        myVOAdapter = new MyVOAdapter(petWallVO);
+        myVOAdapter = new MyVOAdapter(pwVO);
         rv.setAdapter(myVOAdapter);
     }
 
@@ -180,21 +158,23 @@ public class PetWallActivityM extends AppCompatActivity implements View.OnClickL
         return super.onOptionsItemSelected(item);
     }
 
-    public class MyVOAdapter extends RecyclerView.Adapter<MyVOAdapter.MyViewHolder> implements Serializable {
-        private List<PetWallVO> petWallVO;
+    public class MyVOAdapter extends RecyclerView.Adapter<MyVOAdapter.MyViewHolder> {
+        private List<PwVO> mPwVO;
 
-        public MyVOAdapter(List<PetWallVO> petWallVO) {
-            this.petWallVO = petWallVO;
+        public MyVOAdapter(List<PwVO> pwVO) {
+            this.mPwVO = pwVO;
         }
 
         @Override
         public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             LayoutInflater layoutInflater = LayoutInflater.from(Me.gc());
-            View v = layoutInflater.inflate(R.layout.r_fragment_petwall_m_rv_row_item, parent, false);
-            final MyViewHolder myViewHolder = new MyViewHolder(v);
+            View v = layoutInflater.inflate(R.layout.r_activity_pwitem, parent, false);
+            MyViewHolder myViewHolder = new MyViewHolder(v);
             myViewHolder.itemView.setOnClickListener(v1 -> {
                 int position = myViewHolder.getAdapterPosition();
-                final PetWallVO pw = petWallVO.get(position);
+                PwVO pw = mPwVO.get(position);
+                int pwNo = pw.getPwNo();
+                PwDetailActivity.start(PwActivity.this, pwNo);
             });
             return myViewHolder;
         }
@@ -208,12 +188,12 @@ public class PetWallActivityM extends AppCompatActivity implements View.OnClickL
                     holder.ivPet.setImageResource(R.drawable.ic_search_black_24dp);
                 }
             };
-            final PetWallVO pw = petWallVO.get(position);
+            PwVO pw = mPwVO.get(position);
             holder.tvPwContent.setText(pw.getPwContent());
 
             int pwNo = pw.getPwNo();
             if (pw.getPwPicture() == null) {
-                new AsyncByteTask(byteListener, PetWallActivityM.this, pwNo).execute(URL);
+                new AsyncByteTask(byteListener, PwActivity.this, pwNo).execute(URL);
             } else {
                 byte[] imgByte = pw.getPwPicture();
                 String imgString = Base64.encodeToString(imgByte, Base64.DEFAULT);
@@ -226,21 +206,20 @@ public class PetWallActivityM extends AppCompatActivity implements View.OnClickL
             JsonObject jsonObject = new JsonObject();
             jsonObject.addProperty("action", "getVO");
             jsonObject.addProperty("memNo", memNo);
-            new AsyncObjTask(new AsyncAdapter(){
+            new AsyncObjTask(new AsyncAdapter() {
                 @Override
                 public void onFinish(String result) {
                     super.onFinish(result);
-                    Gson gsonb = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
-                    MembersVO membersVO = gsonb.fromJson(result, MembersVO.class);
-                    id = membersVO.getMenId();
-                    holder.tvMemID.setText(id);
+                    Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+                    MembersVO membersVO = gson.fromJson(result, MembersVO.class);
+                    holder.tvMemID.setText(membersVO.getMemName());
                 }
             }, jsonObject).execute(Me.MembersServlet);
         }
 
         @Override
         public int getItemCount() {
-            return petWallVO.size();
+            return mPwVO.size();
         }
 
         class MyViewHolder extends RecyclerView.ViewHolder {
@@ -264,7 +243,13 @@ public class PetWallActivityM extends AppCompatActivity implements View.OnClickL
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putParcelableArrayList("vo", (ArrayList<? extends Parcelable>) petWallVO);
-        outState.putSerializable("adapter", myVOAdapter);
+        outState.putParcelableArrayList("vo", (ArrayList<? extends Parcelable>) mPwVO);
     }
+
+    public static void start(Activity context, String param) {
+        Intent intent = new Intent(context, PwActivity.class);
+        intent.putExtra("param", param);
+        context.startActivity(intent);
+    }
+
 }
