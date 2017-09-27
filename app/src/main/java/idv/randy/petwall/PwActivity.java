@@ -131,10 +131,12 @@ public class PwActivity extends AppCompatActivity implements View.OnClickListene
         Log.d(TAG, "updateRv: ");
         this.mPwVO = pwVO;
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv);
-        recyclerView.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL));
+        StaggeredGridLayoutManager staggeredGridLayoutManager =  new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(staggeredGridLayoutManager);
         myVOAdapter = new MyVOAdapter(pwVO);
         recyclerView.setAdapter(myVOAdapter);
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

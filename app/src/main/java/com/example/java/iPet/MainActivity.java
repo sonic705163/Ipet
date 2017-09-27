@@ -1,13 +1,11 @@
 package com.example.java.iPet;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -15,10 +13,8 @@ import android.util.Log;
 import idv.randy.me.LoginFragment;
 import idv.randy.me.MeFragment;
 import idv.randy.petwall.PetWallFragmentS;
-import idv.randy.petwall.PwDetailActivity;
 import idv.randy.petwall.PwEnterFragment;
 import idv.randy.ut.Me;
-import idv.randy.zNouse.ShopFragment;
 
 public class MainActivity extends AppCompatActivity implements PetWallFragmentS.OnFragmentInteractionListener, MeFragment.MeFragmentListener, LoginFragment.LoginFragmentListener, PwEnterFragment.PwEnterFragmentListener {
     private static final String TAG = "MainActivity";
@@ -26,6 +22,7 @@ public class MainActivity extends AppCompatActivity implements PetWallFragmentS.
     public LoginFragment mLoginFragment = new LoginFragment();
     public PwEnterFragment mPwEnterFragment = new PwEnterFragment();
     boolean loginStatus;
+    int mainFragment = R.id.forMainFragment;
     private BottomNavigationView bnv;
     private FragmentManager fragmentManager = getSupportFragmentManager();
 
@@ -50,13 +47,13 @@ public class MainActivity extends AppCompatActivity implements PetWallFragmentS.
 
                             break;
                         case R.id.petWall:
-                            Me.switchFragment(this, R.id.forMainFragment, mPwEnterFragment).commit();
+                            Me.switchFragment(this, mainFragment, mPwEnterFragment).commit();
                             break;
                         case R.id.me:
                             if (loginStatus) {
-                                Me.switchFragment(this, R.id.forMainFragment, mMeFragment).commit();
+                                Me.switchFragment(this, mainFragment, mMeFragment).commit();
                             } else {
-                                Me.switchFragment(this, R.id.forMainFragment, mLoginFragment).commit();
+                                Me.switchFragment(this, mainFragment, mLoginFragment).commit();
                             }
                             break;
 
@@ -73,13 +70,13 @@ public class MainActivity extends AppCompatActivity implements PetWallFragmentS.
 
     @Override
     public void logOut() {
-        Me.switchFragment(this, R.id.forMainFragment, mLoginFragment).commit();
+        Me.switchFragment(this, mainFragment, mLoginFragment).commit();
     }
 
     @Override
     public void login() {
         mMeFragment = MeFragment.newInstance("", "");
-        Me.switchFragment(this, R.id.forMainFragment, mMeFragment).commit();
+        Me.switchFragment(this, mainFragment, mMeFragment).commit();
     }
 
     @Override

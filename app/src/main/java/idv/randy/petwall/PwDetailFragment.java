@@ -41,7 +41,6 @@ public class PwDetailFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         if (getArguments() != null) {
             pwNo = getArguments().getInt("pwNo");
             Log.d(TAG, "onCreate: " + pwNo);
@@ -71,8 +70,10 @@ public class PwDetailFragment extends Fragment {
                 if (view instanceof RecyclerView) {
                     Context context = view.getContext();
                     RecyclerView recyclerView = (RecyclerView) view;
-                    recyclerView.setLayoutManager(new LinearLayoutManager(context));
+                    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
+                    recyclerView.setLayoutManager(linearLayoutManager);
                     recyclerView.setAdapter(new MyPwDetailRecyclerViewAdapter(pwrVOs, membersVOs, mListener));
+                    linearLayoutManager.scrollToPosition(pwrVOs.size() - 1);
                 }
             }
         }, jsonObject).execute(Me.PetServlet);
@@ -83,6 +84,7 @@ public class PwDetailFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        Log.d(TAG, "onAttach: ");
         if (context instanceof OnListFragmentInteractionListener) {
             mListener = (OnListFragmentInteractionListener) context;
         } else {
@@ -94,6 +96,7 @@ public class PwDetailFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
+        Log.d(TAG, "onDetach: ");
         mListener = null;
     }
 
