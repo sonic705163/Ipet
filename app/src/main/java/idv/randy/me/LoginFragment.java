@@ -101,6 +101,8 @@ public class LoginFragment extends Fragment {
             memNo = jsonObject.get("memNo").getAsInt();
             memName = jsonObject.get("memName").getAsString();
             mLoginFragmentListener.login();
+
+
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {

@@ -73,7 +73,14 @@ public class PwDetailFragment extends Fragment {
                     LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
                     recyclerView.setLayoutManager(linearLayoutManager);
                     recyclerView.setAdapter(new MyPwDetailRecyclerViewAdapter(pwrVOs, membersVOs, mListener));
-                    linearLayoutManager.scrollToPosition(pwrVOs.size() - 1);
+//                    linearLayoutManager.scrollToPosition(pwrVOs.size() - 1);
+                    recyclerView.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            recyclerView.smoothScrollToPosition(pwrVOs.size()-1);
+                        }
+                    }, 1000);
+
                 }
             }
         }, jsonObject).execute(Me.PetServlet);
@@ -103,4 +110,5 @@ public class PwDetailFragment extends Fragment {
     public interface OnListFragmentInteractionListener {
         void onListFragmentInteraction(PwrVO item);
     }
+
 }

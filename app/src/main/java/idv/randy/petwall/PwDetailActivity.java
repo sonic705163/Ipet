@@ -11,6 +11,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -51,11 +52,10 @@ public class PwDetailActivity extends AppCompatActivity implements PwDetailFragm
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setTitle("的貼文");
+            actionBar.setTitle("");
         }
 
         EditText etPwrContent = (EditText) findViewById(R.id.etPwrContent);
-
         Intent intent = getIntent();
         int pwNo = intent.getExtras().getInt("pwNo");
 
@@ -64,7 +64,6 @@ public class PwDetailActivity extends AppCompatActivity implements PwDetailFragm
             arguments.putInt("pwNo",
                     pwNo);
             fragment.setArguments(arguments);
-//            Me.switchFragment(this, R.id.item_detail_container, fragment).commit();
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.item_detail_container, fragment)
                     .commit();
@@ -113,20 +112,10 @@ public class PwDetailActivity extends AppCompatActivity implements PwDetailFragm
 
     }
 
-    public static FragmentTransaction switchFragment(FragmentActivity context, int resid, Fragment target) {
-        FragmentTransaction transaction = context.getSupportFragmentManager()
-                .beginTransaction();
-        if (!target.isAdded()) {
-            if (current != null) {
-                transaction.hide(current);
-            }
-            transaction.add(resid, target, target.getClass().getName());
-        } else {
-            transaction
-                    .hide(current)
-                    .show(target);
-        }
-        current = target;
-        return transaction;
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        finish();
+        return super.onOptionsItemSelected(item);
+
     }
 }
