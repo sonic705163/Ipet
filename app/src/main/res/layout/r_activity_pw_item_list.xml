@@ -15,13 +15,13 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="#99BBFF"
+            android:background="#F08A5D"
             app:layout_scrollFlags="scroll|enterAlways|snap">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="#99BBFF">
+                android:background="#F08A5D">
 
                 <TextView
                     android:layout_width="0dp"
@@ -132,6 +132,14 @@
                                             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     </android.support.v7.widget.RecyclerView>
-
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/btnFab"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:clickable="true"
+        app:fabSize="normal"
+        android:layout_margin="16dp"
+        app:srcCompat="@drawable/ic_add"/>
 
 </android.support.design.widget.CoordinatorLayout>

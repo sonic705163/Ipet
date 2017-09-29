@@ -137,12 +137,12 @@ public class PwActivity extends AppCompatActivity implements View.OnClickListene
         recyclerView.setAdapter(myVOAdapter);
         Log.d(TAG, "updateRv: " + pwVO.size());
 //        staggeredGridLayoutManager.scrollToPositionWithOffset(pwVO.size()-1, 0);
-        recyclerView.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                recyclerView.smoothScrollToPosition(pwVO.size()-1);
-            }
-        }, 500);
+//        recyclerView.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                recyclerView.smoothScrollToPosition(pwVO.size()-1);
+//            }
+//        }, 500);
     }
 
 

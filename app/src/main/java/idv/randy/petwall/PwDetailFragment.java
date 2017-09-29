@@ -67,7 +67,7 @@ public class PwDetailFragment extends Fragment {
                 List<PwrVO> pwrVOs = PwrVO.decodeToList(petWallReplyVOs);
                 String stringMembersVOs = jsonObject.get("membersVOs").getAsString();
                 List<MembersVO> membersVOs = MembersVO.decodeToList(stringMembersVOs);
-                if (view instanceof RecyclerView) {
+                if (view instanceof RecyclerView && pwrVOs.size()!=0) {
                     Context context = view.getContext();
                     RecyclerView recyclerView = (RecyclerView) view;
                     LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
@@ -80,7 +80,6 @@ public class PwDetailFragment extends Fragment {
                             recyclerView.smoothScrollToPosition(pwrVOs.size()-1);
                         }
                     }, 1000);
-
                 }
             }
         }, jsonObject).execute(Me.PetServlet);

@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.java.iPet.R;
 import com.google.gson.Gson;
@@ -99,7 +100,7 @@ public class PwDetailActivity extends AppCompatActivity implements PwDetailFragm
                                 .replace(R.id.item_detail_container, fragment)
                                 .commit();
                     } else {
-
+                        Toast.makeText(Me.gc(), "登入後可留言", Toast.LENGTH_SHORT).show();
                     }
                 }
 
