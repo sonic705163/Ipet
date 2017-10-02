@@ -50,7 +50,13 @@ public class AsyncImageTask extends AsyncTask<String, Integer, Bitmap> {
     @Override
     protected void onPostExecute(Bitmap bitmap) {
         super.onPostExecute(bitmap);
-        imageView.setImageBitmap(bitmap);
+        if (bitmap != null) {
+            imageView.setImageBitmap(bitmap);
+        } else {
+            imageView.setImageBitmap(null);
+        }
+
+
     }
 
     private InputStream getData(String serverAddr) {

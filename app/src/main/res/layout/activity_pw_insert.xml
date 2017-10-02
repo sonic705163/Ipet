@@ -8,6 +8,13 @@
     tools:context="idv.randy.petwall.PwInsert"
     android:orientation="vertical"
     >
+    <EditText
+        android:id="@+id/etPwContent"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="@null"
+        android:gravity="top"
+        android:hint="寫點什麼.."/>
     <ImageView
         android:id="@+id/ivPwPicture"
         android:layout_width="100dp"

@@ -2,16 +2,15 @@ package idv.randy.petwall;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
-import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -22,6 +21,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.java.iPet.R;
 import com.google.gson.Gson;
@@ -33,7 +33,6 @@ import java.util.List;
 
 import idv.randy.me.MembersVO;
 import idv.randy.ut.AsyncAdapter;
-import idv.randy.ut.AsyncByteTask;
 import idv.randy.ut.AsyncImageTask;
 import idv.randy.ut.AsyncObjTask;
 import idv.randy.ut.ByteListener;
@@ -90,6 +89,20 @@ public class PwActivity extends AppCompatActivity implements View.OnClickListene
         if (myVOAdapter != null) {
             updateRv(mPwVO);
         }
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.btnFab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SharedPreferences pref = getSharedPreferences("UserData", MODE_PRIVATE);
+                if (!pref.getBoolean("login", false)) {
+                    Toast.makeText(Me.gc(), "請先登入", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                Intent intent = new Intent(PwActivity.this, PwInsert.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void findViews() {
@@ -131,7 +144,7 @@ public class PwActivity extends AppCompatActivity implements View.OnClickListene
         Log.d(TAG, "updateRv: ");
         this.mPwVO = pwVO;
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv);
-        StaggeredGridLayoutManager staggeredGridLayoutManager =  new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
+        StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(staggeredGridLayoutManager);
         myVOAdapter = new MyVOAdapter(pwVO);
         recyclerView.setAdapter(myVOAdapter);
@@ -144,7 +157,6 @@ public class PwActivity extends AppCompatActivity implements View.OnClickListene
 //            }
 //        }, 500);
     }
-
 
 
     @Override
@@ -199,28 +211,15 @@ public class PwActivity extends AppCompatActivity implements View.OnClickListene
 
         @Override
         public void onBindViewHolder(final MyViewHolder holder, int position) {
-            ByteListener byteListener = bitmap -> {
-                if (bitmap != null) {
-                    holder.ivPet.setImageBitmap(bitmap);
-                } else {
-                    holder.ivPet.setImageResource(R.drawable.ic_search_black_24dp);
-                }
-            };
             PwVO pw = mPwVO.get(position);
             holder.tvPwContent.setText(pw.getPwContent());
 
             int pwNo = pw.getPwNo();
-            if (pw.getPwPicture() == null) {
-                new AsyncByteTask(byteListener, PwActivity.this, pwNo).execute(URL);
-            } else {
-                byte[] imgByte = pw.getPwPicture();
-                String imgString = Base64.encodeToString(imgByte, Base64.DEFAULT);
-                byte[] decodeString = Base64.decode(imgString, Base64.DEFAULT);
-                Bitmap bitmap = BitmapFactory.decodeByteArray(decodeString, 0, decodeString.length);
-                holder.ivPet.setImageBitmap(bitmap);
-            }
+            new AsyncImageTask(pwNo,holder.ivPet).execute(Me.PetServlet);
+
             int memNo = pw.getMemno();
             new AsyncImageTask(memNo, holder.ivMemImg).execute(Me.MembersServlet);
+
             JsonObject jsonObject = new JsonObject();
             jsonObject.addProperty("action", "getVO");
             jsonObject.addProperty("memNo", memNo);
