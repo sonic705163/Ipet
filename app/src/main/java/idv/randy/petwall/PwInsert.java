@@ -17,11 +17,13 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,38 +39,43 @@ import idv.randy.ut.AsyncObjTask;
 import idv.randy.ut.Me;
 
 public class PwInsert extends AppCompatActivity implements View.OnClickListener {
-    ImageView ivCamera;
-    ImageView ivPhotoLib;
+    LinearLayout ivCamera;
+    LinearLayout ivPhotoLib;
     ImageView ivPwPicture;
     EditText etPwContent;
     TextView tvSend;
+    TextView tvCancel;
     private byte[] image;
     File file;
     String imageBase64;
     String pwContent;
+    Toolbar toolbar;
     private static final int REQUESTCODE_SHOT = 1;
     private static final int REQUESTCODE_PHOTO_LIB = 2;
-    private static final int REQ_PERMISSIONS_STORAGE = 0;
     private static final String TAG = "PwInsert";
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_pw_insert);
+        setContentView(R.layout.r_activity_pw_insert);
         findViews();
+        setSupportActionBar(toolbar);
         ivCamera.setOnClickListener(this);
         ivPhotoLib.setOnClickListener(this);
+        tvCancel.setOnClickListener(this);
         tvSend.setOnClickListener(this);
 
     }
 
     private void findViews() {
-        ivCamera = (ImageView) findViewById(R.id.ivCamera);
-        ivPhotoLib = (ImageView) findViewById(R.id.ivPhotoLib);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        ivCamera = (LinearLayout) findViewById(R.id.ivCamera);
+        ivPhotoLib = (LinearLayout) findViewById(R.id.ivPhotoLib);
         ivPwPicture = (ImageView) findViewById(R.id.ivPwPicture);
         tvSend = (TextView) findViewById(R.id.tvSend);
         etPwContent = (EditText) findViewById(R.id.etPwContent);
+        tvCancel = (TextView)findViewById(R.id.tvCancel);
     }
 
     private boolean isIntentAvailable(Context context, Intent intent) {
@@ -148,6 +155,9 @@ public class PwInsert extends AppCompatActivity implements View.OnClickListener 
                             MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                     startActivityForResult(intent, REQUESTCODE_PHOTO_LIB);
                 }
+                break;
+            case R.id.tvCancel:
+                finish();
                 break;
             case R.id.tvSend:
                 SharedPreferences pref = getSharedPreferences("UserData", MODE_PRIVATE);

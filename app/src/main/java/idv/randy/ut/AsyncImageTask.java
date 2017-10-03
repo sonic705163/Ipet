@@ -5,10 +5,13 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.google.gson.JsonObject;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -25,6 +28,7 @@ public class AsyncImageTask extends AsyncTask<String, Integer, Bitmap> {
     ImageView imageView;
     private int no;
     private int imgSize = 0;
+    byte[] byt;
 
 
     public AsyncImageTask(int no, ImageView imageView) {
@@ -43,17 +47,31 @@ public class AsyncImageTask extends AsyncTask<String, Integer, Bitmap> {
         Log.d(TAG, "doInBackground: ");
         String serverAddr = params[0];
         InputStream in = getData(serverAddr);
+//        try {
+//            byt = extract(in);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
         Bitmap bitmap = BitmapFactory.decodeStream(in);
         return bitmap;
     }
+
+
+
 
     @Override
     protected void onPostExecute(Bitmap bitmap) {
         super.onPostExecute(bitmap);
         if (bitmap != null) {
             imageView.setImageBitmap(bitmap);
+//            Glide.with(Me.gc()).load(byt).into(imageView);
+//            Glide.with(Me.gc()).load(bitmap).into(imageView);
+
         } else {
-            imageView.setImageBitmap(null);
+//            imageView.setVisibility(View.GONE);
+//            imageView.set;
+//            Glide.with(Me.gc()).load(bitmap).into(imageView);
+
         }
 
 
@@ -76,5 +94,15 @@ public class AsyncImageTask extends AsyncTask<String, Integer, Bitmap> {
             e.printStackTrace();
         }
         return responseData;
+    }
+    private byte[] extract(InputStream inputStream) throws IOException {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        byte[] buffer = new byte[1024];
+        int read = 0;
+        while ((read = inputStream.read(buffer, 0, buffer.length)) != -1) {
+            baos.write(buffer, 0, read);
+        }
+        baos.flush();
+        return  baos.toByteArray();
     }
 }

@@ -46,7 +46,8 @@
             android:name="idv.randy.petwall.PwDetailActivity"
             android:theme="@style/DetailTheme">
         </activity>
-        <activity android:name="idv.randy.petwall.PwInsert">
+        <activity android:name="idv.randy.petwall.PwInsert"
+                  android:theme="@style/AppTheme.NoActionBar">
         </activity>
     </application>
 

@@ -35,7 +35,6 @@ import idv.randy.me.MembersVO;
 import idv.randy.ut.AsyncAdapter;
 import idv.randy.ut.AsyncImageTask;
 import idv.randy.ut.AsyncObjTask;
-import idv.randy.ut.ByteListener;
 import idv.randy.ut.GetVOTask;
 import idv.randy.ut.Me;
 
@@ -74,14 +73,13 @@ public class PwActivity extends AppCompatActivity implements View.OnClickListene
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate: ");
-        setContentView(R.layout.r_activity_pw_item_list);
+        setContentView(R.layout.r_activity_pw);
         findViews();
         Intent intent = getIntent();
         String param = intent.getExtras().getString("param");
         new GetVOTask(asyncAdapter, param, this).execute(URL);
         setSupportActionBar(toolbar);
         tvDog.setOnClickListener(this);
-        tvCat.setOnClickListener(this);
         ivSearch.setOnClickListener(this);
         if (savedInstanceState != null) {
             mPwVO = savedInstanceState.getParcelableArrayList("mPwVO");
@@ -108,7 +106,6 @@ public class PwActivity extends AppCompatActivity implements View.OnClickListene
     private void findViews() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         tvDog = (TextView) findViewById(R.id.tvDog);
-        tvCat = (TextView) findViewById(R.id.tvCat);
         etSearch = (EditText) findViewById(R.id.etSearch);
         ivSearch = (ImageView) findViewById(R.id.ivSearch);
     }
@@ -118,11 +115,7 @@ public class PwActivity extends AppCompatActivity implements View.OnClickListene
         hideKeyPad();
         switch (v.getId()) {
             case R.id.tvDog:
-                getDataTask = new GetVOTask(asyncAdapter, "dog", this).execute(URL);
-
-                break;
-            case R.id.tvCat:
-                getDataTask = new GetVOTask(asyncAdapter, "cat", this).execute(URL);
+                getDataTask = new GetVOTask(asyncAdapter, "all", this).execute(URL);
                 break;
             case R.id.ivSearch:
                 String keyword = etSearch.getText().toString();
@@ -174,7 +167,7 @@ public class PwActivity extends AppCompatActivity implements View.OnClickListene
                 getDataTask = new GetVOTask(asyncAdapter, "cat", this).execute(URL);
                 break;
             case R.id.menuItem3:
-                getDataTask = new GetVOTask(asyncAdapter, "all", this).execute(URL);
+                getDataTask = new GetVOTask(asyncAdapter, "dog", this).execute(URL);
                 break;
             default:
                 break;
