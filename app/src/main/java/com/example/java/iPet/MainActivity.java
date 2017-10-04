@@ -1,5 +1,6 @@
 package com.example.java.iPet;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
@@ -12,11 +13,12 @@ import android.util.Log;
 
 import idv.randy.me.LoginFragment;
 import idv.randy.me.MeFragment;
-import idv.randy.petwall.PetWallFragmentS;
+import idv.randy.member.MemberActivity;
+import idv.randy.petwall.PetWallFragment;
 import idv.randy.petwall.PwEnterFragment;
 import idv.randy.ut.Me;
 
-public class MainActivity extends AppCompatActivity implements PetWallFragmentS.OnFragmentInteractionListener, MeFragment.MeFragmentListener, LoginFragment.LoginFragmentListener, PwEnterFragment.PwEnterFragmentListener {
+public class MainActivity extends AppCompatActivity implements PetWallFragment.OnFragmentInteractionListener, MeFragment.MeFragmentListener, LoginFragment.LoginFragmentListener, PwEnterFragment.PwEnterFragmentListener {
     private static final String TAG = "MainActivity";
     public MeFragment mMeFragment = MeFragment.newInstance("", "");
     public LoginFragment mLoginFragment = new LoginFragment();
@@ -44,6 +46,8 @@ public class MainActivity extends AppCompatActivity implements PetWallFragmentS.
 //                            startActivity(intent2);
                             break;
                         case R.id.shop:
+                            Intent intent2 = new Intent(MainActivity.this, MemberActivity.class);
+                            startActivity(intent2);
 
                             break;
                         case R.id.petWall:

@@ -10,7 +10,7 @@ public class wall_m extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.znouse_activity_wall2);
+        setContentView(R.layout.r_znouse_activity_wall2);
 
     }
 }

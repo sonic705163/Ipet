@@ -38,7 +38,7 @@ import java.util.concurrent.ExecutionException;
 import idv.randy.ut.AsyncObjTask;
 import idv.randy.ut.Me;
 
-public class PwInsert extends AppCompatActivity implements View.OnClickListener {
+public class PwInsertActivity extends AppCompatActivity implements View.OnClickListener {
     LinearLayout ivCamera;
     LinearLayout ivPhotoLib;
     ImageView ivPwPicture;
@@ -52,7 +52,7 @@ public class PwInsert extends AppCompatActivity implements View.OnClickListener 
     Toolbar toolbar;
     private static final int REQUESTCODE_SHOT = 1;
     private static final int REQUESTCODE_PHOTO_LIB = 2;
-    private static final String TAG = "PwInsert";
+    private static final String TAG = "PwInsertActivity";
 
 
     @Override
@@ -74,7 +74,7 @@ public class PwInsert extends AppCompatActivity implements View.OnClickListener 
         ivPhotoLib = (LinearLayout) findViewById(R.id.ivPhotoLib);
         ivPwPicture = (ImageView) findViewById(R.id.ivPwPicture);
         tvSend = (TextView) findViewById(R.id.tvSend);
-        etPwContent = (EditText) findViewById(R.id.etPwContent);
+        etPwContent = (EditText) findViewById(R.id.etFeedback);
         tvCancel = (TextView)findViewById(R.id.tvCancel);
     }
 
@@ -129,27 +129,27 @@ public class PwInsert extends AppCompatActivity implements View.OnClickListener 
         switch (v.getId()) {
             case R.id.ivCamera:
                 if (ContextCompat.checkSelfPermission(Me.gc(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions(PwInsert.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+                    ActivityCompat.requestPermissions(PwInsertActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
                 } else {
                     Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                     String state = Environment.getExternalStorageState();
                     if (state.equals(Environment.MEDIA_MOUNTED)) {
                         file = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
                         file = new File(file, "picture.jpg");
-                        Uri uri = FileProvider.getUriForFile(PwInsert.this, getPackageName() + ".provider", file);
+                        Uri uri = FileProvider.getUriForFile(PwInsertActivity.this, getPackageName() + ".provider", file);
                         intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
                     }
-                    if (isIntentAvailable(PwInsert.this, intent)) {
+                    if (isIntentAvailable(PwInsertActivity.this, intent)) {
                         startActivityForResult(intent, REQUESTCODE_SHOT);
                     } else {
-                        Toast.makeText(PwInsert.this, "No Camera Apps Found",
+                        Toast.makeText(PwInsertActivity.this, "No Camera Apps Found",
                                 Toast.LENGTH_SHORT).show();
                     }
                 }
                 break;
             case R.id.ivPhotoLib:
                 if (ContextCompat.checkSelfPermission(Me.gc(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions(PwInsert.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+                    ActivityCompat.requestPermissions(PwInsertActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
                 } else {
                     Intent intent = new Intent(Intent.ACTION_PICK,
                             MediaStore.Images.Media.EXTERNAL_CONTENT_URI);

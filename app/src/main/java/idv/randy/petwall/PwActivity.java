@@ -47,9 +47,6 @@ public class PwActivity extends AppCompatActivity implements View.OnClickListene
     TextView tvDog;
     TextView tvCat;
     private List<PwVO> mPwVO;
-    private AsyncTask getDataTask;
-    private ImageView ivSearch;
-    private EditText etSearch;
     AsyncAdapter asyncAdapter = new AsyncAdapter() {
         @Override
         public void onGoing(int progress) {
@@ -62,6 +59,9 @@ public class PwActivity extends AppCompatActivity implements View.OnClickListene
             updateRv(petWallVO);
         }
     };
+    private AsyncTask getDataTask;
+    private ImageView ivSearch;
+    private EditText etSearch;
 
     public static void start(Activity context, String param) {
         Intent intent = new Intent(context, PwActivity.class);
@@ -97,7 +97,7 @@ public class PwActivity extends AppCompatActivity implements View.OnClickListene
                     Toast.makeText(Me.gc(), "請先登入", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                Intent intent = new Intent(PwActivity.this, PwInsert.class);
+                Intent intent = new Intent(PwActivity.this, PwInsertActivity.class);
                 startActivity(intent);
             }
         });

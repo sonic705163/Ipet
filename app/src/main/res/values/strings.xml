@@ -18,4 +18,5 @@
     <string name="msg_NoNetwork">沒網路</string>
     <string name="tvTitle">PetInformation</string>
     <string name="title_activity_pw_detail">PwDetailActivity</string>
+    <string name="title_activity_member">MemberActivity</string>
 </resources>

@@ -1,6 +1,7 @@
 package idv.randy.me;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.java.iPet.R;
@@ -24,7 +26,7 @@ import idv.randy.ut.Me;
 import static android.content.Context.MODE_PRIVATE;
 
 
-public class MeFragment extends Fragment {
+public class MeFragment extends Fragment implements View.OnClickListener{
     private static final String TAG = "MeFragment";
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -36,6 +38,7 @@ public class MeFragment extends Fragment {
     private String mParam2;
     private TextView tvMemName;
     private TextView tvMemID;
+    LinearLayout llFeedback;
     AsyncAdapter asyncAdapeter = new AsyncAdapter() {
         @Override
         public void onFinish(String result) {
@@ -111,6 +114,7 @@ public class MeFragment extends Fragment {
             editor.apply();
             mListener.logOut();
         });
+        llFeedback.setOnClickListener(this);
 
         return view;
     }
@@ -120,6 +124,8 @@ public class MeFragment extends Fragment {
         ivMemImg = (ImageView) view.findViewById(R.id.ivMemImg);
         tvMemName = (TextView) view.findViewById(R.id.tvMemName);
         tvMemID = (TextView) view.findViewById(R.id.tvMemId);
+        llFeedback = (LinearLayout)view.findViewById(R.id.llFeedback);
+
     }
 
     @Override
@@ -177,6 +183,18 @@ public class MeFragment extends Fragment {
         if (hidden) {
         } else {
         }
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.llFeedback:
+                Intent intent = new Intent(getActivity(), FeedbackActivity.class);
+                startActivity(intent);
+        }
+
+
+
     }
 
     public interface MeFragmentListener {

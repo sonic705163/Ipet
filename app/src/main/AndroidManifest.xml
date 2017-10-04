@@ -6,7 +6,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 
     <application
         android:name="idv.randy.ut.Me"
@@ -25,6 +25,7 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths"/>
         </provider>
+
         <activity
             android:name=".MainActivity"
             android:label="iPet"
@@ -46,8 +47,18 @@
             android:name="idv.randy.petwall.PwDetailActivity"
             android:theme="@style/DetailTheme">
         </activity>
-        <activity android:name="idv.randy.petwall.PwInsert"
-                  android:theme="@style/AppTheme.NoActionBar">
+        <activity
+            android:name="idv.randy.petwall.PwInsertActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <activity
+            android:name="idv.randy.me.FeedbackActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <activity
+            android:name="idv.randy.member.MemberActivity"
+            android:label="@string/title_activity_member"
+            android:theme="@style/AppTheme.NoActionBar">
         </activity>
     </application>
 

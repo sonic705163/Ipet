@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="idv.randy.petwall.PwInsert"
+    tools:context="idv.randy.petwall.PwInsertActivity"
     android:orientation="vertical"
     >
     <android.support.v7.widget.Toolbar
@@ -40,20 +40,27 @@
 
 
     </android.support.v7.widget.Toolbar>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#EEE"
+        android:orientation="horizontal"></LinearLayout>
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    >
     <EditText
-        android:id="@+id/etPwContent"
+        android:id="@+id/etFeedback"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:background="@null"
+        android:layout_margin="16dp"
         android:gravity="top"
 
         android:hint="寫點什麼.."
         />
+
 
     <ImageView
         android:id="@+id/ivPwPicture"
@@ -61,8 +68,14 @@
         android:layout_height="100dp"
         android:adjustViewBounds="true"
         android:scaleType="centerCrop"
+        android:layout_margin="16dp"
         android:background="@drawable/border"
         />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:background="#EEE"
+        android:orientation="horizontal"></LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

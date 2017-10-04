@@ -25,8 +25,8 @@ import java.util.Random;
 import idv.randy.zNouse.DogPicVO;
 import idv.randy.zNouse.wall_m;
 
-public class PetWallFragmentS extends Fragment {
-    private static final String TAG = "PetWallFragmentS";
+public class PetWallFragment extends Fragment {
+    private static final String TAG = "PetWallFragment";
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     public List<DogPicVO> mDogPicVOList = getDogPicVOList();
@@ -36,12 +36,12 @@ public class PetWallFragmentS extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public PetWallFragmentS() {
+    public PetWallFragment() {
     }
 
 
-    public static PetWallFragmentS newInstance(String param1, String param2) {
-        PetWallFragmentS fragment = new PetWallFragmentS();
+    public static PetWallFragment newInstance(String param1, String param2) {
+        PetWallFragment fragment = new PetWallFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);

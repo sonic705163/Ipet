@@ -11,7 +11,7 @@ public class AdoptActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.znouse_adopt_act);
+        setContentView(R.layout.r_znouse_adopt_act);
         ActionBar acb = getSupportActionBar();
     }
 }

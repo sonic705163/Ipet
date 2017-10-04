@@ -54,7 +54,7 @@ public class ShopFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View v = inflater.inflate(R.layout.znouse_fragment_shop, container, false);
+        View v = inflater.inflate(R.layout.r_znouse_fragment_shop, container, false);
         RecyclerView rvShop = (RecyclerView) v.findViewById(R.id.rvShop);
         rvShop.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
         rvShop.setAdapter(new ShopAdapter(getContext(), catalog));
@@ -116,7 +116,7 @@ public class ShopFragment extends Fragment {
         @Override
         public MyHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             LayoutInflater inf = LayoutInflater.from(context);
-            View v = inf.inflate(R.layout.znouse_shop_row_item, parent, false);
+            View v = inf.inflate(R.layout.r_znouse_shop_row_item, parent, false);
             return new MyHolder(v);
         }
 
