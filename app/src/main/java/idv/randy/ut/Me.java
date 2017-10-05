@@ -23,6 +23,8 @@ public class Me extends Application {
 
     private static final String TAG = "Me";
 
+
+
     public static FragmentTransaction switchFragment(FragmentActivity context, int resid, Fragment target) {
         FragmentTransaction transaction = context.getSupportFragmentManager()
                 .beginTransaction();
@@ -39,6 +41,9 @@ public class Me extends Application {
         current = target;
         return transaction;
     }
+
+
+
 
     @Override
     public void onCreate() {

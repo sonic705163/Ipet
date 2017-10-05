@@ -24,15 +24,32 @@
                 android:background="@drawable/border"
                 android:padding="3dp"
                 />
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/tvMemID"
-                android:layout_width="wrap_content"
-                android:layout_height="64dp"
-                android:layout_margin="8dp"
-                android:gravity="center"
-                android:text="tvMemIDTest"
-                android:textSize="20sp"/>
+    <TextView
+        android:id="@+id/tvMemID"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_margin="8dp"
+        android:gravity="center"
+        android:text="tvMemIDTest"
+        android:textSize="20sp"/>
+
+    <TextView
+        android:id="@+id/tvPWdate"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:layout_margin="8dp"
+        android:text="tvPWdate"
+        android:textSize="16sp"/>
+</LinearLayout>
+
         </LinearLayout>
 
         <TextView
@@ -41,7 +58,7 @@
             android:layout_height="50dp"
             android:padding="8dp"
             android:text="tvPwContentTest"
-            android:textSize="20sp"/>
+            android:textSize="18sp"/>
 
         <ImageView
             android:id="@+id/ivPet"
@@ -60,9 +77,10 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:visibility="gone">
+                >
 
                 <LinearLayout
+                    android:id="@+id/llPwPraise"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_centerInParent="true">
@@ -75,13 +93,19 @@
                         android:layout_margin="8dp"
                         android:src="@drawable/heart"
                         android:tint="#444"/>
-
+                    <TextView
+                        android:id="@+id/tvPwPraise"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_toRightOf="@id/ivPwPraise"
+                        android:text=""
+                        android:textSize="18sp"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-
-                        android:layout_toRightOf="@id/ivPwPraise"
+                        android:layout_toRightOf="@id/tvPwPraise"
                         android:text="讚"
                         android:textSize="18sp"/>
                 </LinearLayout>
@@ -95,6 +119,7 @@
                 android:layout_weight="1">
 
                 <LinearLayout
+                    android:id="@+id/llPwReply"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_centerInParent="true">
@@ -105,15 +130,21 @@
                         android:layout_height="24dp"
                         android:layout_gravity="center"
                         android:layout_margin="8dp"
-
                         android:src="@drawable/ic_speech"/>
-
                     <TextView
-                        android:layout_width="match_parent"
+                        android:id="@+id/tvPwrCount"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_toRightOf="@id/ivPwReply"
-                        android:text="留言"
+                        android:text="99"
+                        android:textSize="18sp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_toRightOf="@id/tvPwrCount"
+                        android:text="則留言"
                         android:textSize="18sp"/>
                 </LinearLayout>
 

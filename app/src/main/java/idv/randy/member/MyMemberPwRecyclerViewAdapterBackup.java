@@ -8,17 +8,17 @@ import android.widget.TextView;
 
 import com.example.java.iPet.R;
 
+import java.util.List;
+
 import idv.randy.member.MemberPwFragment.OnListFragmentInteractionListener;
 import idv.randy.member.dummy.DummyContent.DummyItem;
 
-import java.util.List;
-
-public class MyMemberPwRecyclerViewAdapter extends RecyclerView.Adapter<MyMemberPwRecyclerViewAdapter.ViewHolder> {
+public class MyMemberPwRecyclerViewAdapterBackup extends RecyclerView.Adapter<MyMemberPwRecyclerViewAdapterBackup.ViewHolder> {
 
     private final List<DummyItem> mValues;
     private final OnListFragmentInteractionListener mListener;
 
-    public MyMemberPwRecyclerViewAdapter(List<DummyItem> items, OnListFragmentInteractionListener listener) {
+    public MyMemberPwRecyclerViewAdapterBackup(List<DummyItem> items, OnListFragmentInteractionListener listener) {
         mValues = items;
         mListener = listener;
     }

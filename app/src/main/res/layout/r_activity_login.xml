@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp"
-    tools:context="idv.randy.me.LoginActivity">
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              android:padding="16dp"
+              tools:context="idv.randy.me.LoginActivity">
 
     <fragment
         android:id="@+id/forLoginFragment"
         class="idv.randy.me.LoginFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></fragment>
+        android:layout_height="match_parent"
+        tools:layout="@layout/r_fragment_login"></fragment>
 
 
 </LinearLayout>

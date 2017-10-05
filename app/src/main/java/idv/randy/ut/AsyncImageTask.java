@@ -5,10 +5,9 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.view.View;
 import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
+import com.example.java.iPet.R;
 import com.google.gson.JsonObject;
 
 import java.io.ByteArrayOutputStream;
@@ -57,19 +56,24 @@ public class AsyncImageTask extends AsyncTask<String, Integer, Bitmap> {
     }
 
 
-
-
     @Override
     protected void onPostExecute(Bitmap bitmap) {
         super.onPostExecute(bitmap);
         if (bitmap != null) {
             imageView.setImageBitmap(bitmap);
+
 //            Glide.with(Me.gc()).load(byt).into(imageView);
 //            Glide.with(Me.gc()).load(bitmap).into(imageView);
 
         } else {
+            imageView.setImageResource(R.drawable.ic_touch_app_black_24dp);
+//            imageView.setImageBitmap(null);
+
+
 //            imageView.setVisibility(View.GONE);
+
 //            imageView.set;
+
 //            Glide.with(Me.gc()).load(bitmap).into(imageView);
 
         }
@@ -95,6 +99,7 @@ public class AsyncImageTask extends AsyncTask<String, Integer, Bitmap> {
         }
         return responseData;
     }
+
     private byte[] extract(InputStream inputStream) throws IOException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         byte[] buffer = new byte[1024];
@@ -103,6 +108,6 @@ public class AsyncImageTask extends AsyncTask<String, Integer, Bitmap> {
             baos.write(buffer, 0, read);
         }
         baos.flush();
-        return  baos.toByteArray();
+        return baos.toByteArray();
     }
 }

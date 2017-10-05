@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,10 +29,12 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
 import idv.randy.me.MembersVO;
+import idv.randy.member.MemberActivity;
 import idv.randy.ut.AsyncAdapter;
 import idv.randy.ut.AsyncImageTask;
 import idv.randy.ut.AsyncObjTask;
@@ -147,6 +150,7 @@ public class PwActivity extends AppCompatActivity implements View.OnClickListene
 //            @Override
 //            public void run() {
 //                recyclerView.smoothScrollToPosition(pwVO.size()-1);
+////                recyclerView.scr(pwVO.size()-1);
 //            }
 //        }, 500);
     }
@@ -193,22 +197,81 @@ public class PwActivity extends AppCompatActivity implements View.OnClickListene
             LayoutInflater layoutInflater = LayoutInflater.from(Me.gc());
             View v = layoutInflater.inflate(R.layout.r_activity_pw_item, parent, false);
             MyViewHolder myViewHolder = new MyViewHolder(v);
-            myViewHolder.itemView.setOnClickListener(v1 -> {
-                int position = myViewHolder.getAdapterPosition();
-                PwVO pw = mPwVO.get(position);
-                int pwNo = pw.getPwNo();
-                PwDetailActivity.start(PwActivity.this, pwNo);
-            });
+
+            View.OnClickListener onReplyClickListener = new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = myViewHolder.getAdapterPosition();
+                    PwVO pw = mPwVO.get(position);
+                    int pwNo = pw.getPwNo();
+                    PwDetailActivity.start(PwActivity.this, pwNo);
+                }
+            };
+            myViewHolder.llPwReply.setOnClickListener(onReplyClickListener);
+            myViewHolder.ivPwPicture.setOnClickListener(onReplyClickListener);
+
+            View.OnClickListener onMemberClickListener = new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = myViewHolder.getAdapterPosition();
+                    PwVO pw = mPwVO.get(position);
+                    int memNo = pw.getMemno();
+                    MemberActivity.start(PwActivity.this, memNo);
+                }
+            };
+            myViewHolder.ivMemImg.setOnClickListener(onMemberClickListener);
+            myViewHolder.tvMemID.setOnClickListener(onMemberClickListener);
+
+            View.OnClickListener onPwPraiseClickListener = new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = myViewHolder.getAdapterPosition();
+                    PwVO pw = mPwVO.get(position);
+                    int PwPraise = Integer.valueOf(pw.getPwPraise()) + 1;
+                    myViewHolder.tvPwPraise.setText(String.valueOf(PwPraise));
+                }
+            };
+            myViewHolder.llPwPraise.setOnClickListener(onPwPraiseClickListener);
             return myViewHolder;
         }
 
         @Override
         public void onBindViewHolder(final MyViewHolder holder, int position) {
             PwVO pw = mPwVO.get(position);
+
             holder.tvPwContent.setText(pw.getPwContent());
+            if (Integer.valueOf(pw.getPwPraise()) > 0) {
+                holder.tvPwPraise.setText(pw.getPwPraise());
+            }
+
+//            View.OnClickListener onPwPraiseClickListener = new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    PwVO pw = mPwVO.get(position);
+//                    int PwPraise = Integer.valueOf(pw.getPwPraise()) + 1;
+//                    holder.tvPwPraise.setText(String.valueOf(PwPraise));
+//                }
+//            };
+//            holder.llPwPraise.setOnClickListener(onPwPraiseClickListener);
+
+
+            Date current = new Date(System.currentTimeMillis());
+            long past = (current.getTime() - pw.getPwDate().getTime());
+
+
+            if (past < (1000 * 60 * 60 * 24)) {
+                holder.tvPWdate.setText("今天");
+            } else if (past < (1000 * 60 * 60 * 24 * 2)) {
+                holder.tvPWdate.setText("昨天");
+            } else if (past < (1000 * 60 * 60 * 24 * 365)) {
+                holder.tvPWdate.setText(pw.getPwDate().toString().substring(5));
+            } else {
+                holder.tvPWdate.setText(pw.getPwDate().toString());
+            }
+
 
             int pwNo = pw.getPwNo();
-            new AsyncImageTask(pwNo,holder.ivPet).execute(Me.PetServlet);
+            new AsyncImageTask(pwNo, holder.ivPwPicture).execute(Me.PetServlet);
 
             int memNo = pw.getMemno();
             new AsyncImageTask(memNo, holder.ivMemImg).execute(Me.MembersServlet);
@@ -216,6 +279,7 @@ public class PwActivity extends AppCompatActivity implements View.OnClickListene
             JsonObject jsonObject = new JsonObject();
             jsonObject.addProperty("action", "getVO");
             jsonObject.addProperty("memNo", memNo);
+
             new AsyncObjTask(new AsyncAdapter() {
                 @Override
                 public void onFinish(String result) {
@@ -235,17 +299,26 @@ public class PwActivity extends AppCompatActivity implements View.OnClickListene
         class MyViewHolder extends RecyclerView.ViewHolder {
             TextView tvLeft;
             TextView tvPwContent;
-            ImageView ivPet;
+            ImageView ivPwPicture;
             ImageView ivMemImg;
             TextView tvMemID;
+            TextView tvPwPraise;
+            TextView tvPWdate;
+            LinearLayout llPwReply;
+            LinearLayout llPwPraise;
+
 
             public MyViewHolder(View itemView) {
                 super(itemView);
                 tvLeft = (TextView) itemView.findViewById(R.id.tvLeft);
                 tvPwContent = (TextView) itemView.findViewById(R.id.tvPwContent);
-                ivPet = (ImageView) itemView.findViewById((R.id.ivPet));
+                ivPwPicture = (ImageView) itemView.findViewById((R.id.ivPet));
                 ivMemImg = (ImageView) itemView.findViewById((R.id.ivMemImg));
                 tvMemID = (TextView) itemView.findViewById(R.id.tvMemID);
+                tvPwPraise = (TextView) itemView.findViewById(R.id.tvPwPraise);
+                tvPWdate = (TextView) itemView.findViewById(R.id.tvPWdate);
+                llPwReply = (LinearLayout) itemView.findViewById(R.id.llPwReply);
+                llPwPraise = (LinearLayout) itemView.findViewById(R.id.llPwPraise);
             }
         }
     }

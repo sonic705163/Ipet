@@ -1,6 +1,7 @@
 package idv.randy.petwall;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,22 +10,31 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.java.iPet.R;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 
+import java.sql.Date;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import idv.randy.me.MembersVO;
 import idv.randy.ut.AsyncAdapter;
 import idv.randy.ut.AsyncObjTask;
 import idv.randy.ut.Me;
 
+import static android.content.Context.MODE_PRIVATE;
+
 public class PwDetailFragment extends Fragment {
     private static final String TAG = "PwDetailFragment";
     private static final String ARG_COLUMN_COUNT = "column-count";
     private int pwNo;
+    View view;
     private OnListFragmentInteractionListener mListener;
 
     public PwDetailFragment() {
@@ -53,7 +63,7 @@ public class PwDetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         Log.d(TAG, "onCreateView: ");
-        View view = inflater.inflate(R.layout.r_fragment_pw_detail_list, container, false);
+        view = inflater.inflate(R.layout.r_fragment_pw_detail_list, container, false);
 
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("action", "getPwrVO");
@@ -67,23 +77,62 @@ public class PwDetailFragment extends Fragment {
                 List<PwrVO> pwrVOs = PwrVO.decodeToList(petWallReplyVOs);
                 String stringMembersVOs = jsonObject.get("membersVOs").getAsString();
                 List<MembersVO> membersVOs = MembersVO.decodeToList(stringMembersVOs);
-                if (view instanceof RecyclerView && pwrVOs.size()!=0) {
+                if (pwrVOs.size() != 0) {
                     Context context = view.getContext();
-                    RecyclerView recyclerView = (RecyclerView) view;
+                    RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.list);
                     LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
                     recyclerView.setLayoutManager(linearLayoutManager);
                     recyclerView.setAdapter(new MyPwDetailRecyclerViewAdapter(pwrVOs, membersVOs, mListener));
 //                    linearLayoutManager.scrollToPosition(pwrVOs.size() - 1);
-                    recyclerView.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            recyclerView.smoothScrollToPosition(pwrVOs.size()-1);
-                        }
-                    }, 1000);
+//                    recyclerView.postDelayed(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            recyclerView.smoothScrollToPosition(pwrVOs.size()-1);
+//                        }
+//                    }, 1000);
                 }
             }
         }, jsonObject).execute(Me.PetServlet);
+//        sendPWRcontent();
         return view;
+    }
+
+    private void sendPWRcontent() {
+        EditText etPwrContent = (EditText) view.findViewById(R.id.etPwrContent);
+        ImageView ivSend = (ImageView) view.findViewById(R.id.ivSend);
+        ivSend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String content = etPwrContent.getText().toString();
+                if (!content.trim().equals("")) {
+                    SharedPreferences pref = getActivity().getSharedPreferences("UserData", MODE_PRIVATE);
+                    boolean loginStatus = pref.getBoolean("login", false);
+                    if (loginStatus) {
+                        PwrVO pwrVO = new PwrVO();
+                        pwrVO.setPwrdate(new Date(System.currentTimeMillis()));
+                        pwrVO.setPwrcontent(content);
+                        pwrVO.setMemno(pref.getInt("memNo", 0));
+                        pwrVO.setPwno(pwNo);
+                        Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+                        JsonObject jsonObject = new JsonObject();
+                        jsonObject.addProperty("action", "insertPwr");
+                        jsonObject.addProperty("pwrVO", gson.toJson(pwrVO));
+                        try {
+                            new AsyncObjTask(null, jsonObject).execute(Me.PwrServlet).get();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        } catch (ExecutionException e) {
+                            e.printStackTrace();
+                        }
+                        mListener.refresh();
+                    } else {
+                        Toast.makeText(Me.gc(), "登入後可留言", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        });
+
+
     }
 
 
@@ -108,6 +157,10 @@ public class PwDetailFragment extends Fragment {
 
     public interface OnListFragmentInteractionListener {
         void onListFragmentInteraction(PwrVO item);
+
+        void refresh();
     }
+
+
 
 }

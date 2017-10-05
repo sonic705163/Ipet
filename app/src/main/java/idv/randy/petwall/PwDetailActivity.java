@@ -5,14 +5,13 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -33,6 +32,10 @@ public class PwDetailActivity extends AppCompatActivity implements PwDetailFragm
     private static final String TAG = "PwDetailActivity";
     Bundle arguments;
     public static Fragment current;
+    int pwNo;
+
+    EditText etPwrContent;
+    ImageView ivSend;
     PwDetailFragment fragment = new PwDetailFragment();
 
     public static void start(Context context, int pwNo) {
@@ -56,9 +59,9 @@ public class PwDetailActivity extends AppCompatActivity implements PwDetailFragm
             actionBar.setTitle("");
         }
 
-        EditText etPwrContent = (EditText) findViewById(R.id.etPwrContent);
+
         Intent intent = getIntent();
-        int pwNo = intent.getExtras().getInt("pwNo");
+        pwNo = intent.getExtras().getInt("pwNo");
 
         if (savedInstanceState == null) {
             arguments = new Bundle();
@@ -69,44 +72,53 @@ public class PwDetailActivity extends AppCompatActivity implements PwDetailFragm
                     .add(R.id.item_detail_container, fragment)
                     .commit();
         }
-        ImageView ivSend = (ImageView) findViewById(R.id.ivSend);
-        ivSend.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String content = etPwrContent.getText().toString();
-                if (!content.trim().equals("")) {
-                    SharedPreferences pref = getSharedPreferences("UserData", MODE_PRIVATE);
-                    boolean loginStatus = pref.getBoolean("login", false);
-                    if (loginStatus) {
-                        PwrVO pwrVO = new PwrVO();
-                        pwrVO.setPwrdate(new Date(System.currentTimeMillis()));
-                        pwrVO.setPwrcontent(content);
-                        pwrVO.setMemno(pref.getInt("memNo", 0));
-                        pwrVO.setPwno(pwNo);
-                        Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
-                        JsonObject jsonObject = new JsonObject();
-                        jsonObject.addProperty("action", "insertPwr");
-                        jsonObject.addProperty("pwrVO", gson.toJson(pwrVO));
-                        try {
-                            new AsyncObjTask(null, jsonObject).execute(Me.PwrServlet).get();
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        } catch (ExecutionException e) {
-                            e.printStackTrace();
-                        }
-                        PwDetailFragment fragment = new PwDetailFragment();
-                        fragment.setArguments(arguments);
-                        getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.item_detail_container, fragment)
-                                .commit();
-                    } else {
-                        Toast.makeText(Me.gc(), "登入後可留言", Toast.LENGTH_SHORT).show();
-                    }
-                }
-
-            }
-        });
+        findViews();
+        ivSend.setOnClickListener(onClickListener);
     }
+
+    private void findViews() {
+        etPwrContent = (EditText) findViewById(R.id.etPwrContent);
+        ivSend = (ImageView) findViewById(R.id.ivSend);
+    }
+
+
+    View.OnClickListener onClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            String content = etPwrContent.getText().toString();
+            if (!content.trim().equals("")) {
+                SharedPreferences pref = getSharedPreferences("UserData", MODE_PRIVATE);
+                boolean loginStatus = pref.getBoolean("login", false);
+                if (loginStatus) {
+                    PwrVO pwrVO = new PwrVO();
+                    pwrVO.setPwrdate(new Date(System.currentTimeMillis()));
+                    pwrVO.setPwrcontent(content);
+                    pwrVO.setMemno(pref.getInt("memNo", 0));
+                    pwrVO.setPwno(pwNo);
+                    Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+                    JsonObject jsonObject = new JsonObject();
+                    jsonObject.addProperty("action", "insertPwr");
+                    jsonObject.addProperty("pwrVO", gson.toJson(pwrVO));
+                    try {
+                        new AsyncObjTask(null, jsonObject).execute(Me.PwrServlet).get();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    }
+                    hideKeyPad();
+                    PwDetailFragment fragment = new PwDetailFragment();
+                    fragment.setArguments(arguments);
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.item_detail_container, fragment)
+                            .commit();
+                } else {
+                    Toast.makeText(Me.gc(), "登入後可留言", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+        }
+    };
 
     @Override
     public void onListFragmentInteraction(PwrVO item) {
@@ -114,9 +126,28 @@ public class PwDetailActivity extends AppCompatActivity implements PwDetailFragm
     }
 
     @Override
+    public void refresh() {
+        arguments = new Bundle();
+        arguments.putInt("pwNo",
+                pwNo);
+        fragment.setArguments(arguments);
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.item_detail_container, fragment)
+                .commit();
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         finish();
         return super.onOptionsItemSelected(item);
 
+    }
+
+    void hideKeyPad() {
+        etPwrContent.clearFocus();
+        ((InputMethodManager) getSystemService(INPUT_METHOD_SERVICE))
+                .hideSoftInputFromWindow(this
+                                .getCurrentFocus().getWindowToken(),
+                        InputMethodManager.HIDE_NOT_ALWAYS);
     }
 }

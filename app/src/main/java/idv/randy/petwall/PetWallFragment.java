@@ -4,8 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
@@ -17,11 +17,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.java.iPet.R;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import idv.randy.me.MembersVO;
+import idv.randy.ut.AsyncAdapter;
+import idv.randy.ut.AsyncObjTask;
+import idv.randy.ut.Me;
 import idv.randy.zNouse.DogPicVO;
 import idv.randy.zNouse.wall_m;
 
@@ -31,8 +37,10 @@ public class PetWallFragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
     public List<DogPicVO> mDogPicVOList = getDogPicVOList();
     private RecyclerView rcView;
+    View view;
     private String mParam1;
     private String mParam2;
+    private int memNo;
 
     private OnFragmentInteractionListener mListener;
 
@@ -55,8 +63,7 @@ public class PetWallFragment extends Fragment {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate: ");
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            memNo = getArguments().getInt("memNo");
         }
     }
 
@@ -66,22 +73,49 @@ public class PetWallFragment extends Fragment {
         super.onCreateView(inflater, container, savedInstanceState);
 
         Log.d(TAG, "onCreateView: ");
-        View view = inflater.inflate(R.layout.r_fragment_petwall_s, container, false);
-        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getContext(), "Fab clicked", Toast.LENGTH_LONG).show();
-            }
-        });
+        view = inflater.inflate(R.layout.r_fragment_petwall_s, container, false);
         RecyclerView rcView = (RecyclerView) view.findViewById(R.id.rcView);
-
-
         rcView.setLayoutManager(new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL));
         rcView.setAdapter(new MyAdapter(getContext(), mDogPicVOList));
-
+//        refreshRecyclerView();
         return view;
     }
+
+    private void refreshRecyclerView() {
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("action", "getPwVO");
+        jsonObject.addProperty("memNo", memNo);
+        new AsyncObjTask(asyncAdapter, jsonObject).execute(Me.PetServlet);
+    }
+
+    AsyncAdapter asyncAdapter = new AsyncAdapter() {
+        @Override
+        public void onFinish(String result) {
+            super.onFinish(result);
+            JsonObject jsonObject = new Gson().fromJson(result, JsonObject.class);
+            String petWallReplyVOs = jsonObject.get("petWallReplyVOs").getAsString();
+            List<PwrVO> pwrVOs = PwrVO.decodeToList(petWallReplyVOs);
+            String stringMembersVOs = jsonObject.get("membersVOs").getAsString();
+            List<MembersVO> membersVOs = MembersVO.decodeToList(stringMembersVOs);
+
+            if (pwrVOs.size() != 0) {
+                Context context = view.getContext();
+                RecyclerView recyclerView = (RecyclerView) view;
+                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
+                recyclerView.setLayoutManager(linearLayoutManager);
+//                recyclerView.setAdapter(new MyPwDetailRecyclerViewAdapter(pwrVOs, membersVOs, mListener));
+
+//                    linearLayoutManager.scrollToPosition(pwrVOs.size() - 1);
+                recyclerView.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        recyclerView.smoothScrollToPosition(pwrVOs.size() - 1);
+                    }
+                }, 1000);
+            }
+        }
+    };
+
 
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
