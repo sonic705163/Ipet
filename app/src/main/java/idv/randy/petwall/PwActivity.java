@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
@@ -28,9 +29,11 @@ import com.example.java.iPet.R;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import idv.randy.me.MembersVO;
@@ -38,7 +41,6 @@ import idv.randy.member.MemberActivity;
 import idv.randy.ut.AsyncAdapter;
 import idv.randy.ut.AsyncImageTask;
 import idv.randy.ut.AsyncObjTask;
-import idv.randy.ut.GetVOTask;
 import idv.randy.ut.Me;
 
 public class PwActivity extends AppCompatActivity implements View.OnClickListener {
@@ -59,9 +61,31 @@ public class PwActivity extends AppCompatActivity implements View.OnClickListene
         @Override
         public void onFinish(String result) {
             List petWallVO = PwVO.decodeToList(result);
-            updateRv(petWallVO);
+            updateRv(petWallVO, null);
         }
     };
+    AsyncAdapter getPwAdapter = new AsyncAdapter() {
+        @Override
+        public void onGoing(int progress) {
+            Log.d(TAG, "onGoing: " + progress);
+        }
+
+        @Override
+        public void onFinish(String result) {
+            JsonObject jsonObject = new Gson().fromJson(result, JsonObject.class);
+            String petWallVO = jsonObject.get("petWallVO").getAsString();
+            List<PwVO> PwVOs = PwVO.decodeToList(petWallVO);
+            String count = jsonObject.get("count").getAsString();
+            Gson gsonb = new Gson();
+            List<Integer> counts = gsonb.fromJson(count, new TypeToken<List<Integer>>() {
+            }.getType());
+            updateRv(PwVOs, counts);
+//            String stringMembersVOs = jsonObject.get("membersVOs").getAsString();
+//            List<MembersVO> membersVOs = MembersVO.decodeToList(stringMembersVOs);
+        }
+    };
+
+
     private AsyncTask getDataTask;
     private ImageView ivSearch;
     private EditText etSearch;
@@ -80,15 +104,19 @@ public class PwActivity extends AppCompatActivity implements View.OnClickListene
         findViews();
         Intent intent = getIntent();
         String param = intent.getExtras().getString("param");
-        new GetVOTask(asyncAdapter, param, this).execute(URL);
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("action", "getPw");
+        jsonObject.addProperty("keyword", param);
+        new AsyncObjTask(getPwAdapter, jsonObject).execute(URL);
         setSupportActionBar(toolbar);
+
         tvDog.setOnClickListener(this);
         ivSearch.setOnClickListener(this);
         if (savedInstanceState != null) {
             mPwVO = savedInstanceState.getParcelableArrayList("mPwVO");
         }
         if (myVOAdapter != null) {
-            updateRv(mPwVO);
+            updateRv(mPwVO, null);
         }
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.btnFab);
@@ -108,7 +136,7 @@ public class PwActivity extends AppCompatActivity implements View.OnClickListene
 
     private void findViews() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        tvDog = (TextView) findViewById(R.id.tvDog);
+        tvDog = (TextView) findViewById(R.id.tvAll);
         etSearch = (EditText) findViewById(R.id.etSearch);
         ivSearch = (ImageView) findViewById(R.id.ivSearch);
     }
@@ -116,13 +144,18 @@ public class PwActivity extends AppCompatActivity implements View.OnClickListene
     @Override
     public void onClick(View v) {
         hideKeyPad();
+        JsonObject jsonObject = new JsonObject();
         switch (v.getId()) {
-            case R.id.tvDog:
-                getDataTask = new GetVOTask(asyncAdapter, "all", this).execute(URL);
+            case R.id.tvAll:
+                jsonObject.addProperty("action", "getPw");
+                jsonObject.addProperty("keyword", "");
+                new AsyncObjTask(getPwAdapter, jsonObject).execute(URL);
                 break;
             case R.id.ivSearch:
                 String keyword = etSearch.getText().toString();
-                getDataTask = new GetVOTask(asyncAdapter, keyword, this).execute(URL);
+                jsonObject.addProperty("action", "getPw");
+                jsonObject.addProperty("keyword", keyword);
+                new AsyncObjTask(getPwAdapter, jsonObject).execute(URL);
             default:
                 break;
         }
@@ -136,13 +169,17 @@ public class PwActivity extends AppCompatActivity implements View.OnClickListene
                         InputMethodManager.HIDE_NOT_ALWAYS);
     }
 
-    public void updateRv(List<PwVO> pwVO) {
+    public void updateRv(List<PwVO> pwVO, @Nullable List<Integer> counts) {
         Log.d(TAG, "updateRv: ");
         this.mPwVO = pwVO;
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv);
         StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(staggeredGridLayoutManager);
-        myVOAdapter = new MyVOAdapter(pwVO);
+        if (counts != null) {
+            myVOAdapter = new MyVOAdapter(pwVO, counts);
+        } else {
+            myVOAdapter = new MyVOAdapter(pwVO);
+        }
         recyclerView.setAdapter(myVOAdapter);
         Log.d(TAG, "updateRv: " + pwVO.size());
 //        staggeredGridLayoutManager.scrollToPositionWithOffset(pwVO.size()-1, 0);
@@ -165,14 +202,22 @@ public class PwActivity extends AppCompatActivity implements View.OnClickListene
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         hideKeyPad();
-        Log.d(TAG, "onOptionsItemSelected: ");
+        JsonObject jsonObject = new JsonObject();
         switch (item.getItemId()) {
             case R.id.menuItem2:
-                getDataTask = new GetVOTask(asyncAdapter, "cat", this).execute(URL);
+//                getDataTask = new GetVOTask(asyncAdapter, "cat", this).execute(URL);
+
+                jsonObject.addProperty("action", "getPw");
+                jsonObject.addProperty("keyword", "貓");
+                new AsyncObjTask(getPwAdapter, jsonObject).execute(URL);
                 break;
             case R.id.menuItem3:
-                getDataTask = new GetVOTask(asyncAdapter, "dog", this).execute(URL);
+//                getDataTask = new GetVOTask(asyncAdapter, "dog", this).execute(URL);
+                jsonObject.addProperty("action", "getPw");
+                jsonObject.addProperty("keyword", "狗");
+                new AsyncObjTask(getPwAdapter, jsonObject).execute(URL);
                 break;
+
             default:
                 break;
         }
@@ -187,10 +232,17 @@ public class PwActivity extends AppCompatActivity implements View.OnClickListene
 
     public class MyVOAdapter extends RecyclerView.Adapter<MyVOAdapter.MyViewHolder> {
         private List<PwVO> mPwVO;
+        private List<Integer> counts;
+
+        public MyVOAdapter(List<PwVO> pwVO, List<Integer> counts) {
+            mPwVO = pwVO;
+            this.counts = counts;
+        }
 
         public MyVOAdapter(List<PwVO> pwVO) {
             this.mPwVO = pwVO;
         }
+
 
         @Override
         public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -238,10 +290,19 @@ public class PwActivity extends AppCompatActivity implements View.OnClickListene
         @Override
         public void onBindViewHolder(final MyViewHolder holder, int position) {
             PwVO pw = mPwVO.get(position);
-
+            if (counts != null) {
+                int count = counts.get(position);
+                if (count > 0) {
+                    holder.tvPwrCount.setText(String.valueOf(count));
+                } else {
+                    holder.tvPwrCount.setText("留言");
+                }
+            }
             holder.tvPwContent.setText(pw.getPwContent());
             if (Integer.valueOf(pw.getPwPraise()) > 0) {
                 holder.tvPwPraise.setText(pw.getPwPraise());
+            } else {
+                holder.tvPwPraise.setText("讚");
             }
 
 //            View.OnClickListener onPwPraiseClickListener = new View.OnClickListener() {
@@ -257,13 +318,14 @@ public class PwActivity extends AppCompatActivity implements View.OnClickListene
 
             Date current = new Date(System.currentTimeMillis());
             long past = (current.getTime() - pw.getPwDate().getTime());
-
-
-            if (past < (1000 * 60 * 60 * 24)) {
+            int day = (int) (past / (1000 * 60 * 60 * 24));
+            if (day < 1) {
                 holder.tvPWdate.setText("今天");
-            } else if (past < (1000 * 60 * 60 * 24 * 2)) {
+            } else if (day < 2) {
                 holder.tvPWdate.setText("昨天");
-            } else if (past < (1000 * 60 * 60 * 24 * 365)) {
+            } else if (day < 7) {
+                holder.tvPWdate.setText(String.valueOf(day) + "天前");
+            } else if (pw.getPwDate().toString().substring(0, 4).equals(String.valueOf(Calendar.getInstance().get(Calendar.YEAR)))) {
                 holder.tvPWdate.setText(pw.getPwDate().toString().substring(5));
             } else {
                 holder.tvPWdate.setText(pw.getPwDate().toString());
@@ -304,6 +366,7 @@ public class PwActivity extends AppCompatActivity implements View.OnClickListene
             TextView tvMemID;
             TextView tvPwPraise;
             TextView tvPWdate;
+            TextView tvPwrCount;
             LinearLayout llPwReply;
             LinearLayout llPwPraise;
 
@@ -317,6 +380,7 @@ public class PwActivity extends AppCompatActivity implements View.OnClickListene
                 tvMemID = (TextView) itemView.findViewById(R.id.tvMemID);
                 tvPwPraise = (TextView) itemView.findViewById(R.id.tvPwPraise);
                 tvPWdate = (TextView) itemView.findViewById(R.id.tvPWdate);
+                tvPwrCount = (TextView) itemView.findViewById(R.id.tvPwrCount);
                 llPwReply = (LinearLayout) itemView.findViewById(R.id.llPwReply);
                 llPwPraise = (LinearLayout) itemView.findViewById(R.id.llPwPraise);
             }

@@ -82,7 +82,7 @@
                                                     app:cardCornerRadius="14dp">
 
                     <TextView
-                        android:id="@+id/tvDog"
+                        android:id="@+id/tvAll"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
@@ -120,6 +120,6 @@
         android:clickable="true"
         app:fabSize="normal"
         android:layout_margin="16dp"
-        app:srcCompat="@drawable/ic_add"/>
+        android:src="@drawable/ic_add"/>
 
 </android.support.design.widget.CoordinatorLayout>

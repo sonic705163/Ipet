@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.example.java.iPet.R;
@@ -66,7 +67,8 @@ public class AsyncImageTask extends AsyncTask<String, Integer, Bitmap> {
 //            Glide.with(Me.gc()).load(bitmap).into(imageView);
 
         } else {
-            imageView.setImageResource(R.drawable.ic_touch_app_black_24dp);
+            imageView.setImageResource(R.drawable.empty);
+
 //            imageView.setImageBitmap(null);
 
 

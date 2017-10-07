@@ -43,9 +43,9 @@ public class PwEnterFragment extends Fragment {
             }
         });
         CardView cardViewDog = (CardView) view.findViewById(R.id.cardViewDog);
-        cardViewDog.setOnClickListener(v -> PwActivity.start(getActivity(), "dog"));
+        cardViewDog.setOnClickListener(v -> PwActivity.start(getActivity(), "狗"));
         CardView carViewCat = (CardView) view.findViewById(R.id.carViewCat);
-        carViewCat.setOnClickListener(v -> PwActivity.start(getActivity(), "cat"));
+        carViewCat.setOnClickListener(v -> PwActivity.start(getActivity(), "貓"));
 
 
         return view;
