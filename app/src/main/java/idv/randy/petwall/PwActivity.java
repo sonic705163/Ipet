@@ -192,14 +192,11 @@ public class PwActivity extends AppCompatActivity implements View.OnClickListene
         JsonObject jsonObject = new JsonObject();
         switch (item.getItemId()) {
             case R.id.menuItem2:
-//                getDataTask = new GetVOTask(asyncAdapter, "cat", this).execute(URL);
-
                 jsonObject.addProperty("action", "getPw");
                 jsonObject.addProperty("keyword", "貓");
                 new AsyncObjTask(getPwAdapter, jsonObject).execute(URL);
                 break;
             case R.id.menuItem3:
-//                getDataTask = new GetVOTask(asyncAdapter, "dog", this).execute(URL);
                 jsonObject.addProperty("action", "getPw");
                 jsonObject.addProperty("keyword", "狗");
                 new AsyncObjTask(getPwAdapter, jsonObject).execute(URL);
