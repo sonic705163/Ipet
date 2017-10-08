@@ -104,14 +104,6 @@ public class PetWallFragment extends Fragment {
                 LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
                 recyclerView.setLayoutManager(linearLayoutManager);
 //                recyclerView.setAdapter(new MyPwDetailRecyclerViewAdapter(pwrVOs, membersVOs, mListener));
-
-//                    linearLayoutManager.scrollToPosition(pwrVOs.size() - 1);
-                recyclerView.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        recyclerView.smoothScrollToPosition(pwrVOs.size() - 1);
-                    }
-                }, 1000);
             }
         }
     };

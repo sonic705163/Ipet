@@ -9,10 +9,16 @@
 
     <!-- TODO: Update blank fragment layout -->
 
-
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Dog"
+        android:textSize="18sp"
+        android:layout_marginBottom="8dp"/>
     <android.support.v7.widget.CardView
         android:id="@+id/cardViewDog"
         android:layout_width="match_parent"
+        android:layout_marginBottom="16dp"
         android:layout_height="150dp"
         app:cardCornerRadius="12dp">
 
@@ -79,11 +85,13 @@
 
     </android.support.v7.widget.CardView>
 
+
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="64dp"
-        android:text="Dog"/>
-
+        android:layout_height="wrap_content"
+        android:text="Cat"
+        android:textSize="18sp"
+        android:layout_marginBottom="8dp"/>
     <android.support.v7.widget.CardView
         android:id="@+id/carViewCat"
         android:layout_width="match_parent"
@@ -154,10 +162,7 @@
 
     </android.support.v7.widget.CardView>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:text="Cat"/>
+
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/btnFab"

@@ -3,6 +3,6 @@ package idv.randy.ut;
 
 import android.graphics.Bitmap;
 
-public interface ByteListener {
+public interface ImageListener {
     void onFinish(Bitmap bitmap);
 }

@@ -41,11 +41,14 @@ public class MemberActivity extends AppCompatActivity implements MemberPwFragmen
             Bundle arguments = new Bundle();
             arguments.putInt("memNo",
                     memNo);
+
+//            Fragment fragment = new MemberPwFragment();
             Fragment fragment = new PetWallFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.forMemberPwFragment, fragment)
                     .commit();
+
         }
     }
 

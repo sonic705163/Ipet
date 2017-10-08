@@ -1,14 +1,14 @@
 package idv.randy.ut;
 
 
-import android.app.ProgressDialog;
-import android.content.Context;
 import android.os.AsyncTask;
 import android.support.annotation.Nullable;
 import android.util.Log;
-import com.google.gson.JsonArray;
+
 import com.google.gson.JsonObject;
+
 import java.io.IOException;
+
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -55,7 +55,7 @@ public class AsyncObjTask extends AsyncTask<String, Integer, String> {
     @Override
     protected void onPostExecute(String result) {
         super.onPostExecute(result);
-        if (asyncListener != null) {
+        if (asyncListener != null && result != null) {
             asyncListener.onFinish(result);
         }
     }

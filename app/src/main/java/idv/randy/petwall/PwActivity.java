@@ -3,7 +3,6 @@ package idv.randy.petwall;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
@@ -34,7 +33,9 @@ import com.google.gson.reflect.TypeToken;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import idv.randy.me.MembersVO;
 import idv.randy.member.MemberActivity;
@@ -45,25 +46,14 @@ import idv.randy.ut.Me;
 
 public class PwActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private static final String TAG = "RetrieveActivity";
+    private static final String TAG = "PwActivity";
     private static final String URL = Me.PetServlet;
     MyVOAdapter myVOAdapter;
     Toolbar toolbar;
     TextView tvDog;
     TextView tvCat;
     private List<PwVO> mPwVO;
-    AsyncAdapter asyncAdapter = new AsyncAdapter() {
-        @Override
-        public void onGoing(int progress) {
-            Log.d(TAG, "onGoing: " + progress);
-        }
 
-        @Override
-        public void onFinish(String result) {
-            List petWallVO = PwVO.decodeToList(result);
-            updateRv(petWallVO, null);
-        }
-    };
     AsyncAdapter getPwAdapter = new AsyncAdapter() {
         @Override
         public void onGoing(int progress) {
@@ -76,17 +66,13 @@ public class PwActivity extends AppCompatActivity implements View.OnClickListene
             String petWallVO = jsonObject.get("petWallVO").getAsString();
             List<PwVO> PwVOs = PwVO.decodeToList(petWallVO);
             String count = jsonObject.get("count").getAsString();
-            Gson gsonb = new Gson();
-            List<Integer> counts = gsonb.fromJson(count, new TypeToken<List<Integer>>() {
+            Gson gson = new Gson();
+            List<Integer> counts = gson.fromJson(count, new TypeToken<List<Integer>>() {
             }.getType());
             updateRv(PwVOs, counts);
-//            String stringMembersVOs = jsonObject.get("membersVOs").getAsString();
-//            List<MembersVO> membersVOs = MembersVO.decodeToList(stringMembersVOs);
         }
     };
 
-
-    private AsyncTask getDataTask;
     private ImageView ivSearch;
     private EditText etSearch;
 
@@ -107,6 +93,7 @@ public class PwActivity extends AppCompatActivity implements View.OnClickListene
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("action", "getPw");
         jsonObject.addProperty("keyword", param);
+        Log.d(TAG, "onCreate: param " + param);
         new AsyncObjTask(getPwAdapter, jsonObject).execute(URL);
         setSupportActionBar(toolbar);
 
@@ -224,6 +211,8 @@ public class PwActivity extends AppCompatActivity implements View.OnClickListene
         return super.onOptionsItemSelected(item);
     }
 
+    boolean used = false;
+
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -243,6 +232,7 @@ public class PwActivity extends AppCompatActivity implements View.OnClickListene
             this.mPwVO = pwVO;
         }
 
+        Set<Integer> praised = new HashSet<>();
 
         @Override
         public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -257,6 +247,7 @@ public class PwActivity extends AppCompatActivity implements View.OnClickListene
                     PwVO pw = mPwVO.get(position);
                     int pwNo = pw.getPwNo();
                     PwDetailActivity.start(PwActivity.this, pwNo);
+
                 }
             };
             myViewHolder.llPwReply.setOnClickListener(onReplyClickListener);
@@ -279,8 +270,22 @@ public class PwActivity extends AppCompatActivity implements View.OnClickListene
                 public void onClick(View v) {
                     int position = myViewHolder.getAdapterPosition();
                     PwVO pw = mPwVO.get(position);
-                    int PwPraise = Integer.valueOf(pw.getPwPraise()) + 1;
-                    myViewHolder.tvPwPraise.setText(String.valueOf(PwPraise));
+                    int pwPraise = Integer.valueOf(pw.getPwPraise());
+                    if (!praised.contains(position)) {
+                        praised.add(position);
+                        pwPraise += 1;
+                    } else {
+                        praised.remove(position);
+                        pwPraise -= 1;
+
+                    }
+                    JsonObject jsonObject = new JsonObject();
+                    jsonObject.addProperty("action", "updatePraise");
+                    jsonObject.addProperty("pwNo", pw.getPwNo());
+                    jsonObject.addProperty("praise", String.valueOf(pwPraise));
+                    new AsyncObjTask(null, jsonObject).execute(Me.PetServlet);
+                    pw.setPwPraise(String.valueOf(Integer.valueOf(pwPraise)));
+                    myVOAdapter.notifyItemChanged(position, 0);
                 }
             };
             myViewHolder.llPwPraise.setOnClickListener(onPwPraiseClickListener);
@@ -288,70 +293,79 @@ public class PwActivity extends AppCompatActivity implements View.OnClickListene
         }
 
         @Override
-        public void onBindViewHolder(final MyViewHolder holder, int position) {
-            PwVO pw = mPwVO.get(position);
-            if (counts != null) {
-                int count = counts.get(position);
-                if (count > 0) {
-                    holder.tvPwrCount.setText(String.valueOf(count));
-                } else {
-                    holder.tvPwrCount.setText("留言");
-                }
-            }
-            holder.tvPwContent.setText(pw.getPwContent());
-            if (Integer.valueOf(pw.getPwPraise()) > 0) {
-                holder.tvPwPraise.setText(pw.getPwPraise());
-            } else {
-                holder.tvPwPraise.setText("讚");
-            }
+        public void onBindViewHolder(MyViewHolder holder, int position) {
 
-//            View.OnClickListener onPwPraiseClickListener = new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    PwVO pw = mPwVO.get(position);
-//                    int PwPraise = Integer.valueOf(pw.getPwPraise()) + 1;
-//                    holder.tvPwPraise.setText(String.valueOf(PwPraise));
-//                }
-//            };
-//            holder.llPwPraise.setOnClickListener(onPwPraiseClickListener);
-
-
-            Date current = new Date(System.currentTimeMillis());
-            long past = (current.getTime() - pw.getPwDate().getTime());
-            int day = (int) (past / (1000 * 60 * 60 * 24));
-            if (day < 1) {
-                holder.tvPWdate.setText("今天");
-            } else if (day < 2) {
-                holder.tvPWdate.setText("昨天");
-            } else if (day < 7) {
-                holder.tvPWdate.setText(String.valueOf(day) + "天前");
-            } else if (pw.getPwDate().toString().substring(0, 4).equals(String.valueOf(Calendar.getInstance().get(Calendar.YEAR)))) {
-                holder.tvPWdate.setText(pw.getPwDate().toString().substring(5));
-            } else {
-                holder.tvPWdate.setText(pw.getPwDate().toString());
-            }
-
-
-            int pwNo = pw.getPwNo();
-            new AsyncImageTask(pwNo, holder.ivPwPicture).execute(Me.PetServlet);
-
-            int memNo = pw.getMemno();
-            new AsyncImageTask(memNo, holder.ivMemImg).execute(Me.MembersServlet);
-
-            JsonObject jsonObject = new JsonObject();
-            jsonObject.addProperty("action", "getVO");
-            jsonObject.addProperty("memNo", memNo);
-
-            new AsyncObjTask(new AsyncAdapter() {
-                @Override
-                public void onFinish(String result) {
-                    super.onFinish(result);
-                    Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
-                    MembersVO membersVO = gson.fromJson(result, MembersVO.class);
-                    holder.tvMemID.setText(membersVO.getMemName());
-                }
-            }, jsonObject).execute(Me.MembersServlet);
         }
+
+        @Override
+        public void onBindViewHolder(final MyViewHolder holder, int position, List<Object> payloads) {
+            PwVO pw = mPwVO.get(position);
+            if (payloads.isEmpty()) {
+                Log.d(TAG, "payloads : " + "Not Exist " + position);
+                if (counts != null) {
+                    int count = counts.get(position);
+                    if (count > 0) {
+                        holder.tvPwrCount.setText(String.valueOf(count));
+                    } else {
+                        holder.tvPwrCount.setText("留言");
+                    }
+                }
+                holder.tvPwContent.setText(pw.getPwContent());
+                if (Integer.valueOf(pw.getPwPraise()) > 0) {
+                    holder.tvPwPraise.setText(pw.getPwPraise());
+                } else {
+                    holder.tvPwPraise.setText("讚");
+                }
+
+
+                Date current = new Date(System.currentTimeMillis());
+                long past = (current.getTime() - pw.getPwDate().getTime());
+                int day = (int) (past / (1000 * 60 * 60 * 24));
+                if (day < 1) {
+                    holder.tvPWdate.setText("今天");
+                } else if (day < 2) {
+                    holder.tvPWdate.setText("昨天");
+                } else if (day < 7) {
+                    holder.tvPWdate.setText(String.valueOf(day) + "天前");
+                } else if (pw.getPwDate().toString().substring(0, 4).equals(String.valueOf(Calendar.getInstance().get(Calendar.YEAR)))) {
+                    holder.tvPWdate.setText(pw.getPwDate().toString().substring(5));
+                } else {
+                    holder.tvPWdate.setText(pw.getPwDate().toString());
+                }
+
+
+                int pwNo = pw.getPwNo();
+                new AsyncImageTask(pwNo, holder.ivPwPicture).execute(Me.PetServlet);
+
+                int memNo = pw.getMemno();
+                new AsyncImageTask(memNo, holder.ivMemImg).execute(Me.MembersServlet);
+
+                JsonObject jsonObject = new JsonObject();
+                jsonObject.addProperty("action", "getVO");
+                jsonObject.addProperty("memNo", memNo);
+
+                new AsyncObjTask(new AsyncAdapter() {
+                    @Override
+                    public void onFinish(String result) {
+                        super.onFinish(result);
+
+                        Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+                        MembersVO membersVO = gson.fromJson(result, MembersVO.class);
+                        holder.tvMemID.setText(membersVO.getMemName());
+                    }
+                }, jsonObject).execute(Me.MembersServlet);
+            } else {
+                int type = (int) payloads.get(0);
+                Log.d(TAG, "payloads : " + "Exist " + position);
+                switch (type) {
+                    case 0:
+                        Log.d(TAG, "updatePwPraise: ");
+                        holder.tvPwPraise.setText(String.valueOf(Integer.valueOf(pw.getPwPraise())));
+
+                }
+            }
+        }
+
 
         @Override
         public int getItemCount() {
@@ -387,4 +401,13 @@ public class PwActivity extends AppCompatActivity implements View.OnClickListene
         }
     }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("action", "getPw");
+        jsonObject.addProperty("keyword", "");
+        new AsyncObjTask(getPwAdapter, jsonObject).execute(URL);
+    }
 }

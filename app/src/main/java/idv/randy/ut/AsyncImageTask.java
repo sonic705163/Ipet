@@ -5,7 +5,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.view.View;
 import android.widget.ImageView;
 
 import com.example.java.iPet.R;
@@ -25,11 +24,18 @@ public class AsyncImageTask extends AsyncTask<String, Integer, Bitmap> {
     public static final MediaType JSON
             = MediaType.parse("application/json; charset=utf-8");
     private static final String TAG = "AsyncImageTask";
-    ImageView imageView;
+    private ImageView imageView;
+    private ImageListener imageListener;
     private int no;
     private int imgSize = 0;
     byte[] byt;
 
+
+    public AsyncImageTask(int no, ImageView imageView, ImageListener imageListener) {
+        this.no = no;
+        this.imageView = imageView;
+        this.imageListener = imageListener;
+    }
 
     public AsyncImageTask(int no, ImageView imageView) {
         this.no = no;
@@ -52,6 +58,8 @@ public class AsyncImageTask extends AsyncTask<String, Integer, Bitmap> {
 //        } catch (IOException e) {
 //            e.printStackTrace();
 //        }
+
+
         Bitmap bitmap = BitmapFactory.decodeStream(in);
         return bitmap;
     }
@@ -60,24 +68,23 @@ public class AsyncImageTask extends AsyncTask<String, Integer, Bitmap> {
     @Override
     protected void onPostExecute(Bitmap bitmap) {
         super.onPostExecute(bitmap);
-        if (bitmap != null) {
-            imageView.setImageBitmap(bitmap);
+        if (imageListener == null) {
+            if (bitmap != null) {
+                imageView.setImageBitmap(bitmap);
 
 //            Glide.with(Me.gc()).load(byt).into(imageView);
 //            Glide.with(Me.gc()).load(bitmap).into(imageView);
 
-        } else {
-            imageView.setImageResource(R.drawable.empty);
+            } else {
+                imageView.setImageResource(R.drawable.empty);
 
 //            imageView.setImageBitmap(null);
-
-
 //            imageView.setVisibility(View.GONE);
-
 //            imageView.set;
-
 //            Glide.with(Me.gc()).load(bitmap).into(imageView);
-
+            }
+        }else{
+            imageListener.onFinish(bitmap);
         }
 
 
@@ -95,7 +102,11 @@ public class AsyncImageTask extends AsyncTask<String, Integer, Bitmap> {
             Request request = new Request.Builder().url(serverAddr).post(requestBody).build();
             Response response = okHttpClient.newCall(request).execute();
             responseData = response.body().byteStream();
+
+
             Log.d(TAG, "inputByteStream: " + responseData);
+
+
         } catch (IOException e) {
             e.printStackTrace();
         }
