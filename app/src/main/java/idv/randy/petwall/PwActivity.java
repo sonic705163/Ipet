@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
@@ -335,18 +336,7 @@ public class PwActivity extends AppCompatActivity implements View.OnClickListene
                 new AsyncImageTask(pwNo, holder.ivPwPicture, R.drawable.empty).execute(Me.PetServlet);
 
                 int memNo = pw.getMemno();
-                ImageListener imageListener = new ImageListener() {
-                    @Override
-                    public void onFinish(Bitmap bitmap) {
-                        if (bitmap != null) {
-                            holder.ivMemImg.setImageBitmap(bitmap);
-                        } else {
-                            holder.ivMemImg.setImageResource(R.drawable.person);
-                        }
-                    }
-                };
                 new AsyncImageTask(memNo, holder.ivMemImg, R.drawable.person).execute(Me.MembersServlet);
-
 
                 JsonObject jsonObject = new JsonObject();
                 jsonObject.addProperty("action", "getVO");
@@ -374,6 +364,8 @@ public class PwActivity extends AppCompatActivity implements View.OnClickListene
                         } else {
                             holder.tvPwPraise.setText("讚");
                         }
+                        break;
+
                 }
             }
         }
@@ -389,6 +381,7 @@ public class PwActivity extends AppCompatActivity implements View.OnClickListene
             TextView tvPwContent;
             ImageView ivPwPicture;
             ImageView ivMemImg;
+            ImageView ivPwPraise;
             TextView tvMemID;
             TextView tvPwPraise;
             TextView tvPWdate;
@@ -403,6 +396,7 @@ public class PwActivity extends AppCompatActivity implements View.OnClickListene
                 tvPwContent = (TextView) itemView.findViewById(R.id.tvPwContent);
                 ivPwPicture = (ImageView) itemView.findViewById((R.id.ivPet));
                 ivMemImg = (ImageView) itemView.findViewById((R.id.ivMemImg));
+                ivPwPraise = (ImageView) itemView.findViewById((R.id.ivPwPraise));
                 tvMemID = (TextView) itemView.findViewById(R.id.tvMemID);
                 tvPwPraise = (TextView) itemView.findViewById(R.id.tvPwPraise);
                 tvPWdate = (TextView) itemView.findViewById(R.id.tvPWdate);

@@ -24,7 +24,7 @@ import idv.randy.ut.AsyncObjTask;
 import idv.randy.ut.ImageListener;
 import idv.randy.ut.Me;
 
-public class MemberActivity extends AppCompatActivity implements PetWallFragment.OnFragmentInteractionListener, ImageListener {
+public class MemberActivity extends AppCompatActivity implements PetWallFragment.OnFragmentInteractionListener{
     private static final String TAG = "MemberActivity";
     private Toolbar toolbar;
     private TextView tvMemName;
@@ -109,12 +109,4 @@ public class MemberActivity extends AppCompatActivity implements PetWallFragment
 
     }
 
-    @Override
-    public void onFinish(Bitmap bitmap) {
-        if (bitmap != null) {
-            ivMemImg.setImageBitmap(bitmap);
-        } else {
-            ivMemImg.setImageResource(R.drawable.person);
-        }
-    }
 }

@@ -29,21 +29,19 @@ import idv.randy.ut.Me;
 import static android.content.Context.MODE_PRIVATE;
 
 
-public class MeFragment extends Fragment implements View.OnClickListener, ImageListener {
+public class MeFragment extends Fragment implements View.OnClickListener{
     private static final String TAG = "MeFragment";
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     int memNo;
     MembersVO membersVO;
     JsonObject jsonObject;
+    LinearLayout llFeedback;
     private String id;
     private String mParam1;
     private String mParam2;
     private TextView tvMemName;
     private TextView tvMemID;
-    private TextView tvLogOut;
-    private ImageView ivMemImg;
-    LinearLayout llFeedback;
     AsyncAdapter asyncAdapeter = new AsyncAdapter() {
         @Override
         public void onFinish(String result) {
@@ -53,6 +51,9 @@ public class MeFragment extends Fragment implements View.OnClickListener, ImageL
             tvMemID.setText(membersVO.getMenId());
         }
     };
+    private TextView tvLogOut;
+    private TextView tvMyPw;
+    private ImageView ivMemImg;
     private MeFragmentListener mListener;
     private String memName;
 
@@ -116,7 +117,7 @@ public class MeFragment extends Fragment implements View.OnClickListener, ImageL
         ivLogOut.setOnClickListener(this);
         llFeedback.setOnClickListener(this);
         ivMyPw.setOnClickListener(this);
-        ivMyPw.setOnClickListener(this);
+        tvMyPw.setOnClickListener(this);
         tvLogOut.setOnClickListener(this);
         return view;
     }
@@ -128,6 +129,7 @@ public class MeFragment extends Fragment implements View.OnClickListener, ImageL
         tvMemName = (TextView) view.findViewById(R.id.tvMemName);
         tvLogOut = (TextView) view.findViewById(R.id.tvLogOut);
         tvMemID = (TextView) view.findViewById(R.id.tvMemId);
+        tvMyPw = (TextView) view.findViewById(R.id.tvMyPw);
         llFeedback = (LinearLayout) view.findViewById(R.id.llFeedback);
     }
 
@@ -220,18 +222,8 @@ public class MeFragment extends Fragment implements View.OnClickListener, ImageL
         }
     }
 
-    @Override
-    public void onFinish(Bitmap bitmap) {
-        if (bitmap != null) {
-            ivMemImg.setImageBitmap(bitmap);
-        } else {
-            ivMemImg.setImageResource(R.drawable.person);
-        }
-    }
-
     public interface MeFragmentListener {
         void onFragmentInteraction(Uri uri);
-
         void logOut();
     }
 
