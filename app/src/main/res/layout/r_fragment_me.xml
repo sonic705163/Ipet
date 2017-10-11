@@ -296,6 +296,7 @@
                 android:orientation="vertical">
 
                 <ImageView
+                    android:id="@+id/ivMyPw"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:layout_weight="1"
@@ -305,6 +306,7 @@
 
 
                 <TextView
+                    android:id="@+id/tvMyPw"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
@@ -400,6 +402,7 @@
 
 
                 <TextView
+                    android:id="@+id/tvLogOut"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"

@@ -60,6 +60,8 @@
             android:label="@string/title_activity_member"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
+        <activity android:name="idv.randy.member.MemberPwActivity">
+        </activity>
     </application>
 
 </manifest>

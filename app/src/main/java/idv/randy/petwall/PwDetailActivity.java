@@ -77,16 +77,18 @@ public class PwDetailActivity extends AppCompatActivity implements PwDetailFragm
         Intent intent = getIntent();
         pwNo = intent.getExtras().getInt("pwNo");
 
-        new AsyncImageTask(pwNo, ivPwPicture, new ImageListener() {
-            @Override
-            public void onFinish(Bitmap bitmap) {
-                if (bitmap != null) {
-                    ivPwPicture.setImageBitmap(bitmap);
-                } else {
-                    ivPwPicture.setImageResource(R.drawable.aa1418273);
-                }
-            }
-        }).execute(Me.PetServlet);
+//        new AsyncImageTask(pwNo, ivPwPicture, new ImageListener() {
+//            @Override
+//            public void onFinish(Bitmap bitmap) {
+//                if (bitmap != null) {
+//                    ivPwPicture.setImageBitmap(bitmap);
+//                } else {
+//                    ivPwPicture.setImageResource(R.drawable.aa1418273);
+//                }
+//            }
+//        }).execute(Me.PetServlet);
+
+        new AsyncImageTask(pwNo, ivPwPicture, R.drawable.aa1418273).execute(Me.PetServlet);
 
         if (savedInstanceState == null) {
             arguments = new Bundle();
@@ -97,7 +99,6 @@ public class PwDetailActivity extends AppCompatActivity implements PwDetailFragm
                     .add(R.id.item_detail_container, fragment)
                     .commit();
         }
-
         ivSend.setOnClickListener(onClickListener);
 
 
@@ -143,12 +144,14 @@ public class PwDetailActivity extends AppCompatActivity implements PwDetailFragm
                             .replace(R.id.item_detail_container, fragment)
                             .commit();
                     etPwrContent.setText("");
+                    hideKeyPad();
                     llPwr.setVisibility(View.GONE);
                     btnFab.setVisibility(View.VISIBLE);
                 } else {
                     Toast.makeText(Me.gc(), "登入後可留言", Toast.LENGTH_SHORT).show();
                 }
             } else {
+                hideKeyPad();
                 llPwr.setVisibility(View.GONE);
                 btnFab.setVisibility(View.VISIBLE);
             }
@@ -193,8 +196,14 @@ public class PwDetailActivity extends AppCompatActivity implements PwDetailFragm
             case R.id.btnFab:
                 btnFab.setVisibility(View.GONE);
                 llPwr.setVisibility(View.VISIBLE);
+                showKeyboard();
                 break;
         }
+    }
+    private void showKeyboard(){
+        etPwrContent.requestFocus();
+        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputMethodManager.showSoftInput(etPwrContent, 0);
     }
 
 }

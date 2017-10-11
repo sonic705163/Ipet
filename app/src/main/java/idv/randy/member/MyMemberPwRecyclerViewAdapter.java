@@ -4,23 +4,24 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.java.iPet.R;
 
-import idv.randy.member.MemberPwFragment.OnListFragmentInteractionListener;
-import idv.randy.member.dummy.DummyContent.DummyItem;
-
 import java.util.List;
 
+import idv.randy.petwall.PwDetailActivity;
+import idv.randy.petwall.PwVO;
+import idv.randy.ut.AsyncImageTask;
+import idv.randy.ut.Me;
+
 public class MyMemberPwRecyclerViewAdapter extends RecyclerView.Adapter<MyMemberPwRecyclerViewAdapter.ViewHolder> {
+    private static final String TAG = "MyMemberPwRecyclerViewA";
+    private final List<PwVO> pwVOs;
 
-    private final List<DummyItem> mValues;
-    private final OnListFragmentInteractionListener mListener;
-
-    public MyMemberPwRecyclerViewAdapter(List<DummyItem> items, OnListFragmentInteractionListener listener) {
-        mValues = items;
-        mListener = listener;
+    public MyMemberPwRecyclerViewAdapter(List<PwVO> items) {
+        pwVOs = items;
     }
 
     @Override
@@ -32,41 +33,48 @@ public class MyMemberPwRecyclerViewAdapter extends RecyclerView.Adapter<MyMember
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).id);
-        holder.mContentView.setText(mValues.get(position).content);
+        PwVO pw = pwVOs.get(position);
+        String year = pw.getPwDate().toString().substring(0, 4);
+        String month = pw.getPwDate().toString().substring(5, 7);
+        String date = pw.getPwDate().toString().substring(8, 10);
+        holder.tvPWdate.setText(date);
+        holder.tvPwMonth.setText(month + "月");
+        holder.tvPwYear.setText(year + "年");
 
-        holder.mView.setOnClickListener(new View.OnClickListener() {
+        holder.tvPwContent.setText(pw.getPwContent());
+        int pwNo = pw.getPwNo();
+        new AsyncImageTask(pwNo, holder.ivPwPicture, R.drawable.empty).execute(Me.PetServlet);
+        View.OnClickListener toPwrListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (null != mListener) {
-                    mListener.onListFragmentInteraction(holder.mItem);
-                }
+                PwDetailActivity.start(Me.gc(), pwNo);
             }
-        });
+        };
+        holder.tvPwContent.setOnClickListener(toPwrListener);
+        holder.ivPwPicture.setOnClickListener(toPwrListener);
+
     }
 
     @Override
     public int getItemCount() {
-        return mValues.size();
+        return pwVOs.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public final View mView;
-        public final TextView mIdView;
-        public final TextView mContentView;
-        public DummyItem mItem;
+        public final TextView tvPwContent;
+        public final ImageView ivPwPicture;
+        public final TextView tvPWdate;
+        public final TextView tvPwMonth;
+        public final TextView tvPwYear;
+
 
         public ViewHolder(View view) {
             super(view);
-            mView = view;
-            mIdView = (TextView) view.findViewById(R.id.id);
-            mContentView = (TextView) view.findViewById(R.id.content);
-        }
-
-        @Override
-        public String toString() {
-            return super.toString() + " '" + mContentView.getText() + "'";
+            tvPwContent = (TextView) view.findViewById(R.id.tvPwContent);
+            ivPwPicture = (ImageView) view.findViewById((R.id.ivPet));
+            tvPWdate = (TextView) view.findViewById(R.id.tvPWdate);
+            tvPwMonth = (TextView) view.findViewById(R.id.tvPwMonth);
+            tvPwYear = (TextView) view.findViewById(R.id.tvPwYear);
         }
     }
 }

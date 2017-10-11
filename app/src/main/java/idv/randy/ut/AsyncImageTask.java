@@ -7,7 +7,6 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.ImageView;
 
-import com.example.java.iPet.R;
 import com.google.gson.JsonObject;
 
 import java.io.ByteArrayOutputStream;
@@ -26,6 +25,7 @@ public class AsyncImageTask extends AsyncTask<String, Integer, Bitmap> {
     private static final String TAG = "AsyncImageTask";
     private ImageView imageView;
     private ImageListener imageListener;
+    private int id;
     private int no;
     private int imgSize = 0;
     byte[] byt;
@@ -42,10 +42,17 @@ public class AsyncImageTask extends AsyncTask<String, Integer, Bitmap> {
         this.imageView = imageView;
     }
 
-    public AsyncImageTask(int no, ImageView imageView, int imgSize) {
+    public AsyncImageTask(int no, ImageView imageView, int id, int imgSize) {
         this.no = no;
         this.imageView = imageView;
+        this.id = id;
         this.imgSize = imgSize;
+    }
+
+    public AsyncImageTask(int no, ImageView imageView, int id) {
+        this.no = no;
+        this.imageView = imageView;
+        this.id = id;
     }
 
     @Override
@@ -71,19 +78,10 @@ public class AsyncImageTask extends AsyncTask<String, Integer, Bitmap> {
         if (imageListener == null) {
             if (bitmap != null) {
                 imageView.setImageBitmap(bitmap);
-
-//            Glide.with(Me.gc()).load(byt).into(imageView);
-//            Glide.with(Me.gc()).load(bitmap).into(imageView);
-
-            } else {
-                imageView.setImageResource(R.drawable.empty);
-
-//            imageView.setImageBitmap(null);
-//            imageView.setVisibility(View.GONE);
-//            imageView.set;
-//            Glide.with(Me.gc()).load(bitmap).into(imageView);
+            } else if (id != 0) {
+                imageView.setImageResource(id);
             }
-        }else{
+        } else {
             imageListener.onFinish(bitmap);
         }
 

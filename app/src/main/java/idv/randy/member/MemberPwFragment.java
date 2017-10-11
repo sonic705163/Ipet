@@ -5,69 +5,56 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.java.iPet.R;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
-import idv.randy.member.dummy.DummyContent;
-import idv.randy.member.dummy.DummyContent.DummyItem;
+import java.util.List;
 
-/**
- * A fragment representing a list of Items.
- * <p/>
- * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
- * interface.
- */
+import idv.randy.petwall.PwVO;
+import idv.randy.ut.AsyncAdapter;
+import idv.randy.ut.AsyncObjTask;
+import idv.randy.ut.Me;
+
 public class MemberPwFragment extends Fragment {
+    private static final String TAG = "MemberPwFragment";
+    private int memNo;
+    private List<PwVO> PwVOs;
+    private View view;
 
-    // TODO: Customize parameter argument names
-    private static final String ARG_COLUMN_COUNT = "column-count";
-    // TODO: Customize parameters
-    private int mColumnCount = 1;
-    private OnListFragmentInteractionListener mListener;
 
-    /**
-     * Mandatory empty constructor for the fragment manager to instantiate the
-     * fragment (e.g. upon screen orientation changes).
-     */
     public MemberPwFragment() {
-    }
-
-    // TODO: Customize parameter initialization
-    @SuppressWarnings("unused")
-    public static MemberPwFragment newInstance(int columnCount) {
-        MemberPwFragment fragment = new MemberPwFragment();
-        Bundle args = new Bundle();
-        args.putInt(ARG_COLUMN_COUNT, columnCount);
-        fragment.setArguments(args);
-        return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        Log.d(TAG, "onCreate: ");
         if (getArguments() != null) {
-            mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
+            memNo = getArguments().getInt("memNo");
+            Log.d(TAG, "MemberPwFragment memNo in " + memNo);
         }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.r_fragment_memberpw_list, container, false);
-
-        // Set the adapter
-        if (view instanceof RecyclerView) {
-            Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
-
-                recyclerView.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL));
-
-            recyclerView.setAdapter(new MyMemberPwRecyclerViewAdapter(DummyContent.ITEMS, mListener));
-        }
+        Log.d(TAG, "onCreateView: ");
+        view = inflater.inflate(R.layout.r_fragment_memberpw_list, container, false);
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("action", "getMemberPw");
+        jsonObject.addProperty("memNo", memNo);
+        new AsyncObjTask(getPwAdapter, jsonObject).execute(Me.PetServlet);
         return view;
     }
 
@@ -75,32 +62,31 @@ public class MemberPwFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnListFragmentInteractionListener) {
-            mListener = (OnListFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnListFragmentInteractionListener");
-        }
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnListFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onListFragmentInteraction(DummyItem item);
-    }
+    AsyncAdapter getPwAdapter = new AsyncAdapter() {
+        @Override
+        public void onGoing(int progress) {
+            Log.d(TAG, "onGoing: " + progress);
+        }
+
+        @Override
+        public void onFinish(String result) {
+            if (result != null) {
+                PwVOs = PwVO.decodeToList(result);
+                if (PwVOs != null) {
+                    Context context = view.getContext();
+                    RecyclerView recyclerView = (RecyclerView) view;
+                    recyclerView.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL));
+                    recyclerView.setAdapter(new MyMemberPwRecyclerViewAdapter(PwVOs));
+                }
+            }
+        }
+    };
+
 }

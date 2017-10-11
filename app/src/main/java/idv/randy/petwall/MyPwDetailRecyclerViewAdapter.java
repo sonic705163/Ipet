@@ -42,7 +42,7 @@ public class MyPwDetailRecyclerViewAdapter extends RecyclerView.Adapter<MyPwDeta
         holder.tvMemID.setText(mMembersVOs.get(position).getMemName());
         holder.tvPwrContent.setText(mPwrVOs.get(position).getPwrcontent());
         int memNo = mMembersVOs.get(position).getMemNo();
-        new AsyncImageTask(memNo, holder.ivMemImg).execute(Me.MembersServlet);
+        new AsyncImageTask(memNo, holder.ivMemImg, R.drawable.person).execute(Me.MembersServlet);
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

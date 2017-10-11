@@ -3,6 +3,7 @@ package idv.randy.me;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -18,15 +19,17 @@ import android.widget.TextView;
 import com.example.java.iPet.R;
 import com.google.gson.JsonObject;
 
+import idv.randy.member.MemberPwActivity;
 import idv.randy.ut.AsyncAdapter;
 import idv.randy.ut.AsyncImageTask;
 import idv.randy.ut.AsyncObjTask;
+import idv.randy.ut.ImageListener;
 import idv.randy.ut.Me;
 
 import static android.content.Context.MODE_PRIVATE;
 
 
-public class MeFragment extends Fragment implements View.OnClickListener{
+public class MeFragment extends Fragment implements View.OnClickListener, ImageListener {
     private static final String TAG = "MeFragment";
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -38,6 +41,8 @@ public class MeFragment extends Fragment implements View.OnClickListener{
     private String mParam2;
     private TextView tvMemName;
     private TextView tvMemID;
+    private TextView tvLogOut;
+    private ImageView ivMemImg;
     LinearLayout llFeedback;
     AsyncAdapter asyncAdapeter = new AsyncAdapter() {
         @Override
@@ -50,8 +55,9 @@ public class MeFragment extends Fragment implements View.OnClickListener{
     };
     private MeFragmentListener mListener;
     private String memName;
-    private ImageView ivMemImg;
+
     private ImageView ivLogOut;
+    private ImageView ivMyPw;
     private View view;
 
     public MeFragment() {
@@ -102,30 +108,27 @@ public class MeFragment extends Fragment implements View.OnClickListener{
         Log.d(TAG, "onCreateView: ");
         view = inflater.inflate(R.layout.r_fragment_me, container, false);
         findViews();
-        new AsyncImageTask(memNo, ivMemImg).execute(Me.MembersServlet);
+        new AsyncImageTask(memNo, ivMemImg, R.drawable.person).execute(Me.MembersServlet);
         jsonObject = new JsonObject();
         jsonObject.addProperty("action", "getVO");
         jsonObject.addProperty("memNo", memNo);
         new AsyncObjTask(asyncAdapeter, jsonObject).execute(Me.MembersServlet);
-        ivLogOut.setOnClickListener(v1 -> {
-            SharedPreferences.Editor editor = getActivity().getSharedPreferences("UserData", MODE_PRIVATE).edit();
-            editor.putBoolean("login", false);
-            editor.putString("memName", "none");
-            editor.apply();
-            mListener.logOut();
-        });
+        ivLogOut.setOnClickListener(this);
         llFeedback.setOnClickListener(this);
-
+        ivMyPw.setOnClickListener(this);
+        ivMyPw.setOnClickListener(this);
+        tvLogOut.setOnClickListener(this);
         return view;
     }
 
     private void findViews() {
         ivLogOut = (ImageView) view.findViewById(R.id.ivLogOut);
         ivMemImg = (ImageView) view.findViewById(R.id.ivMemImg);
+        ivMyPw = (ImageView) view.findViewById(R.id.ivMyPw);
         tvMemName = (TextView) view.findViewById(R.id.tvMemName);
+        tvLogOut = (TextView) view.findViewById(R.id.tvLogOut);
         tvMemID = (TextView) view.findViewById(R.id.tvMemId);
-        llFeedback = (LinearLayout)view.findViewById(R.id.llFeedback);
-
+        llFeedback = (LinearLayout) view.findViewById(R.id.llFeedback);
     }
 
     @Override
@@ -187,14 +190,43 @@ public class MeFragment extends Fragment implements View.OnClickListener{
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.llFeedback:
                 Intent intent = new Intent(getActivity(), FeedbackActivity.class);
                 startActivity(intent);
+                break;
+            case R.id.ivMyPw:
+                MemberPwActivity.start(Me.gc(), memNo);
+                break;
+            case R.id.tvMyPw:
+                MemberPwActivity.start(Me.gc(), memNo);
+                break;
+            case R.id.ivLogOut:
+                SharedPreferences.Editor editor = getActivity().getSharedPreferences("UserData", MODE_PRIVATE).edit();
+                editor.putBoolean("login", false);
+                editor.putString("memName", "none");
+                editor.apply();
+                mListener.logOut();
+                break;
+            case R.id.tvLogOut:
+                editor = getActivity().getSharedPreferences("UserData", MODE_PRIVATE).edit();
+                editor.putBoolean("login", false);
+                editor.putString("memName", "none");
+                editor.apply();
+                mListener.logOut();
+                break;
+            default:
+                break;
         }
+    }
 
-
-
+    @Override
+    public void onFinish(Bitmap bitmap) {
+        if (bitmap != null) {
+            ivMemImg.setImageBitmap(bitmap);
+        } else {
+            ivMemImg.setImageResource(R.drawable.person);
+        }
     }
 
     public interface MeFragmentListener {

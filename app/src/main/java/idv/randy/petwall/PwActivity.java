@@ -3,6 +3,7 @@ package idv.randy.petwall;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
@@ -42,16 +43,16 @@ import idv.randy.member.MemberActivity;
 import idv.randy.ut.AsyncAdapter;
 import idv.randy.ut.AsyncImageTask;
 import idv.randy.ut.AsyncObjTask;
+import idv.randy.ut.ImageListener;
 import idv.randy.ut.Me;
 
-public class PwActivity extends AppCompatActivity implements View.OnClickListener {
+public class PwActivity extends AppCompatActivity implements View.OnClickListener{
 
     private static final String TAG = "PwActivity";
     private static final String URL = Me.PetServlet;
     MyVOAdapter myVOAdapter;
     Toolbar toolbar;
-    TextView tvDog;
-    TextView tvCat;
+    TextView tvAll;
     private List<PwVO> mPwVO;
 
     AsyncAdapter getPwAdapter = new AsyncAdapter() {
@@ -97,7 +98,7 @@ public class PwActivity extends AppCompatActivity implements View.OnClickListene
         new AsyncObjTask(getPwAdapter, jsonObject).execute(URL);
         setSupportActionBar(toolbar);
 
-        tvDog.setOnClickListener(this);
+        tvAll.setOnClickListener(this);
         ivSearch.setOnClickListener(this);
         if (savedInstanceState != null) {
             mPwVO = savedInstanceState.getParcelableArrayList("mPwVO");
@@ -123,7 +124,7 @@ public class PwActivity extends AppCompatActivity implements View.OnClickListene
 
     private void findViews() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        tvDog = (TextView) findViewById(R.id.tvAll);
+        tvAll = (TextView) findViewById(R.id.tvAll);
         etSearch = (EditText) findViewById(R.id.etSearch);
         ivSearch = (ImageView) findViewById(R.id.ivSearch);
     }
@@ -216,7 +217,7 @@ public class PwActivity extends AppCompatActivity implements View.OnClickListene
         outState.putParcelableArrayList("mPwVO", (ArrayList<? extends Parcelable>) mPwVO);
     }
 
-    public class MyVOAdapter extends RecyclerView.Adapter<MyVOAdapter.MyViewHolder> {
+    public class MyVOAdapter extends RecyclerView.Adapter<MyVOAdapter.MyViewHolder>{
         private List<PwVO> mPwVO;
         private List<Integer> counts;
 
@@ -237,6 +238,7 @@ public class PwActivity extends AppCompatActivity implements View.OnClickListene
             View v = layoutInflater.inflate(R.layout.r_activity_pw_item, parent, false);
             MyViewHolder myViewHolder = new MyViewHolder(v);
 
+
             View.OnClickListener onReplyClickListener = new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -244,7 +246,6 @@ public class PwActivity extends AppCompatActivity implements View.OnClickListene
                     PwVO pw = mPwVO.get(position);
                     int pwNo = pw.getPwNo();
                     PwDetailActivity.start(PwActivity.this, pwNo);
-
                 }
             };
             myViewHolder.llPwReply.setOnClickListener(onReplyClickListener);
@@ -274,7 +275,6 @@ public class PwActivity extends AppCompatActivity implements View.OnClickListene
                     } else {
                         praised.remove(position);
                         pwPraise -= 1;
-
                     }
                     JsonObject jsonObject = new JsonObject();
                     jsonObject.addProperty("action", "updatePraise");
@@ -332,10 +332,21 @@ public class PwActivity extends AppCompatActivity implements View.OnClickListene
 
 
                 int pwNo = pw.getPwNo();
-                new AsyncImageTask(pwNo, holder.ivPwPicture).execute(Me.PetServlet);
+                new AsyncImageTask(pwNo, holder.ivPwPicture, R.drawable.empty).execute(Me.PetServlet);
 
                 int memNo = pw.getMemno();
-                new AsyncImageTask(memNo, holder.ivMemImg).execute(Me.MembersServlet);
+                ImageListener imageListener = new ImageListener() {
+                    @Override
+                    public void onFinish(Bitmap bitmap) {
+                        if (bitmap != null) {
+                            holder.ivMemImg.setImageBitmap(bitmap);
+                        } else {
+                            holder.ivMemImg.setImageResource(R.drawable.person);
+                        }
+                    }
+                };
+                new AsyncImageTask(memNo, holder.ivMemImg, R.drawable.person).execute(Me.MembersServlet);
+
 
                 JsonObject jsonObject = new JsonObject();
                 jsonObject.addProperty("action", "getVO");
@@ -357,8 +368,12 @@ public class PwActivity extends AppCompatActivity implements View.OnClickListene
                 switch (type) {
                     case 0:
                         Log.d(TAG, "updatePwPraise: ");
-                        holder.tvPwPraise.setText(String.valueOf(Integer.valueOf(pw.getPwPraise())));
 
+                        if (Integer.valueOf(pw.getPwPraise()) > 0) {
+                            holder.tvPwPraise.setText(pw.getPwPraise());
+                        } else {
+                            holder.tvPwPraise.setText("讚");
+                        }
                 }
             }
         }
@@ -406,5 +421,6 @@ public class PwActivity extends AppCompatActivity implements View.OnClickListene
         jsonObject.addProperty("action", "getPw");
         jsonObject.addProperty("keyword", "");
         new AsyncObjTask(getPwAdapter, jsonObject).execute(URL);
+
     }
 }
