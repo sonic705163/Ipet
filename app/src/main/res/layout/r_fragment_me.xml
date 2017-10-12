@@ -247,6 +247,7 @@
                 android:orientation="vertical">
 
                 <ImageView
+                    android:id="@+id/ivmail"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:src="@drawable/ic_playlist_add_check_black_24dp"

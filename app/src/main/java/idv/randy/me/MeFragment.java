@@ -3,7 +3,6 @@ package idv.randy.me;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -19,11 +18,11 @@ import android.widget.TextView;
 import com.example.java.iPet.R;
 import com.google.gson.JsonObject;
 
+import idv.jack.MailReceive;
 import idv.randy.member.MemberPwActivity;
 import idv.randy.ut.AsyncAdapter;
 import idv.randy.ut.AsyncImageTask;
 import idv.randy.ut.AsyncObjTask;
-import idv.randy.ut.ImageListener;
 import idv.randy.ut.Me;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -53,7 +52,7 @@ public class MeFragment extends Fragment implements View.OnClickListener{
     };
     private TextView tvLogOut;
     private TextView tvMyPw;
-    private ImageView ivMemImg;
+    private ImageView ivMemImg ,ivmail;
     private MeFragmentListener mListener;
     private String memName;
 
@@ -119,6 +118,7 @@ public class MeFragment extends Fragment implements View.OnClickListener{
         ivMyPw.setOnClickListener(this);
         tvMyPw.setOnClickListener(this);
         tvLogOut.setOnClickListener(this);
+        ivmail.setOnClickListener(this);
         return view;
     }
 
@@ -131,6 +131,7 @@ public class MeFragment extends Fragment implements View.OnClickListener{
         tvMemID = (TextView) view.findViewById(R.id.tvMemId);
         tvMyPw = (TextView) view.findViewById(R.id.tvMyPw);
         llFeedback = (LinearLayout) view.findViewById(R.id.llFeedback);
+        ivmail = (ImageView) view.findViewById(R.id.ivmail);
     }
 
     @Override
@@ -196,6 +197,10 @@ public class MeFragment extends Fragment implements View.OnClickListener{
             case R.id.llFeedback:
                 Intent intent = new Intent(getActivity(), FeedbackActivity.class);
                 startActivity(intent);
+                break;
+            case R.id.ivmail:
+                Intent intent1 = new Intent(getActivity(), MailReceive.class);
+                startActivity(intent1);
                 break;
             case R.id.ivMyPw:
                 MemberPwActivity.start(Me.gc(), memNo);
