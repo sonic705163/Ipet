@@ -30,7 +30,6 @@ public class AsyncImageTask extends AsyncTask<String, Integer, Bitmap> {
     private int imgSize = 0;
     byte[] byt;
 
-
     public AsyncImageTask(int no, ImageView imageView, ImageListener imageListener) {
         this.no = no;
         this.imageView = imageView;
@@ -84,7 +83,6 @@ public class AsyncImageTask extends AsyncTask<String, Integer, Bitmap> {
         } else {
             imageListener.onFinish(bitmap);
         }
-
 
     }
 

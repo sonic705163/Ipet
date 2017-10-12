@@ -1,5 +1,6 @@
 package idv.randy.petwall;
 
+import android.app.Activity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,12 +13,13 @@ import com.example.java.iPet.R;
 import java.util.List;
 
 import idv.randy.me.MembersVO;
+import idv.randy.member.MemberActivity;
 import idv.randy.petwall.PwDetailFragment.OnListFragmentInteractionListener;
 import idv.randy.ut.AsyncImageTask;
 import idv.randy.ut.Me;
 
 
-public class MyPwDetailRecyclerViewAdapter extends RecyclerView.Adapter<MyPwDetailRecyclerViewAdapter.ViewHolder> {
+public class MyPwDetailRecyclerViewAdapter extends RecyclerView.Adapter<MyPwDetailRecyclerViewAdapter.ViewHolder> implements View.OnClickListener {
 
     private final List<PwrVO> mPwrVOs;
     private final List<MembersVO> mMembersVOs;
@@ -43,19 +45,29 @@ public class MyPwDetailRecyclerViewAdapter extends RecyclerView.Adapter<MyPwDeta
         holder.tvPwrContent.setText(mPwrVOs.get(position).getPwrcontent());
         int memNo = mMembersVOs.get(position).getMemNo();
         new AsyncImageTask(memNo, holder.ivMemImg, R.drawable.person).execute(Me.MembersServlet);
-        holder.mView.setOnClickListener(new View.OnClickListener() {
+
+        View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (null != mListener) {
-                    mListener.onListFragmentInteraction(holder.mItem);
-                }
+                Activity activity = (Activity) holder.tvMemID.getContext();
+                MemberActivity.start(activity, memNo);
             }
-        });
+        };
+        holder.tvMemID.setOnClickListener(onClickListener);
+        holder.ivMemImg.setOnClickListener(onClickListener);
     }
 
     @Override
     public int getItemCount() {
         return mPwrVOs.size();
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.tvMemID:
+
+        }
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
