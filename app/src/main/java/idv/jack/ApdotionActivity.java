@@ -85,7 +85,7 @@ public class ApdotionActivity extends AppCompatActivity {
                 Log.e(TAG, e.toString());
             }
             if (cases == null || cases.isEmpty()) {
-                Common.showToast(this, R.string.msg_NoSpotsFound);
+//                Common.showToast(this, R.string.msg_NoSpotsFound);
             } else {
 //                csListView.setAdapter(new CaseAdapter(this, cases));
             }
@@ -137,11 +137,14 @@ public class ApdotionActivity extends AppCompatActivity {
             myViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    petInformation fragment = new petInformation();
+//                    petInformation fragment = new petInformation();
+                    Intent intent = new Intent(ApdotionActivity.this,petInformation.class);
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("cs", cs);
-                    fragment.setArguments(bundle);
-                    petinformation.beginTransaction().replace(R.id.flMainActivity, fragment).addToBackStack(null).commit();
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+//                    fragment.setArguments(bundle);
+//                    petinformation.beginTransaction().replace(R.id.flMainActivity, fragment).addToBackStack(null).commit();
 
                 }
             });

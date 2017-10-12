@@ -5,11 +5,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
-import android.view.LayoutInflater;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -25,10 +22,7 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import java.util.HashSet;
-import java.util.Set;
-
-public class petInformation extends Fragment  implements OnMapReadyCallback {
+public class petInformation extends AppCompatActivity implements OnMapReadyCallback {
     private static final String TAG = "petInformation";
     private TextView petName, petColor, petAge, petSize, petTnr, petIc, petPosition, petSex, lng, lon;
     private Button btwebmail;
@@ -46,35 +40,35 @@ public class petInformation extends Fragment  implements OnMapReadyCallback {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        super.onCreateView(inflater, container, savedInstanceState);
-        view = inflater.inflate(R.layout.fragment_petinformation, container, false);
-        cs = (Case) getArguments().getSerializable("cs");
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_petinformation);
+//        cs = (Case) getArguments().getSerializable("cs");
 
-        mapview = (MapView) view.findViewById(R.id.mapview);
+
+        mapview = (MapView)findViewById(R.id.mapview);
         mapview.onCreate(savedInstanceState);
         mapview.onResume();
-        MapsInitializer.initialize(getActivity());
+        MapsInitializer.initialize(this);
         mapview.getMapAsync(this);
         findViwe(cs);
         btwebmail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(view.getContext(),WebmailSend.class);
+                Intent intent = new Intent(petInformation.this,WebmailSend.class);
                 Bundle bundle =new Bundle();
                 bundle.putSerializable("memno",cs.getMemNo());
                 intent.putExtras(bundle);
                 startActivity(intent);
             }
         });
-        return view;
+
 
     }
 
     private void setUpMap() {
         myLocation = new LatLng(cs.getPetLatitude(), cs.getPetLongitude());
-        if (ActivityCompat.checkSelfPermission(this.getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) ==
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) ==
                 PackageManager.PERMISSION_GRANTED) {
             googleMap.setMyLocationEnabled(true);
 
@@ -91,32 +85,32 @@ public class petInformation extends Fragment  implements OnMapReadyCallback {
 
 
     private void findViwe(Case cs) {
-        petName = (TextView) view.findViewById(R.id.petName);
-        petColor = (TextView) view.findViewById(R.id.petColor);
-        petAge = (TextView) view.findViewById(R.id.petAge);
-        petSize = (TextView) view.findViewById(R.id.petSize);
-        petTnr = (TextView) view.findViewById(R.id.petTnr);
-        petIc = (TextView) view.findViewById(R.id.petIc);
-        petPosition = (TextView) view.findViewById(R.id.petposition);
-        petSex = (TextView) view.findViewById(R.id.petSex);
-        btwebmail =(Button)view.findViewById(R.id.btwebmail);
+        petName = (TextView) findViewById(R.id.petName);
+        petColor = (TextView) findViewById(R.id.petColor);
+        petAge = (TextView) findViewById(R.id.petAge);
+        petSize = (TextView) findViewById(R.id.petSize);
+        petTnr = (TextView) findViewById(R.id.petTnr);
+        petIc = (TextView) findViewById(R.id.petIc);
+        petPosition = (TextView) findViewById(R.id.petposition);
+        petSex = (TextView) findViewById(R.id.petSex);
+        btwebmail =(Button)findViewById(R.id.btwebmail);
 
     }
 
 
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        petName.setText(cs.getPetName());
-        petColor.setText(cs.getPetColor());
-        petAge.setText(cs.getPetAge());
-        petSize.setText(cs.getPetSize());
-        petTnr.setText(cs.getTNR());
-        petIc.setText(cs.getPetIc());
-        petPosition.setText(cs.getPetPosition());
-        petSex.setText(cs.getPetSex());
-
-
-    }
+//    public void onActivityCreated(Bundle savedInstanceState) {
+//        super.onActivityCreated(savedInstanceState);
+//        petName.setText(cs.getPetName());
+//        petColor.setText(cs.getPetColor());
+//        petAge.setText(cs.getPetAge());
+//        petSize.setText(cs.getPetSize());
+//        petTnr.setText(cs.getTNR());
+//        petIc.setText(cs.getPetIc());
+//        petPosition.setText(cs.getPetPosition());
+//        petSex.setText(cs.getPetSex());
+//
+//
+//    }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -126,6 +120,15 @@ public class petInformation extends Fragment  implements OnMapReadyCallback {
     @Override
     public void  onStart(){
         super.onStart();
+        cs = (Case) this.getIntent().getExtras().getSerializable("cs");
+        petName.setText(cs.getPetName());
+        petColor.setText(cs.getPetColor());
+        petAge.setText(cs.getPetAge());
+        petSize.setText(cs.getPetSize());
+        petTnr.setText(cs.getTNR());
+        petIc.setText(cs.getPetIc());
+        petPosition.setText(cs.getPetPosition());
+        petSex.setText(cs.getPetSex());
 
     }
 

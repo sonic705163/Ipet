@@ -188,11 +188,16 @@ public class ApdoInsertActivity extends AppCompatActivity {
                 Double petLatitude =0.0;
                 Double petLongitude =0.0;
                 try {
-                    addressList = new Geocoder(view.getContext()).getFromLocationName(petPosition, 1);
+                    addressList = new Geocoder(getBaseContext()).getFromLocationName(petPosition, 1);
                     petLatitude = addressList.get(0).getLatitude();
                     petLongitude = addressList.get(0).getLongitude();
                     cs.setPetLatitude(petLatitude);
                     cs.setPetLongitude(petLongitude);
+                    Log.e("add",petLatitude+"");
+                    if(addressList==null || addressList.isEmpty()){
+                       Common.showToast(view.getContext(),"請填地址");
+                    }
+
                 }catch (IOException e){
                     Log.e(TAG,e.toString());
                 }

@@ -45,7 +45,7 @@ public class MailReceive extends AppCompatActivity {
         if (Common.networkConnected(this)) {
             String url = Common.URL1;
             JsonObject jsonObject2 = new JsonObject();
-            jsonObject2.addProperty("action", "getAll");
+            jsonObject2.addProperty("action", "receive");
             jsonObject2.addProperty("memNo", memNo);
             String jsonOut2 = jsonObject2.toString();
             webmailtask = new MyTask(url, jsonOut2);
@@ -80,7 +80,7 @@ public class MailReceive extends AppCompatActivity {
 
         @Override
         public int getItemCount() {
-            Log.d("bbb",webmaillist.size()+"");
+
             return webmaillist.size();
         }
 

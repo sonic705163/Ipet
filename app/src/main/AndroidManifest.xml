@@ -65,6 +65,7 @@
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity android:name="idv.randy.member.MemberPwActivity"></activity>
         <activity android:name="idv.jack.ApdotionActivity" />
+        <activity android:name="idv.jack.petInformation" />
         <activity android:name="idv.jack.ApdoInsertActivity" />
         <activity android:name="idv.jack.WebmailSend" />
         <activity android:name="idv.jack.MailReceive"></activity>

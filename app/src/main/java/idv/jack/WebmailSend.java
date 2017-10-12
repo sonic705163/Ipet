@@ -36,6 +36,7 @@ public class WebmailSend extends AppCompatActivity {
                 String MailContent = etMailContent.getText().toString().trim();
                 webmailvo.setMailContext(MailContent);
                 getmemno(webmailvo);
+                finish();
             }
 
         });
