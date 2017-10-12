@@ -15,13 +15,11 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.IdRes;
-import android.support.v4.app.Fragment;
 import android.support.v4.content.FileProvider;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -38,12 +36,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-import static android.app.Activity.RESULT_OK;
-import static android.content.Context.MODE_PRIVATE;
-
-
-public class ApdoInsert extends Fragment {
-    String TAG ="ApdoInsert";
+public class ApdoInsertActivity extends AppCompatActivity {
+    String TAG ="ApdoInsertActivity";
     private EditText edpetname  , edpetcloor, edposition , edsituation;
     private Button btFinishInsert,btpic,bttp;
     private ImageView ivp;
@@ -53,101 +47,11 @@ public class ApdoInsert extends Fragment {
     private Case cs = new Case();
     private static final int REQUEST_TAKE_PICTURE =0;
     private static final int REQUEST_PICK_IMAGE = 1;
-
-
-
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-      View rootView =inflater.inflate(R.layout.fragment_apdo_insert, container, false);
-        findViews(rootView);
-
-
-        return rootView;
-    }
-
-    private void findViews(View rootView) {
-        btFinishInsert = (Button) rootView.findViewById(R.id.btFinishInsert);
-        bttp =(Button)rootView.findViewById(R.id.bttp);
-        btpic =(Button)rootView.findViewById(R.id.btpic);
-        ivp = (ImageView)rootView.findViewById(R.id.ivp);
-        edpetname =(EditText)rootView.findViewById(R.id.edpetname);
-        edpetcloor = (EditText)rootView.findViewById(R.id.edpetcolor);
-        edposition = (EditText)rootView.findViewById(R.id. edposition);
-        edsituation = (EditText)rootView.findViewById(R.id.edsituation);
-        rdage = (RadioGroup) rootView.findViewById(R.id.rdage);
-        rdsex = (RadioGroup)rootView.findViewById(R.id.rdsex);
-        rdsize = (RadioGroup)rootView.findViewById(R.id.rdsize);
-        rdpetic = (RadioGroup)rootView.findViewById(R.id.rdpetic);
-        rdtnr = (RadioGroup) rootView.findViewById(R.id.rdtnr);
-
-    }
-    private boolean isIntentAvailable(Context context ,Intent intent){
-        PackageManager packageManager =context.getPackageManager();
-        List<ResolveInfo> list = packageManager.queryIntentActivities(intent,PackageManager.MATCH_DEFAULT_ONLY);
-        return list.size()>0;
-    }
-    @Override
-    public void  onActivityResult(int requestCode,int resultCode ,Intent intent){
-        super.onActivityResult(requestCode,resultCode,intent);
-        if(resultCode == RESULT_OK){
-            switch (requestCode){
-                case REQUEST_TAKE_PICTURE:
-                    Bitmap picture = BitmapFactory.decodeFile(file.getPath());
-                    ivp.setImageBitmap(picture);
-                    ByteArrayOutputStream out1 = new ByteArrayOutputStream();
-                    picture.compress(Bitmap.CompressFormat.JPEG,100,out1);
-                    image = out1.toByteArray();
-                    break;
-                case REQUEST_PICK_IMAGE:
-                    Uri uri = intent.getData();
-                    String[] columns ={MediaStore.Images.Media.DATA};
-                    Cursor cursor =getActivity().getContentResolver().query(uri,columns,null,null,null);
-                    if(cursor!=null && cursor.moveToFirst()){
-                        String imagePath = cursor.getString(0);
-                        cursor.close();
-                        Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
-                        ivp.setImageBitmap(bitmap);
-                        ByteArrayOutputStream out2 = new ByteArrayOutputStream();
-                        bitmap.compress(Bitmap.CompressFormat.JPEG,100,out2);
-                        image = out2.toByteArray();
-                    }
-                    break;
-            }
-        }
-    }
-
-    private void insert(Case cs){
-        SharedPreferences pref = getActivity().getSharedPreferences("UserData" ,MODE_PRIVATE);//抓偏好設定黨
-        Integer memNo = pref.getInt("memNo", 0);
-        if (Common.networkConnected(getActivity())) {
-            String url = Common.URL ;
-            cs.setMemNo(memNo);
-
-            String petFilm = Base64.encodeToString(image, Base64.DEFAULT);
-            JsonObject jsonObject = new JsonObject();
-            jsonObject.addProperty("param", "spotInsert");
-            jsonObject.addProperty("petInformationVO", new Gson().toJson(cs));
-            jsonObject.addProperty("petFilm", petFilm);
-            int count = 0;
-            try {
-                String result = new MyTask(url, jsonObject.toString()).execute().get();
-                count = Integer.valueOf(result);
-            } catch (Exception e) {
-                        Log.e(TAG, e.toString());
-            }
-            if (count == 0) {
-                Common.showToast(getActivity(), R.string.msg_InsertFail);
-            } else {
-                Common.showToast(getActivity(), R.string.msg_InsertSuccess);
-            }
-            } else {
-                Common.showToast(getActivity(), R.string.msg_NoNetwork);
-        }
-
-    }
-    public void  onActivityCreated(Bundle savedInstanceState){
-        super.onActivityCreated(savedInstanceState);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_apdo_insert);
+        findViews();
         rdage.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, @IdRes int i) {
@@ -195,12 +99,12 @@ public class ApdoInsert extends Fragment {
                 Intent intent =new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 file= Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
                 file = new File(file,"picture.jpg");
-                Uri contentUri = FileProvider.getUriForFile(getActivity(),getActivity().getPackageName()+".provider",file);
+                Uri contentUri = FileProvider.getUriForFile(view.getContext(),getPackageName()+".provider",file);
                 intent.putExtra(MediaStore.EXTRA_OUTPUT,contentUri);
-                if (isIntentAvailable(getActivity(),intent)){
+                if (isIntentAvailable(view.getContext(),intent)){
                     startActivityForResult(intent,REQUEST_TAKE_PICTURE);
                 }else {
-                    Toast.makeText(getActivity(),"沒照片",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(view.getContext(),"沒照片",Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -218,61 +122,58 @@ public class ApdoInsert extends Fragment {
                 String petColor = edpetcloor.getText().toString().trim();
                 String petPosition  = edposition.getText().toString().trim();
                 String situation = edsituation.getText().toString().trim();
-
-
-
                 cs.setPetName(petName);
                 cs.setPetColor(petColor);
                 cs.setPetPosition(petPosition);
                 cs.setSituation(situation);
 
                 if(image==null){
-                    Common.showToast(getActivity(),"沒圖片請新增");
+                    Common.showToast(view.getContext(),"沒圖片請新增");
                     return;
                 }
 
                 else if (petName.length() <= 0 || petName ==null) {
-                    Common.showToast(getActivity(), "請輸入寵物姓名");
+                    Common.showToast(view.getContext(), "請輸入寵物姓名");
                     return;
                 }
-                 else if(petColor.length()==0 ||petColor==null){
-                    Common.showToast(getActivity(),"請輸入寵物顏色");
+                else if(petColor.length()==0 ||petColor==null){
+                    Common.showToast(view.getContext(),"請輸入寵物顏色");
                     return;
                 }
                 else if(petPosition.length()==0||petPosition==null){
-                    Common.showToast(getActivity(),"請輸入地址");
+                    Common.showToast(view.getContext(),"請輸入地址");
                     return;
                 }
                 else if(situation.length()==0||situation==null){
-                    Common.showToast(getActivity(),"請輸入寵物狀態");
+                    Common.showToast(view.getContext(),"請輸入寵物狀態");
                     return;
                 }
                 else if(cs.getPetAge()==null ){
-                    Common.showToast(getActivity(),"請輸入寵物年紀");
+                    Common.showToast(view.getContext(),"請輸入寵物年紀");
                     return;
                 }
                 else if(cs.getPetSex() == null){
-                    Common.showToast(getActivity(),"請填寵物性別");
+                    Common.showToast(view.getContext(),"請填寵物性別");
                     return;
                 }
                 else if(cs.getPetSize() == null){
-                    Common.showToast(getActivity(),"請填寵物大小");
+                    Common.showToast(view.getContext(),"請填寵物大小");
                     return;
                 }
 
                 else if(cs.getPetIc()==null ){
-                    Common.showToast(getActivity(),"請選擇有沒有晶片");
+                    Common.showToast(view.getContext(),"請選擇有沒有晶片");
                     return;
                 }
                 else if(cs.getTNR()==null ){
-                    Common.showToast(getActivity(),"請選擇有沒有結紮");
+                    Common.showToast(view.getContext(),"請選擇有沒有結紮");
                     return;
                 }
                 List<Address> addressList;
                 Double petLatitude =0.0;
                 Double petLongitude =0.0;
                 try {
-                    addressList = new Geocoder(getActivity()).getFromLocationName(petPosition, 1);
+                    addressList = new Geocoder(view.getContext()).getFromLocationName(petPosition, 1);
                     petLatitude = addressList.get(0).getLatitude();
                     petLongitude = addressList.get(0).getLongitude();
                     cs.setPetLatitude(petLatitude);
@@ -282,10 +183,92 @@ public class ApdoInsert extends Fragment {
                 }
 
                 insert(cs);
-                getFragmentManager().popBackStack();
+                finish();
             }
 
         });
+
     }
+
+    private void findViews() {
+        btFinishInsert = (Button)findViewById(R.id.btFinishInsert);
+        bttp =(Button)findViewById(R.id.bttp);
+        btpic =(Button)findViewById(R.id.btpic);
+        ivp = (ImageView)findViewById(R.id.ivp);
+        edpetname =(EditText)findViewById(R.id.edpetname);
+        edpetcloor = (EditText)findViewById(R.id.edpetcolor);
+        edposition = (EditText)findViewById(R.id. edposition);
+        edsituation = (EditText)findViewById(R.id.edsituation);
+        rdage = (RadioGroup) findViewById(R.id.rdage);
+        rdsex = (RadioGroup)findViewById(R.id.rdsex);
+        rdsize = (RadioGroup)findViewById(R.id.rdsize);
+        rdpetic = (RadioGroup)findViewById(R.id.rdpetic);
+        rdtnr = (RadioGroup)findViewById(R.id.rdtnr);
+
+    }
+    private boolean isIntentAvailable(Context context , Intent intent){
+        PackageManager packageManager =context.getPackageManager();
+        List<ResolveInfo> list = packageManager.queryIntentActivities(intent,PackageManager.MATCH_DEFAULT_ONLY);
+        return list.size()>0;
+    }    @Override
+    public void  onActivityResult(int requestCode,int resultCode ,Intent intent){
+        super.onActivityResult(requestCode,resultCode,intent);
+        if(resultCode == RESULT_OK){
+            switch (requestCode){
+                case REQUEST_TAKE_PICTURE:
+                    Bitmap picture = BitmapFactory.decodeFile(file.getPath());
+                    ivp.setImageBitmap(picture);
+                    ByteArrayOutputStream out1 = new ByteArrayOutputStream();
+                    picture.compress(Bitmap.CompressFormat.JPEG,100,out1);
+                    image = out1.toByteArray();
+                    break;
+                case REQUEST_PICK_IMAGE:
+                    Uri uri = intent.getData();
+                    String[] columns ={MediaStore.Images.Media.DATA};
+                    Cursor cursor =this.getContentResolver().query(uri,columns,null,null,null);
+                    if(cursor!=null && cursor.moveToFirst()){
+                        String imagePath = cursor.getString(0);
+                        cursor.close();
+                        Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
+                        ivp.setImageBitmap(bitmap);
+                        ByteArrayOutputStream out2 = new ByteArrayOutputStream();
+                        bitmap.compress(Bitmap.CompressFormat.JPEG,100,out2);
+                        image = out2.toByteArray();
+                    }
+                    break;
+            }
+        }
+    }
+
+    private void insert(Case cs){
+        SharedPreferences pref = this.getSharedPreferences("UserData" ,MODE_PRIVATE);//抓偏好設定黨
+        Integer memNo = pref.getInt("memNo", 0);
+        if (Common.networkConnected(this)) {
+            String url = Common.URL ;
+            cs.setMemNo(memNo);
+
+            String petFilm = Base64.encodeToString(image, Base64.DEFAULT);
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("param", "spotInsert");
+            jsonObject.addProperty("petInformationVO", new Gson().toJson(cs));
+            jsonObject.addProperty("petFilm", petFilm);
+            int count = 0;
+            try {
+                String result = new MyTask(url, jsonObject.toString()).execute().get();
+                count = Integer.valueOf(result);
+            } catch (Exception e) {
+                Log.e(TAG, e.toString());
+            }
+            if (count == 0) {
+                Common.showToast(this, R.string.msg_InsertFail);
+            } else {
+                Common.showToast(this, R.string.msg_InsertSuccess);
+            }
+        } else {
+            Common.showToast(this, R.string.msg_NoNetwork);
+        }
+
+    }
+
 
 }

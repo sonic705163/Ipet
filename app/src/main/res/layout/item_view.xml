@@ -21,68 +21,9 @@
             android:layout_height="wrap_content"
             android:padding="6dp"
             android:adjustViewBounds="true"
-
             />
 
-        <TextView
-            android:id="@+id/tvName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:padding="6dp"
-            android:text="Name" />
 
-
-        <TextView
-            android:id="@+id/tvAge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:padding="6dp"
-            android:text="Age" />
-
-        <TextView
-            android:id="@+id/tvSize"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:padding="6dp"
-            android:text="大小" />
-
-        <TextView
-            android:id="@+id/tvStatus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:autoText="false"
-            android:elevation="0dp"
-            android:padding="6dp"
-            android:text="狀態" />
-
-        <TextView
-            android:id="@+id/tvPetcolor"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:autoText="false"
-            android:elevation="0dp"
-            android:padding="6dp"
-            android:text="顏色" />
-
-        <TextView
-            android:id="@+id/tvPetposition"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:autoText="false"
-            android:elevation="0dp"
-            android:padding="6dp"
-            android:text="地點" />
-        <TextView
-            android:id="@+id/tvPetsex"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:autoText="false"
-            android:elevation="0dp"
-            android:padding="6dp"
-            android:text="性別" />
     </LinearLayout>
 
     <LinearLayout
@@ -97,6 +38,7 @@
             android:padding="6dp"
             android:textSize="20sp"
             android:text="故事" />
+
     </LinearLayout>
 
 

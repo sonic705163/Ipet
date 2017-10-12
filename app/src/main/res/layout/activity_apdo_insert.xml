@@ -1,0 +1,222 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/aaa"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    tools:context="idv.jack.ApdoInsert">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_margin="10dp">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/ivp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/default_image" />
+
+            <Button
+                android:id="@+id/btpic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/bttp"
+                android:layout_toRightOf="@+id/bttp"
+                android:text="選照片" />
+
+            <Button
+                android:id="@+id/bttp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/ivp"
+                android:layout_below="@+id/ivp"
+                android:onClick="onTakePictureClick"
+                android:text="拍照" />
+
+        </RelativeLayout>
+
+        <EditText
+            android:id="@+id/edpetname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="請輸入寵物名稱"
+            android:maxLength="10" />
+
+        <EditText
+            android:id="@+id/edpetcolor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="請輸入寵物顏色"
+            android:maxLength="5" />
+        <EditText
+            android:id="@+id/edposition"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="送養地址"
+            android:maxLength="25"/>
+        <EditText
+            android:id="@+id/edsituation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="寵物情況"
+            />
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="6dp"
+            android:text="寵物年齡:"
+            android:textSize="20sp" /></LinearLayout>
+        <RadioGroup
+
+            android:id="@+id/rdage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/rdagea"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:text="幼犬" />
+            <RadioButton
+                android:id="@+id/rdageb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="成犬"/>
+        </RadioGroup>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="6dp"
+                android:text="寵物性別:"
+                android:textSize="20sp" /></LinearLayout>
+        <RadioGroup
+            android:id="@+id/rdsex"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <RadioButton
+                android:id="@+id/rdman"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="男" />
+            <RadioButton
+                android:id="@+id/rdgirl"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="女"/>
+        </RadioGroup>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="6dp"
+                android:text="寵物大小:"
+                android:textSize="20sp" /></LinearLayout>
+        <RadioGroup
+            android:id="@+id/rdsize"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <RadioButton
+                android:id="@+id/rds"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="小型犬" />
+            <RadioButton
+                android:id="@+id/rdm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="中型犬"/>
+            <RadioButton
+                android:id="@+id/rdl"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="大型犬"/>
+        </RadioGroup>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="6dp"
+                android:text="寵物晶片:"
+                android:textSize="20sp" /></LinearLayout>
+        <RadioGroup
+            android:id="@+id/rdpetic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <RadioButton
+                android:id="@+id/rdpeticy"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="有" />
+            <RadioButton
+                android:id="@+id/rdpeticn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="沒有"/>
+        </RadioGroup>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="6dp"
+                android:text="寵物結紮:"
+                android:textSize="20sp" /></LinearLayout>
+        <RadioGroup
+            android:id="@+id/rdtnr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <RadioButton
+                android:id="@+id/rdtnry"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="有" />
+            <RadioButton
+                android:id="@+id/rdtnrn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="沒有"/>
+        </RadioGroup>
+
+
+        <Button
+            android:id="@+id/btFinishInsert"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/btCancel"
+            android:onClick="onFinishInsertClick"
+            android:text="新增" />
+
+    </LinearLayout>
+</ScrollView>
+

@@ -28,11 +28,11 @@ public class Case implements Serializable {
 
     public Case() {
         super();
-        // TODO Auto-generated constructor stub
+
     }
 
     public String getPetSex() {
-        return petSex;
+        return this.petSex;
     }
 
     public void setPetSex(String petSex) {
@@ -182,5 +182,7 @@ public class Case implements Serializable {
     public void setPetLatitude(Double petLatitude) {
         this.petLatitude = petLatitude;
     }
+
+
 
 }

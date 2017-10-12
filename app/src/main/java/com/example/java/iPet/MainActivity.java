@@ -1,5 +1,6 @@
 package com.example.java.iPet;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
+import idv.jack.ApdotionActivity;
 import idv.randy.me.LoginFragment;
 import idv.randy.me.MeFragment;
 import idv.randy.member.MemberActivity;
@@ -41,11 +43,8 @@ public class MainActivity extends AppCompatActivity implements PetWallFragment.O
                     loginStatus = pref.getBoolean("login", false);
                     switch (item.getItemId()) {
                         case R.id.adopt:
-                            MemberActivity.start(Me.gc(), 100000);
-                            break;
-                        case R.id.shop:
-
-                            break;
+                            Intent intent2 = new Intent(MainActivity.this, ApdotionActivity.class);
+                            startActivity(intent2);
                         case R.id.petWall:
                             Me.switchFragment(this, mainFragment, mPwEnterFragment).commit();
                             break;
