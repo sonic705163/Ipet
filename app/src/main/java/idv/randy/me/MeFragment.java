@@ -198,10 +198,10 @@ public class MeFragment extends Fragment implements View.OnClickListener{
                 startActivity(intent);
                 break;
             case R.id.ivMyPw:
-                MemberPwActivity.start(Me.gc(), memNo);
+                MemberPwActivity.start(getActivity(), memNo);
                 break;
             case R.id.tvMyPw:
-                MemberPwActivity.start(Me.gc(), memNo);
+                MemberPwActivity.start(getActivity(), memNo);
                 break;
             case R.id.ivLogOut:
                 SharedPreferences.Editor editor = getActivity().getSharedPreferences("UserData", MODE_PRIVATE).edit();

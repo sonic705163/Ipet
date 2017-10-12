@@ -52,7 +52,7 @@ public class MyMemberPwRecyclerViewAdapter extends RecyclerView.Adapter<MyMember
             @Override
             public void onClick(View v) {
                 Activity activity = (Activity) holder.tvPwContent.getContext();
-                PwDetailActivity.start(activity, pwNo);
+                PwDetailActivity.start(activity, pwNo, pw.getMemno());
             }
         };
         holder.tvPwContent.setOnClickListener(toPwrListener);

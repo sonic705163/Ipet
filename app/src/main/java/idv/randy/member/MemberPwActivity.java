@@ -13,7 +13,7 @@ public class MemberPwActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_member_pw);
+        setContentView(R.layout.r_activity_member_pw);
         Intent intent = getIntent();
         int memNo = intent.getExtras().getInt("memNo");
         Bundle arguments = new Bundle();

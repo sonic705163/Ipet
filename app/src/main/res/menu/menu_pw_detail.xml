@@ -3,8 +3,7 @@
       xmlns:tools="http://schemas.android.com/tools"
       tools:context="idv.randy.petwall.PwDetailActivity">
     <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="100"
-        android:title="@string/action_settings"
-        app:showAsAction="never"/>
+        android:id="@+id/delete"
+        android:title="刪除"
+        />
 </menu>

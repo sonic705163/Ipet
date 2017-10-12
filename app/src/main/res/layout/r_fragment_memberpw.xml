@@ -28,29 +28,28 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="date"
                     android:gravity="right|bottom"
+                    android:text="date"
                     android:textSize="24sp"/>
 
                 <TextView
                     android:id="@+id/tvPwMonth"
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:text="Month"
-                    android:textSize="12sp"
+                    android:layout_gravity="left|bottom"
                     android:layout_marginBottom="2sp"
-                    android:layout_gravity="left|bottom"/>
+                    android:layout_weight="1"
+                    android:text="Month"
+                    android:textSize="12sp"/>
             </LinearLayout>
 
             <TextView
                 android:id="@+id/tvPwYear"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="tvPwYear"
                 android:gravity="center"
+                android:text="tvPwYear"
                 android:textSize="16sp"/>
-
 
 
         </LinearLayout>
@@ -70,9 +69,9 @@
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:layout_weight="7"
+            android:maxLines="3"
             android:text="tvPwContent"
-            android:textSize="18sp"
-            android:maxLines="3"/>
+            android:textSize="18sp"/>
 
 
     </LinearLayout>

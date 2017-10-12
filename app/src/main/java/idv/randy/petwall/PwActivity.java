@@ -3,8 +3,6 @@ package idv.randy.petwall;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
@@ -44,10 +42,9 @@ import idv.randy.member.MemberActivity;
 import idv.randy.ut.AsyncAdapter;
 import idv.randy.ut.AsyncImageTask;
 import idv.randy.ut.AsyncObjTask;
-import idv.randy.ut.ImageListener;
 import idv.randy.ut.Me;
 
-public class PwActivity extends AppCompatActivity implements View.OnClickListener{
+public class PwActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "PwActivity";
     private static final String URL = Me.PetServlet;
@@ -170,6 +167,8 @@ public class PwActivity extends AppCompatActivity implements View.OnClickListene
             myVOAdapter = new MyVOAdapter(pwVO);
         }
         recyclerView.setAdapter(myVOAdapter);
+//        ((SimpleItemAnimator)recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
+//        recyclerView.getItemAnimator().setChangeDuration(0);
         Log.d(TAG, "updateRv: " + pwVO.size());
 //        staggeredGridLayoutManager.scrollToPositionWithOffset(pwVO.size()-1, 0);
 //        recyclerView.postDelayed(new Runnable() {
@@ -210,15 +209,13 @@ public class PwActivity extends AppCompatActivity implements View.OnClickListene
         return super.onOptionsItemSelected(item);
     }
 
-    boolean used = false;
-
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putParcelableArrayList("mPwVO", (ArrayList<? extends Parcelable>) mPwVO);
     }
 
-    public class MyVOAdapter extends RecyclerView.Adapter<MyVOAdapter.MyViewHolder>{
+    public class MyVOAdapter extends RecyclerView.Adapter<MyVOAdapter.MyViewHolder> {
         private List<PwVO> mPwVO;
         private List<Integer> counts;
 
@@ -246,7 +243,7 @@ public class PwActivity extends AppCompatActivity implements View.OnClickListene
                     int position = myViewHolder.getAdapterPosition();
                     PwVO pw = mPwVO.get(position);
                     int pwNo = pw.getPwNo();
-                    PwDetailActivity.start(PwActivity.this, pwNo);
+                    PwDetailActivity.start(PwActivity.this, pwNo, pw.getMemno());
                 }
             };
             myViewHolder.llPwReply.setOnClickListener(onReplyClickListener);

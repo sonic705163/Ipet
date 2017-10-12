@@ -8,8 +8,7 @@
 
     <FrameLayout
         android:id="@+id/forMemberPwFragment"
-        android:layout_width="368dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="0dp"></FrameLayout>
+        ></FrameLayout>
 </LinearLayout>
