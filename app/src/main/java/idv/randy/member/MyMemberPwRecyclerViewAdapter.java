@@ -1,5 +1,7 @@
 package idv.randy.member;
 
+import android.app.Activity;
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +21,7 @@ import idv.randy.ut.Me;
 public class MyMemberPwRecyclerViewAdapter extends RecyclerView.Adapter<MyMemberPwRecyclerViewAdapter.ViewHolder> {
     private static final String TAG = "MyMemberPwRecyclerViewA";
     private final List<PwVO> pwVOs;
+    Context mContext;
 
     public MyMemberPwRecyclerViewAdapter(List<PwVO> items) {
         pwVOs = items;
@@ -44,10 +47,12 @@ public class MyMemberPwRecyclerViewAdapter extends RecyclerView.Adapter<MyMember
         holder.tvPwContent.setText(pw.getPwContent());
         int pwNo = pw.getPwNo();
         new AsyncImageTask(pwNo, holder.ivPwPicture, R.drawable.empty).execute(Me.PetServlet);
+
         View.OnClickListener toPwrListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PwDetailActivity.start(Me.gc(), pwNo);
+                Activity activity = (Activity) holder.tvPwContent.getContext();
+                PwDetailActivity.start(activity, pwNo);
             }
         };
         holder.tvPwContent.setOnClickListener(toPwrListener);
