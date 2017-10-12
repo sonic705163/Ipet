@@ -12,9 +12,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import idv.jack.ApdotionActivity;
+import idv.jack.ApenterFragment;
 import idv.randy.me.LoginFragment;
 import idv.randy.me.MeFragment;
-import idv.randy.member.MemberActivity;
 import idv.randy.petwall.PetWallFragment;
 import idv.randy.petwall.PwEnterFragment;
 import idv.randy.ut.Me;
@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity implements PetWallFragment.O
     public MeFragment mMeFragment = MeFragment.newInstance("", "");
     public LoginFragment mLoginFragment = new LoginFragment();
     public PwEnterFragment mPwEnterFragment = new PwEnterFragment();
+    public ApenterFragment mApenterFragment = new ApenterFragment();
     boolean loginStatus;
     int mainFragment = R.id.forMainFragment;
     private BottomNavigationView bnv;
@@ -43,8 +44,10 @@ public class MainActivity extends AppCompatActivity implements PetWallFragment.O
                     loginStatus = pref.getBoolean("login", false);
                     switch (item.getItemId()) {
                         case R.id.adopt:
-                            Intent intent2 = new Intent(MainActivity.this, ApdotionActivity.class);
-                            startActivity(intent2);
+//                            Intent intent2 = new Intent(MainActivity.this, ApdotionActivity.class);
+//                            startActivity(intent2);
+                            Me.switchFragment(this , mainFragment, mApenterFragment).commit();
+                            break;
                         case R.id.petWall:
                             Me.switchFragment(this, mainFragment, mPwEnterFragment).commit();
                             break;

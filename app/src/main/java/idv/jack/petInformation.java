@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,9 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public class petInformation extends Fragment  implements OnMapReadyCallback {
     private static final String TAG = "petInformation";
@@ -76,7 +80,6 @@ public class petInformation extends Fragment  implements OnMapReadyCallback {
 
         }
         googleMap.getUiSettings().setZoomControlsEnabled(true);
-
         CameraPosition cameraPosition = new CameraPosition.Builder().target(myLocation).zoom(16).build();
         CameraUpdate cameraUpdate = CameraUpdateFactory.newCameraPosition(cameraPosition);
 
@@ -120,4 +123,10 @@ public class petInformation extends Fragment  implements OnMapReadyCallback {
         this.googleMap = googleMap;
         setUpMap();
     }
+    @Override
+    public void  onStart(){
+        super.onStart();
+
+    }
+
 }

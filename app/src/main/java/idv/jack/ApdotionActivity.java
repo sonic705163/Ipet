@@ -161,12 +161,13 @@ public class ApdotionActivity extends AppCompatActivity {
         //要用的UI宣告在這裡
         class MyViewHolder extends RecyclerView.ViewHolder {
             ImageView tvImg;
-            TextView tvSituation;
+            TextView tvSituation,tvmore;
 
             MyViewHolder(View itemView) {
                 super(itemView);
                 tvSituation = (TextView) itemView.findViewById(R.id.tvSituation);
                 tvImg = (ImageView) itemView.findViewById(R.id.tvImg);
+                tvmore =(TextView) itemView.findViewById(R.id.tvmore);
 
             }
 
