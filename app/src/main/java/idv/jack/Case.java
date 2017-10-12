@@ -26,6 +26,7 @@ public class Case implements Serializable {
     private Double petLatitude; // 緯度
     private String petSex; // 動物性別
 
+
     public Case() {
         super();
 

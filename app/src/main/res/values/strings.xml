@@ -10,7 +10,7 @@
     <string name="title_activity_wall4">wall4</string>
     <!-- TODO: Remove or change this placeholder text -->
 
-    <string name="msg_NoSpotsFound">沒有網路</string>
+    <string name="msg_NoSpotsFound">請稍等圖片</string>
     <string name="IPet">IPet</string>
     <string name="Adoption">領養資訊</string>
     <string name="Shop">商店</string>

@@ -1,5 +1,6 @@
 package idv.jack;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -15,6 +16,8 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.IdRes;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
@@ -35,6 +38,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+
+import idv.randy.petwall.PwInsertActivity;
+import idv.randy.ut.Me;
 
 public class ApdoInsertActivity extends AppCompatActivity {
     String TAG ="ApdoInsertActivity";
@@ -96,23 +102,32 @@ public class ApdoInsertActivity extends AppCompatActivity {
         bttp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent =new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                file= Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-                file = new File(file,"picture.jpg");
-                Uri contentUri = FileProvider.getUriForFile(view.getContext(),getPackageName()+".provider",file);
-                intent.putExtra(MediaStore.EXTRA_OUTPUT,contentUri);
-                if (isIntentAvailable(view.getContext(),intent)){
-                    startActivityForResult(intent,REQUEST_TAKE_PICTURE);
-                }else {
-                    Toast.makeText(view.getContext(),"沒照片",Toast.LENGTH_SHORT).show();
+                if (ContextCompat.checkSelfPermission(Me.gc(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(ApdoInsertActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE
+                    }, 1);
+                } else {
+                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    file = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+                    file = new File(file, "picture.jpg");
+                    Uri contentUri = FileProvider.getUriForFile(view.getContext(), getPackageName() + ".provider", file);
+                    intent.putExtra(MediaStore.EXTRA_OUTPUT, contentUri);
+                    if (isIntentAvailable(view.getContext(), intent)) {
+                        startActivityForResult(intent, REQUEST_TAKE_PICTURE);
+                    } else {
+                        Toast.makeText(view.getContext(), "沒照片", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
         btpic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Intent.ACTION_PICK,MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(intent,REQUEST_PICK_IMAGE);
+                if (ContextCompat.checkSelfPermission(Me.gc(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(ApdoInsertActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+                } else {
+                    Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    startActivityForResult(intent, REQUEST_PICK_IMAGE);
+                }
             }
         });
         btFinishInsert.setOnClickListener(new View.OnClickListener() {

@@ -28,11 +28,14 @@ public class WebmailSend extends AppCompatActivity {
         setContentView(R.layout.activity_webmail_send);
         Bundle bundle = getIntent().getExtras();
         memno= (Integer) bundle.getSerializable("memno");
+        webmailvo.setGetmemNo(memno);
         findviews();
         btnInsertMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String MailContent = etMailContent.getText().toString().trim();
+                webmailvo.setMailContext(MailContent);
+                getmemno(webmailvo);
             }
 
         });
@@ -55,7 +58,7 @@ public class WebmailSend extends AppCompatActivity {
         Integer memNo = pref.getInt("memNo", 0);
         if (Common.networkConnected(this)) {
             String url = Common.URL1 ;
-            webmailvo.setMailNo(memNo);
+            webmailvo.setTomemNo(memNo);
             Gson gson = new Gson();
             String msgStr = gson.toJson(webmailvo);
             JsonObject jsonObject =new JsonObject();
