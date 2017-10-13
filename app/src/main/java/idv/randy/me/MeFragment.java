@@ -28,20 +28,21 @@ import idv.randy.ut.Me;
 import static android.content.Context.MODE_PRIVATE;
 
 
-public class MeFragment extends Fragment implements View.OnClickListener{
+public class MeFragment extends Fragment implements View.OnClickListener {
     private static final String TAG = "MeFragment";
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    int memNo;
-    MembersVO membersVO;
-    JsonObject jsonObject;
-    LinearLayout llFeedback;
-    private String id;
+    private int memNo;
+    private MembersVO membersVO;
+    private JsonObject jsonObject;
+    private LinearLayout llFeedback;
+    private LinearLayout llMyPw;
+    private LinearLayout llLogOut;
     private String mParam1;
     private String mParam2;
     private TextView tvMemName;
     private TextView tvMemID;
-    AsyncAdapter asyncAdapeter = new AsyncAdapter() {
+    private AsyncAdapter asyncAdapeter = new AsyncAdapter() {
         @Override
         public void onFinish(String result) {
             super.onFinish(result);
@@ -50,14 +51,8 @@ public class MeFragment extends Fragment implements View.OnClickListener{
             tvMemID.setText(membersVO.getMenId());
         }
     };
-    private TextView tvLogOut;
-    private TextView tvMyPw;
-    private ImageView ivMemImg ,ivmail;
+    private ImageView ivMemImg, ivmail;
     private MeFragmentListener mListener;
-    private String memName;
-
-    private ImageView ivLogOut;
-    private ImageView ivMyPw;
     private View view;
 
     public MeFragment() {
@@ -87,7 +82,6 @@ public class MeFragment extends Fragment implements View.OnClickListener{
         } else {
             throw new RuntimeException(context.toString());
         }
-
         SharedPreferences pref = getActivity().getSharedPreferences("UserData", MODE_PRIVATE);
         memNo = pref.getInt("memNo", 1);
     }
@@ -105,32 +99,31 @@ public class MeFragment extends Fragment implements View.OnClickListener{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Log.d(TAG, "onCreateView: ");
         view = inflater.inflate(R.layout.r_fragment_me, container, false);
         findViews();
         new AsyncImageTask(memNo, ivMemImg, R.drawable.person).execute(Me.MembersServlet);
-        jsonObject = new JsonObject();
-        jsonObject.addProperty("action", "getVO");
-        jsonObject.addProperty("memNo", memNo);
-        new AsyncObjTask(asyncAdapeter, jsonObject).execute(Me.MembersServlet);
-        ivLogOut.setOnClickListener(this);
+        new AsyncObjTask(asyncAdapeter, getMemVO()).execute(Me.MembersServlet);
         llFeedback.setOnClickListener(this);
-        ivMyPw.setOnClickListener(this);
-        tvMyPw.setOnClickListener(this);
-        tvLogOut.setOnClickListener(this);
+        llMyPw.setOnClickListener(this);
+        llLogOut.setOnClickListener(this);
         ivmail.setOnClickListener(this);
         return view;
     }
 
+    private JsonObject getMemVO() {
+        jsonObject = new JsonObject();
+        jsonObject.addProperty("action", "getVO");
+        jsonObject.addProperty("memNo", memNo);
+        return jsonObject;
+    }
+
     private void findViews() {
-        ivLogOut = (ImageView) view.findViewById(R.id.ivLogOut);
         ivMemImg = (ImageView) view.findViewById(R.id.ivMemImg);
-        ivMyPw = (ImageView) view.findViewById(R.id.ivMyPw);
         tvMemName = (TextView) view.findViewById(R.id.tvMemName);
-        tvLogOut = (TextView) view.findViewById(R.id.tvLogOut);
         tvMemID = (TextView) view.findViewById(R.id.tvMemId);
-        tvMyPw = (TextView) view.findViewById(R.id.tvMyPw);
         llFeedback = (LinearLayout) view.findViewById(R.id.llFeedback);
+        llMyPw = (LinearLayout) view.findViewById(R.id.llMyPw);
+        llLogOut = (LinearLayout) view.findViewById(R.id.llLogOut);
         ivmail = (ImageView) view.findViewById(R.id.ivmail);
     }
 
@@ -202,21 +195,12 @@ public class MeFragment extends Fragment implements View.OnClickListener{
                 Intent intent1 = new Intent(getActivity(), MailReceive.class);
                 startActivity(intent1);
                 break;
-            case R.id.ivMyPw:
+            case R.id.llMyPw:
                 MemberPwActivity.start(getActivity(), memNo);
                 break;
-            case R.id.tvMyPw:
-                MemberPwActivity.start(getActivity(), memNo);
-                break;
-            case R.id.ivLogOut:
+            case R.id.llLogOut:
+                Log.d(TAG, "onClick: llLogOut");
                 SharedPreferences.Editor editor = getActivity().getSharedPreferences("UserData", MODE_PRIVATE).edit();
-                editor.putBoolean("login", false);
-                editor.putString("memName", "none");
-                editor.apply();
-                mListener.logOut();
-                break;
-            case R.id.tvLogOut:
-                editor = getActivity().getSharedPreferences("UserData", MODE_PRIVATE).edit();
                 editor.putBoolean("login", false);
                 editor.putString("memName", "none");
                 editor.apply();
@@ -229,8 +213,8 @@ public class MeFragment extends Fragment implements View.OnClickListener{
 
     public interface MeFragmentListener {
         void onFragmentInteraction(Uri uri);
+
         void logOut();
     }
-
 
 }

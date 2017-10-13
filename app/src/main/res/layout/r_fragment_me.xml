@@ -258,7 +258,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="領養"
+                    android:text="收件匣"
                     android:textSize="18dp"/>
             </LinearLayout>
 
@@ -290,6 +290,7 @@
 
 
             <LinearLayout
+                android:id="@+id/llMyPw"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -383,11 +384,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
-                    android:text="意見回饋"
+                    android:text="聯繫我們"
                     android:layout_marginTop="8dp"
                     android:textSize="18dp"/>
             </LinearLayout>
             <LinearLayout
+                android:id="@+id/llLogOut"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"

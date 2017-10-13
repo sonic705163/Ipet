@@ -362,7 +362,6 @@ public class PwActivity extends AppCompatActivity implements View.OnClickListene
                             holder.tvPwPraise.setText("讚");
                         }
                         break;
-
                 }
             }
         }

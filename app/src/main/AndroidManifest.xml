@@ -48,11 +48,13 @@
         <activity android:name="idv.randy.zNouse.wall_m" />
         <activity
             android:name="idv.randy.petwall.PwActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            />
         <activity android:name="idv.randy.me.LoginActivity" />
         <activity
             android:name="idv.randy.petwall.PwDetailActivity"
-            android:theme="@style/DetailTheme"></activity>
+            android:theme="@style/DetailTheme"
+            ></activity>
         <activity
             android:name="idv.randy.petwall.PwInsertActivity"
             android:theme="@style/AppTheme.NoActionBar"></activity>
