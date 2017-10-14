@@ -30,7 +30,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashSet;
@@ -138,7 +138,7 @@ public class PwActivity extends AppCompatActivity implements View.OnClickListene
                 new AsyncObjTask(getPwAdapter, jsonObject).execute(URL);
                 break;
             case R.id.ivSearch:
-                String keyword = etSearch.getText().toString();
+                String keyword = etSearch.getText().toString().trim();
                 jsonObject.addProperty("action", "getPw");
                 jsonObject.addProperty("keyword", keyword);
                 new AsyncObjTask(getPwAdapter, jsonObject).execute(URL);
@@ -311,23 +311,39 @@ public class PwActivity extends AppCompatActivity implements View.OnClickListene
                 } else {
                     holder.tvPwPraise.setText("讚");
                 }
+                Calendar calendar = Calendar.getInstance();
+                Timestamp current = new Timestamp(calendar.getTimeInMillis());
+                long past = ((current.getTime()) - (pw.getPwDate().getTime()));
+                String currentYear = String.valueOf(calendar.get(Calendar.YEAR));
+                String pwDay = pw.getPwDate().toString();
+                String pwYear = pwDay.substring(0, 4);
+                String pwMonth = pwDay.substring(5, 6).equals("0") ? pwDay.substring(6, 7) : pwDay.substring(5, 7);
+                String pwDate = pwDay.substring(8, 9).equals("0") ? pwDay.substring(9, 10) : pwDay.substring(8, 10);
+                int intPwHour = Integer.valueOf(pwDay.substring(11, 13));
+                String pwHour = intPwHour - 12 < 0 ? "上午" + intPwHour : "下午" + (intPwHour - 12);
+                String pwSecond = pwDay.substring(14, 16);
 
-
-                Date current = new Date(System.currentTimeMillis());
-                long past = (current.getTime() - pw.getPwDate().getTime());
                 int day = (int) (past / (1000 * 60 * 60 * 24));
-                if (day < 1) {
-                    holder.tvPWdate.setText("今天");
+                int hour = (int) (past / (1000 * 60 * 60));
+                int minute = (int) (past / (1000 * 60));
+                int second = (int) (past / (1000));
+                if (past < 0) {
+                    holder.tvPWdate.setText("剛才");
+                } else if (minute < 1) {
+                    holder.tvPWdate.setText(second + "秒前");
+                } else if (hour < 1) {
+                    holder.tvPWdate.setText(minute + "分鐘前");
+                } else if (day < 1) {
+                    holder.tvPWdate.setText(hour + "小時前");
                 } else if (day < 2) {
-                    holder.tvPWdate.setText("昨天");
+                    holder.tvPWdate.setText("昨天" + pwHour + ":" + pwSecond);
                 } else if (day < 7) {
-                    holder.tvPWdate.setText(String.valueOf(day) + "天前");
-                } else if (pw.getPwDate().toString().substring(0, 4).equals(String.valueOf(Calendar.getInstance().get(Calendar.YEAR)))) {
-                    holder.tvPWdate.setText(pw.getPwDate().toString().substring(5));
+                    holder.tvPWdate.setText(day + "天前");
+                } else if (pwYear.equals(currentYear)) {
+                    holder.tvPWdate.setText(pwMonth + "月" + pwDate + "日");
                 } else {
-                    holder.tvPWdate.setText(pw.getPwDate().toString());
+                    holder.tvPWdate.setText(pwYear + "年" + pwMonth + "月" + pwDate + "日");
                 }
-
 
                 int pwNo = pw.getPwNo();
                 new AsyncImageTask(pwNo, holder.ivPwPicture, R.drawable.empty).execute(Me.PetServlet);

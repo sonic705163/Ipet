@@ -8,6 +8,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.List;
 
 public class PwVO implements Parcelable {
@@ -29,7 +30,7 @@ public class PwVO implements Parcelable {
 
     }
 
-    Date pwDate;
+    Timestamp pwDate;
     byte[] pwPicture;
     String pwContent;
     byte[] pwFilm;
@@ -44,7 +45,7 @@ public class PwVO implements Parcelable {
     }
 
     public static List<PwVO> decodeToList(String stringIn) {
-        Gson gsonb = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+        Gson gsonb = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
         List<PwVO> list = gsonb.fromJson(stringIn, new TypeToken<List<PwVO>>() {
         }.getType());
         return list;
@@ -58,11 +59,11 @@ public class PwVO implements Parcelable {
         this.pwNo = pwNo;
     }
 
-    public Date getPwDate() {
+    public Timestamp getPwDate() {
         return pwDate;
     }
 
-    public void setPwDate(Date pwDate) {
+    public void setPwDate(Timestamp pwDate) {
         this.pwDate = pwDate;
     }
 

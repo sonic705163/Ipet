@@ -97,45 +97,6 @@ public class PwDetailFragment extends Fragment {
         return view;
     }
 
-    private void sendPWRcontent() {
-        EditText etPwrContent = (EditText) view.findViewById(R.id.etPwrContent);
-        ImageView ivSend = (ImageView) view.findViewById(R.id.ivSend);
-        ivSend.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String content = etPwrContent.getText().toString();
-                if (!content.trim().equals("")) {
-                    SharedPreferences pref = getActivity().getSharedPreferences("UserData", MODE_PRIVATE);
-                    boolean loginStatus = pref.getBoolean("login", false);
-                    if (loginStatus) {
-                        PwrVO pwrVO = new PwrVO();
-                        pwrVO.setPwrdate(new Date(System.currentTimeMillis()));
-                        pwrVO.setPwrcontent(content);
-                        pwrVO.setMemno(pref.getInt("memNo", 0));
-                        pwrVO.setPwno(pwNo);
-                        Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
-                        JsonObject jsonObject = new JsonObject();
-                        jsonObject.addProperty("action", "insertPwr");
-                        jsonObject.addProperty("pwrVO", gson.toJson(pwrVO));
-                        try {
-                            new AsyncObjTask(null, jsonObject).execute(Me.PwrServlet).get();
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        } catch (ExecutionException e) {
-                            e.printStackTrace();
-                        }
-                        mListener.refresh();
-                    } else {
-                        Toast.makeText(Me.gc(), "登入後可留言", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            }
-        });
-
-
-    }
-
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);

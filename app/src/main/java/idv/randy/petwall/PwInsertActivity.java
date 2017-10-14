@@ -86,8 +86,15 @@ public class PwInsertActivity extends AppCompatActivity implements View.OnClickL
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        Log.d(TAG, "onStart: ");
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        Log.d(TAG, "onActivityResult: ");
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case REQUESTCODE_SHOT:
