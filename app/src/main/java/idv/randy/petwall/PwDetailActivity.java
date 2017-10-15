@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -33,11 +32,10 @@ import idv.randy.ut.Me;
 
 public class PwDetailActivity extends AppCompatActivity implements PwDetailFragment.OnListFragmentInteractionListener, View.OnClickListener {
     private static final String TAG = "PwDetailActivity";
+    private static PwrListener pwrListener;
     private Bundle arguments;
-    public static Fragment current;
     private int pwNo;
     private int memNo;
-
     private EditText etPwrContent;
     private ImageView ivSend;
     private ImageView ivPwPicture;
@@ -48,24 +46,59 @@ public class PwDetailActivity extends AppCompatActivity implements PwDetailFragm
     private SharedPreferences pref;
     private boolean loginStatus;
 
+    View.OnClickListener onClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            String content = etPwrContent.getText().toString();
+            if (content.trim().equals("")) {
+                hideKeyPad();
+                llPwr.setVisibility(View.GONE);
+                btnFab.setVisibility(View.VISIBLE);
+                return;
+            }
+            if (!loginStatus) {
+                Toast.makeText(Me.gc(), "登入後可留言", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            try {
+                new AsyncObjTask(null, insertPwr(content)).execute(Me.PwrServlet).get();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
+            PwDetailFragment fragment = new PwDetailFragment();
+            fragment.setArguments(arguments);
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.item_detail_container, fragment)
+                    .commit();
+            etPwrContent.setText("");
+            hideKeyPad();
+            llPwr.setVisibility(View.GONE);
+            btnFab.setVisibility(View.VISIBLE);
+            pwrListener.onPwrSend();
+        }
+    };
+
     public static void start(Context context, int pwNo, int memNo) {
         Intent intent = new Intent(context, PwDetailActivity.class);
         intent.putExtra("pwNo", pwNo);
         intent.putExtra("memNo", memNo);
         context.startActivity(intent);
+        if (context instanceof PwrListener) {
+            pwrListener = (PwrListener) context;
+        }
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
         setContentView(R.layout.r_activity_pw_detail);
         findViews();
         btnFab.setVisibility(View.VISIBLE);
         llPwr.setVisibility(View.GONE);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
@@ -91,8 +124,6 @@ public class PwDetailActivity extends AppCompatActivity implements PwDetailFragm
                     .commit();
         }
         ivSend.setOnClickListener(onClickListener);
-
-
     }
 
     private void findViews() {
@@ -103,41 +134,7 @@ public class PwDetailActivity extends AppCompatActivity implements PwDetailFragm
         ivPwPicture = (ImageView) findViewById(R.id.ivPwPicture);
     }
 
-
-    View.OnClickListener onClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            String content = etPwrContent.getText().toString();
-            if (content.trim().equals("")) {
-                hideKeyPad();
-                llPwr.setVisibility(View.GONE);
-                btnFab.setVisibility(View.VISIBLE);
-                return;
-            }
-            if (!loginStatus) {
-                Toast.makeText(Me.gc(), "登入後可留言", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            try {
-                new AsyncObjTask(null, getJsonObject(content)).execute(Me.PwrServlet).get();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } catch (ExecutionException e) {
-                e.printStackTrace();
-            }
-            PwDetailFragment fragment = new PwDetailFragment();
-            fragment.setArguments(arguments);
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.item_detail_container, fragment)
-                    .commit();
-            etPwrContent.setText("");
-            hideKeyPad();
-            llPwr.setVisibility(View.GONE);
-            btnFab.setVisibility(View.VISIBLE);
-        }
-    };
-
-    private JsonObject getJsonObject(String content) {
+    private JsonObject insertPwr(String content) {
         PwrVO pwrVO = new PwrVO();
         pwrVO.setPwrdate(new Date(System.currentTimeMillis()));
         pwrVO.setPwrcontent(content);
@@ -184,10 +181,12 @@ public class PwDetailActivity extends AppCompatActivity implements PwDetailFragm
                 jsonObject.addProperty("action", "deletePw");
                 jsonObject.addProperty("pwNo", pwNo);
                 new AsyncObjTask(null, jsonObject).execute(Me.PetServlet);
+                if(pwrListener!=null){
+                    pwrListener.onDelete();
+                }
                 break;
         }
         return super.onOptionsItemSelected(item);
-
     }
 
     void hideKeyPad() {
@@ -213,6 +212,11 @@ public class PwDetailActivity extends AppCompatActivity implements PwDetailFragm
         etPwrContent.requestFocus();
         InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         inputMethodManager.showSoftInput(etPwrContent, 0);
+    }
+
+    public interface PwrListener {
+        void onPwrSend();
+        void onDelete();
     }
 
 }

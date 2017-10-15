@@ -7,7 +7,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.List;
 

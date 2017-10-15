@@ -18,6 +18,10 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
 
-    <style name="DetailTheme" parent="AppTheme.NoActionBar"></style>
+    <style name="DetailTheme" parent="AppTheme.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">#E8CCFF</item>
+    </style>
 
 </resources>

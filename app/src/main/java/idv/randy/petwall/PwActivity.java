@@ -23,20 +23,17 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.java.iPet.R;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
-
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
 import idv.randy.me.MembersVO;
 import idv.randy.member.MemberActivity;
 import idv.randy.ut.AsyncAdapter;
@@ -44,13 +41,18 @@ import idv.randy.ut.AsyncImageTask;
 import idv.randy.ut.AsyncObjTask;
 import idv.randy.ut.Me;
 
-public class PwActivity extends AppCompatActivity implements View.OnClickListener {
-
+public class PwActivity extends AppCompatActivity implements View.OnClickListener, PwDetailActivity.PwrListener, PwInsertActivity.PwInsertListener {
+    private static final int UPDATE_PRAISE = 0;
+    private static final int UPDATE_PWRCOUNT = 1;
     private static final String TAG = "PwActivity";
     private static final String URL = Me.PetServlet;
-    MyVOAdapter myVOAdapter;
-    Toolbar toolbar;
-    TextView tvAll;
+    private MyVOAdapter myVOAdapter;
+    private Toolbar toolbar;
+    private TextView tvAll;
+    private int position;
+    private int pwNo;
+
+
     private List<PwVO> mPwVO;
 
     AsyncAdapter getPwAdapter = new AsyncAdapter() {
@@ -114,8 +116,8 @@ public class PwActivity extends AppCompatActivity implements View.OnClickListene
                     Toast.makeText(Me.gc(), "請先登入", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                Intent intent = new Intent(PwActivity.this, PwInsertActivity.class);
-                startActivity(intent);
+                PwInsertActivity.start(PwActivity.this);
+
             }
         });
     }
@@ -215,6 +217,22 @@ public class PwActivity extends AppCompatActivity implements View.OnClickListene
         outState.putParcelableArrayList("mPwVO", (ArrayList<? extends Parcelable>) mPwVO);
     }
 
+    @Override
+    public void onPwrSend() {
+        myVOAdapter.notifyItemChanged(position, UPDATE_PWRCOUNT);
+    }
+
+    @Override
+    public void onDelete() {
+        refresh();
+    }
+
+    @Override
+    public void onPwInsert() {
+        refresh();
+    }
+
+
     public class MyVOAdapter extends RecyclerView.Adapter<MyVOAdapter.MyViewHolder> {
         private List<PwVO> mPwVO;
         private List<Integer> counts;
@@ -240,9 +258,10 @@ public class PwActivity extends AppCompatActivity implements View.OnClickListene
             View.OnClickListener onReplyClickListener = new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    int position = myViewHolder.getAdapterPosition();
+                    position = myViewHolder.getAdapterPosition();
                     PwVO pw = mPwVO.get(position);
-                    int pwNo = pw.getPwNo();
+                    pwNo = pw.getPwNo();
+//                    count = counts.get(position);
                     PwDetailActivity.start(PwActivity.this, pwNo, pw.getMemno());
                 }
             };
@@ -280,7 +299,7 @@ public class PwActivity extends AppCompatActivity implements View.OnClickListene
                     jsonObject.addProperty("praise", String.valueOf(pwPraise));
                     new AsyncObjTask(null, jsonObject).execute(Me.PetServlet);
                     pw.setPwPraise(String.valueOf(Integer.valueOf(pwPraise)));
-                    myVOAdapter.notifyItemChanged(position, 0);
+                    myVOAdapter.notifyItemChanged(position, UPDATE_PRAISE);
                 }
             };
             myViewHolder.llPwPraise.setOnClickListener(onPwPraiseClickListener);
@@ -311,40 +330,7 @@ public class PwActivity extends AppCompatActivity implements View.OnClickListene
                 } else {
                     holder.tvPwPraise.setText("讚");
                 }
-                Calendar calendar = Calendar.getInstance();
-                Timestamp current = new Timestamp(calendar.getTimeInMillis());
-                long past = ((current.getTime()) - (pw.getPwDate().getTime()));
-                String currentYear = String.valueOf(calendar.get(Calendar.YEAR));
-                String pwDay = pw.getPwDate().toString();
-                String pwYear = pwDay.substring(0, 4);
-                String pwMonth = pwDay.substring(5, 6).equals("0") ? pwDay.substring(6, 7) : pwDay.substring(5, 7);
-                String pwDate = pwDay.substring(8, 9).equals("0") ? pwDay.substring(9, 10) : pwDay.substring(8, 10);
-                int intPwHour = Integer.valueOf(pwDay.substring(11, 13));
-                String pwHour = intPwHour - 12 < 0 ? "上午" + intPwHour : "下午" + (intPwHour - 12);
-                String pwSecond = pwDay.substring(14, 16);
-
-                int day = (int) (past / (1000 * 60 * 60 * 24));
-                int hour = (int) (past / (1000 * 60 * 60));
-                int minute = (int) (past / (1000 * 60));
-                int second = (int) (past / (1000));
-                if (past < 0) {
-                    holder.tvPWdate.setText("剛才");
-                } else if (minute < 1) {
-                    holder.tvPWdate.setText(second + "秒前");
-                } else if (hour < 1) {
-                    holder.tvPWdate.setText(minute + "分鐘前");
-                } else if (day < 1) {
-                    holder.tvPWdate.setText(hour + "小時前");
-                } else if (day < 2) {
-                    holder.tvPWdate.setText("昨天" + pwHour + ":" + pwSecond);
-                } else if (day < 7) {
-                    holder.tvPWdate.setText(day + "天前");
-                } else if (pwYear.equals(currentYear)) {
-                    holder.tvPWdate.setText(pwMonth + "月" + pwDate + "日");
-                } else {
-                    holder.tvPWdate.setText(pwYear + "年" + pwMonth + "月" + pwDate + "日");
-                }
-
+                holder.tvPWdate.setText(getPwDateString(pw.getPwDate()));
                 int pwNo = pw.getPwNo();
                 new AsyncImageTask(pwNo, holder.ivPwPicture, R.drawable.empty).execute(Me.PetServlet);
 
@@ -359,7 +345,6 @@ public class PwActivity extends AppCompatActivity implements View.OnClickListene
                     @Override
                     public void onFinish(String result) {
                         super.onFinish(result);
-
                         Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
                         MembersVO membersVO = gson.fromJson(result, MembersVO.class);
                         holder.tvMemID.setText(membersVO.getMemName());
@@ -369,17 +354,74 @@ public class PwActivity extends AppCompatActivity implements View.OnClickListene
                 int type = (int) payloads.get(0);
                 Log.d(TAG, "payloads : " + "Exist " + position);
                 switch (type) {
-                    case 0:
-                        Log.d(TAG, "updatePwPraise: ");
-
+                    case UPDATE_PRAISE:
+                        Log.d(TAG, "updatePwPraise: case 0");
                         if (Integer.valueOf(pw.getPwPraise()) > 0) {
                             holder.tvPwPraise.setText(pw.getPwPraise());
                         } else {
                             holder.tvPwPraise.setText("讚");
                         }
                         break;
+                    case UPDATE_PWRCOUNT:
+                        JsonObject jsonObject = new JsonObject();
+                        jsonObject.addProperty("action", "getCount");
+                        jsonObject.addProperty("pwNo", pwNo);
+                        new AsyncObjTask(new AsyncAdapter() {
+                            @Override
+                            public void onFinish(String result) {
+                                super.onFinish(result);
+                                JsonObject jsonObject = new Gson().fromJson(result, JsonObject.class);
+                                int count = jsonObject.get("count").getAsInt();
+                                holder.tvPwrCount.setText(String.valueOf(count));
+                            }
+                        }, jsonObject).execute(Me.PetServlet);
                 }
             }
+        }
+
+        private String getPwDateString(Timestamp tsPwDate) {
+            String text;
+            Calendar calendar = Calendar.getInstance();
+            Timestamp current = new Timestamp(calendar.getTimeInMillis());
+            long past = ((current.getTime()) - (tsPwDate.getTime()));
+            String currentYear = String.valueOf(calendar.get(Calendar.YEAR));
+            String currentData = String.valueOf(calendar.get(Calendar.DATE));
+            String pwDay = tsPwDate.toString();
+            String pwYear = pwDay.substring(0, 4);
+            String pwMonth = pwDay.substring(5, 6).equals("0") ? pwDay.substring(6, 7) : pwDay.substring(5, 7);
+            String pwDate = pwDay.substring(8, 9).equals("0") ? pwDay.substring(9, 10) : pwDay.substring(8, 10);
+            int intPwHour = Integer.valueOf(pwDay.substring(11, 13));
+            String pwHour;
+            if (intPwHour < 12) {
+                pwHour = "上午" + intPwHour;
+            } else if (intPwHour == 12) {
+                pwHour = "下午" + intPwHour;
+            } else {
+                pwHour = "下午" + (intPwHour - 12);
+            }
+            String pwSecond = pwDay.substring(14, 16);
+            int day = (int) (past / (1000 * 60 * 60 * 24));
+            int hour = (int) (past / (1000 * 60 * 60));
+            int minute = (int) (past / (1000 * 60));
+            int second = (int) (past / (1000));
+            if (past < 0) {
+                text = "剛才";
+            } else if (minute < 1) {
+                text = (second + "秒前");
+            } else if (hour < 1) {
+                text = (minute + "分鐘前");
+            } else if (day < 1 && pwHour.equals(currentData)) {
+                text = (hour + "小時前");
+            } else if (day < 2) {
+                text = ("昨天" + pwHour + ":" + pwSecond);
+            } else if (day < 7) {
+                text = (day + "天前");
+            } else if (pwYear.equals(currentYear)) {
+                text = (pwMonth + "月" + pwDate + "日");
+            } else {
+                text = (pwYear + "年" + pwMonth + "月" + pwDate + "日");
+            }
+            return text;
         }
 
 
@@ -419,14 +461,10 @@ public class PwActivity extends AppCompatActivity implements View.OnClickListene
         }
     }
 
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-
+    public void refresh() {
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("action", "getPw");
         jsonObject.addProperty("keyword", "");
         new AsyncObjTask(getPwAdapter, jsonObject).execute(URL);
-
     }
 }

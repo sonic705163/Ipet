@@ -53,7 +53,17 @@ public class PwInsertActivity extends AppCompatActivity implements View.OnClickL
     private static final int REQUESTCODE_SHOT = 1;
     private static final int REQUESTCODE_PHOTO_LIB = 2;
     private static final String TAG = "PwInsertActivity";
+    private static PwInsertListener pwListener;
 
+    public static void start(Context context) {
+        Intent intent = new Intent(context, PwInsertActivity.class);
+        context.startActivity(intent);
+        if (context instanceof PwInsertListener) {
+            pwListener = (PwInsertListener) context;
+        } else {
+            throw new RuntimeException(context.toString());
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -190,12 +200,16 @@ public class PwInsertActivity extends AppCompatActivity implements View.OnClickL
                 } catch (ExecutionException e) {
                     e.printStackTrace();
                 }
+                pwListener.onPwInsert();
                 finish();
-
                 break;
             default:
                 break;
 
         }
+    }
+    public interface PwInsertListener {
+        void onPwInsert();
+
     }
 }
