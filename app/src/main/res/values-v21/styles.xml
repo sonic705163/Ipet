@@ -2,6 +2,9 @@
 <resources>
     <style name="DetailTheme" parent="AppTheme.NoActionBar">
         <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">#E8CCFF</item>
     </style>
 
 </resources>

@@ -41,7 +41,7 @@ import idv.randy.ut.AsyncImageTask;
 import idv.randy.ut.AsyncObjTask;
 import idv.randy.ut.Me;
 
-public class PwActivity extends AppCompatActivity implements View.OnClickListener, PwDetailActivity.PwrListener {
+public class PwActivity extends AppCompatActivity implements View.OnClickListener, PwDetailActivity.PwrListener, PwInsertActivity.PwInsertListener {
     private static final int UPDATE_PRAISE = 0;
     private static final int UPDATE_PWRCOUNT = 1;
     private static final String TAG = "PwActivity";
@@ -116,8 +116,8 @@ public class PwActivity extends AppCompatActivity implements View.OnClickListene
                     Toast.makeText(Me.gc(), "請先登入", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                Intent intent = new Intent(PwActivity.this, PwInsertActivity.class);
-                startActivity(intent);
+                PwInsertActivity.start(PwActivity.this);
+
             }
         });
     }
@@ -224,6 +224,11 @@ public class PwActivity extends AppCompatActivity implements View.OnClickListene
 
     @Override
     public void onDelete() {
+        refresh();
+    }
+
+    @Override
+    public void onPwInsert() {
         refresh();
     }
 

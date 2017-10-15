@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -26,7 +25,6 @@ import com.google.gson.JsonObject;
 import java.sql.Date;
 import java.util.concurrent.ExecutionException;
 
-import idv.randy.me.MeFragment;
 import idv.randy.ut.AsyncImageTask;
 import idv.randy.ut.AsyncObjTask;
 import idv.randy.ut.Me;
@@ -34,11 +32,10 @@ import idv.randy.ut.Me;
 
 public class PwDetailActivity extends AppCompatActivity implements PwDetailFragment.OnListFragmentInteractionListener, View.OnClickListener {
     private static final String TAG = "PwDetailActivity";
+    private static PwrListener pwrListener;
     private Bundle arguments;
-    public static Fragment current;
     private int pwNo;
     private int memNo;
-
     private EditText etPwrContent;
     private ImageView ivSend;
     private ImageView ivPwPicture;
@@ -48,68 +45,6 @@ public class PwDetailActivity extends AppCompatActivity implements PwDetailFragm
     private InputMethodManager imm;
     private SharedPreferences pref;
     private boolean loginStatus;
-    private static PwrListener pwrListener;
-
-    public static void start(Context context, int pwNo, int memNo) {
-        Intent intent = new Intent(context, PwDetailActivity.class);
-        intent.putExtra("pwNo", pwNo);
-        intent.putExtra("memNo", memNo);
-        context.startActivity(intent);
-        if (context instanceof PwrListener) {
-            pwrListener = (PwrListener) context;
-        } else {
-            throw new RuntimeException(context.toString());
-        }
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-        setContentView(R.layout.r_activity_pw_detail);
-        findViews();
-        btnFab.setVisibility(View.VISIBLE);
-        llPwr.setVisibility(View.GONE);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setTitle("");
-        }
-        pref = getSharedPreferences("UserData", MODE_PRIVATE);
-        loginStatus = pref.getBoolean("login", false);
-        btnFab.setOnClickListener(this);
-
-        Intent intent = getIntent();
-        pwNo = intent.getExtras().getInt("pwNo");
-        memNo = intent.getExtras().getInt("memNo");
-
-        new AsyncImageTask(pwNo, ivPwPicture, R.drawable.aa1418273).execute(Me.PetServlet);
-
-        if (savedInstanceState == null) {
-            arguments = new Bundle();
-            arguments.putInt("pwNo",
-                    pwNo);
-            fragment.setArguments(arguments);
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.item_detail_container, fragment)
-                    .commit();
-        }
-        ivSend.setOnClickListener(onClickListener);
-
-
-    }
-
-    private void findViews() {
-        etPwrContent = (EditText) findViewById(R.id.etPwrContent);
-        llPwr = (LinearLayout) findViewById(R.id.llPwr);
-        btnFab = (FloatingActionButton) findViewById(R.id.btnFab);
-        ivSend = (ImageView) findViewById(R.id.ivSend);
-        ivPwPicture = (ImageView) findViewById(R.id.ivPwPicture);
-    }
-
 
     View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
@@ -144,6 +79,60 @@ public class PwDetailActivity extends AppCompatActivity implements PwDetailFragm
             pwrListener.onPwrSend();
         }
     };
+
+    public static void start(Context context, int pwNo, int memNo) {
+        Intent intent = new Intent(context, PwDetailActivity.class);
+        intent.putExtra("pwNo", pwNo);
+        intent.putExtra("memNo", memNo);
+        context.startActivity(intent);
+        if (context instanceof PwrListener) {
+            pwrListener = (PwrListener) context;
+        }
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.r_activity_pw_detail);
+        findViews();
+        btnFab.setVisibility(View.VISIBLE);
+        llPwr.setVisibility(View.GONE);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setTitle("");
+        }
+        pref = getSharedPreferences("UserData", MODE_PRIVATE);
+        loginStatus = pref.getBoolean("login", false);
+        btnFab.setOnClickListener(this);
+
+        Intent intent = getIntent();
+        pwNo = intent.getExtras().getInt("pwNo");
+        memNo = intent.getExtras().getInt("memNo");
+
+        new AsyncImageTask(pwNo, ivPwPicture, R.drawable.aa1418273).execute(Me.PetServlet);
+
+        if (savedInstanceState == null) {
+            arguments = new Bundle();
+            arguments.putInt("pwNo",
+                    pwNo);
+            fragment.setArguments(arguments);
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.item_detail_container, fragment)
+                    .commit();
+        }
+        ivSend.setOnClickListener(onClickListener);
+    }
+
+    private void findViews() {
+        etPwrContent = (EditText) findViewById(R.id.etPwrContent);
+        llPwr = (LinearLayout) findViewById(R.id.llPwr);
+        btnFab = (FloatingActionButton) findViewById(R.id.btnFab);
+        ivSend = (ImageView) findViewById(R.id.ivSend);
+        ivPwPicture = (ImageView) findViewById(R.id.ivPwPicture);
+    }
 
     private JsonObject insertPwr(String content) {
         PwrVO pwrVO = new PwrVO();
@@ -192,11 +181,12 @@ public class PwDetailActivity extends AppCompatActivity implements PwDetailFragm
                 jsonObject.addProperty("action", "deletePw");
                 jsonObject.addProperty("pwNo", pwNo);
                 new AsyncObjTask(null, jsonObject).execute(Me.PetServlet);
-                pwrListener.onDelete();
+                if(pwrListener!=null){
+                    pwrListener.onDelete();
+                }
                 break;
         }
         return super.onOptionsItemSelected(item);
-
     }
 
     void hideKeyPad() {

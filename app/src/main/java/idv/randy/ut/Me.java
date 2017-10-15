@@ -16,7 +16,6 @@ public class Me extends Application {
     public static final String PetServlet = ip + "PetServlet";
     public static final String PwrServlet = ip + "PwrServlet";
     public static Fragment current;
-
     public static Context gc() {
         return context;
     }
