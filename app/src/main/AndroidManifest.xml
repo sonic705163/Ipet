@@ -48,29 +48,28 @@
         <activity android:name="idv.randy.zNouse.wall_m" />
         <activity
             android:name="idv.randy.petwall.PwActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            />
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name="idv.randy.me.LoginActivity" />
         <activity
             android:name="idv.randy.petwall.PwDetailActivity"
-            android:theme="@style/DetailTheme"
-            ></activity>
+            android:theme="@style/DetailTheme" />
         <activity
             android:name="idv.randy.petwall.PwInsertActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name="idv.randy.me.FeedbackActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name="idv.randy.member.MemberActivity"
             android:label="@string/title_activity_member"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity android:name="idv.randy.member.MemberPwActivity"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name="idv.randy.member.MemberPwActivity" />
         <activity android:name="idv.jack.ApdotionActivity" />
         <activity android:name="idv.jack.petInformation" />
         <activity android:name="idv.jack.ApdoInsertActivity" />
         <activity android:name="idv.jack.WebmailSend" />
-        <activity android:name="idv.jack.MailReceive"></activity>
+        <activity android:name="idv.jack.MailReceive" />
+        <activity android:name="idv.jack.WebMail_Detail_Activity"></activity>
     </application>
 
 </manifest>

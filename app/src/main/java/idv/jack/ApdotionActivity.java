@@ -33,7 +33,6 @@ public class ApdotionActivity extends AppCompatActivity {
     List<Case> csLists;
     private SpotGetImageTask spotGetImageTask;
     private FragmentManager petinformation = getSupportFragmentManager();
-
     private FloatingActionButton fabtn;
     private SwipeRefreshLayout swipeRefreshLayout;
     private CaseAdapter caseAdapter;
@@ -120,7 +119,6 @@ public class ApdotionActivity extends AppCompatActivity {
         @Override
         public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View itemView = layoutInflater.inflate(R.layout.item_view, parent, false);
-
             return new MyViewHolder(itemView);
         }
 
