@@ -30,7 +30,6 @@ public class AsyncObjTask extends AsyncTask<String, Integer, String> {
 
     @Override
     protected String doInBackground(String... params) {
-        Log.d(TAG, "doInBackground: ");
         String serverAddr = params[0];
         return getStringData(serverAddr);
     }

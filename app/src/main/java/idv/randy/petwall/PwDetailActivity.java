@@ -26,6 +26,7 @@ import com.google.gson.JsonObject;
 import java.sql.Date;
 import java.util.concurrent.ExecutionException;
 
+import idv.randy.me.MeFragment;
 import idv.randy.ut.AsyncImageTask;
 import idv.randy.ut.AsyncObjTask;
 import idv.randy.ut.Me;
@@ -47,12 +48,18 @@ public class PwDetailActivity extends AppCompatActivity implements PwDetailFragm
     private InputMethodManager imm;
     private SharedPreferences pref;
     private boolean loginStatus;
+    private static PwrListener pwrListener;
 
     public static void start(Context context, int pwNo, int memNo) {
         Intent intent = new Intent(context, PwDetailActivity.class);
         intent.putExtra("pwNo", pwNo);
         intent.putExtra("memNo", memNo);
         context.startActivity(intent);
+        if (context instanceof PwrListener) {
+            pwrListener = (PwrListener) context;
+        } else {
+            throw new RuntimeException(context.toString());
+        }
     }
 
     @Override
@@ -119,7 +126,7 @@ public class PwDetailActivity extends AppCompatActivity implements PwDetailFragm
                 return;
             }
             try {
-                new AsyncObjTask(null, getJsonObject(content)).execute(Me.PwrServlet).get();
+                new AsyncObjTask(null, insertPwr(content)).execute(Me.PwrServlet).get();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             } catch (ExecutionException e) {
@@ -134,10 +141,11 @@ public class PwDetailActivity extends AppCompatActivity implements PwDetailFragm
             hideKeyPad();
             llPwr.setVisibility(View.GONE);
             btnFab.setVisibility(View.VISIBLE);
+            pwrListener.onPwrSend();
         }
     };
 
-    private JsonObject getJsonObject(String content) {
+    private JsonObject insertPwr(String content) {
         PwrVO pwrVO = new PwrVO();
         pwrVO.setPwrdate(new Date(System.currentTimeMillis()));
         pwrVO.setPwrcontent(content);
@@ -184,6 +192,7 @@ public class PwDetailActivity extends AppCompatActivity implements PwDetailFragm
                 jsonObject.addProperty("action", "deletePw");
                 jsonObject.addProperty("pwNo", pwNo);
                 new AsyncObjTask(null, jsonObject).execute(Me.PetServlet);
+                pwrListener.onDelete();
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -213,6 +222,11 @@ public class PwDetailActivity extends AppCompatActivity implements PwDetailFragm
         etPwrContent.requestFocus();
         InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         inputMethodManager.showSoftInput(etPwrContent, 0);
+    }
+
+    public interface PwrListener {
+        void onPwrSend();
+        void onDelete();
     }
 
 }
