@@ -26,17 +26,24 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.List;
 
+import idv.randy.me.MembersVO;
+
 public class MailReceive extends AppCompatActivity {
     private final static String TAG = "MailReceive";
     private RecyclerView rlwebmail;
     List<WebmailVO> webmaillist;
-    private MyTask webmailtask;
+    private MyTask webmailtask,sendtask;
+    private MembersVO mbVO;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mailreceive);
         getWebMail();
+
+
+
         rlwebmail = (RecyclerView) findViewById(R.id.rlwebmail);
         rlwebmail.setLayoutManager(new LinearLayoutManager(this));
         rlwebmail.setAdapter(new WebmailSendAdapter(this));
@@ -98,6 +105,31 @@ public class MailReceive extends AppCompatActivity {
         }
         return count;
     }
+    private void getMbName(Integer memNo) {
+        if (Common.networkConnected(this)) {
+            String url = null;
+            url = Common.URL2;
+            Gson gson = new Gson();
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("action", "getMbInfo");
+            jsonObject.addProperty("memNo", memNo);
+            String jsonOut = jsonObject.toString();
+            sendtask = new MyTask(url, jsonOut);
+            try {
+                String jsonIn = sendtask.execute().get();
+                Log.d(TAG, jsonIn);
+                Type listType = new TypeToken<MembersVO>(){}.getType();
+                mbVO = gson.fromJson(jsonIn, listType);
+
+            } catch (Exception e) {
+                Log.e(TAG, e.toString());
+            }
+
+        } else {
+            Common.showToast(this, "錯誤");
+        }
+    }
+
 
 
 
@@ -130,7 +162,10 @@ public class MailReceive extends AppCompatActivity {
             final WebmailVO wv = webmaillist.get(position);
 //            spotGetImageTask = new SpotGetImageTask(Common.URL, cs.getPetNo(), imageSize, myViewHolder.tvImg);
 //            spotGetImageTask.execute();
-            myViewHolder.tvWhoSend.setText(String.valueOf(wv.getTomemNo()));
+            getMbName(wv.getTomemNo());
+//            myViewHolder.tvWhoSend.setText(String.valueOf(wv.getTomemNo()));
+            myViewHolder.tvWhoSend.setText(mbVO.getMemName());
+            myViewHolder.tvSendDate.setText(wv.getMailDate().toString().substring(0,10));
             myViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -155,10 +190,17 @@ public class MailReceive extends AppCompatActivity {
                         public boolean onMenuItemClick(MenuItem item) {
                             switch (item.getItemId()){
                                 case R.id.delete:
-                                    Integer count = deleteMessage(String.valueOf(wv.getMailNo()));
+//                                   Integer count = deleteMessage(String.valueOf(wv.getMailNo()));
                                     getWebMail();
                                     rlwebmail.setAdapter(new WebmailSendAdapter(MailReceive.this));
-                                    Toast.makeText(MailReceive.this, "已刪除"+count+"筆信件", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(MailReceive.this, "已刪除1筆信件", Toast.LENGTH_SHORT).show();
+                                    break;
+                                case R.id.insertmail:
+                                    Intent intent = new Intent(MailReceive.this,ReplyMail.class);
+                                    Bundle bundle = new Bundle();
+                                    bundle.putSerializable("wv", wv.getTomemNo());
+                                    intent.putExtras(bundle);
+                                    startActivity(intent);
                                     break;
                             }
                             return true;
@@ -176,12 +218,12 @@ public class MailReceive extends AppCompatActivity {
         //要用的UI宣告在這裡
         class MyViewHolder extends RecyclerView.ViewHolder {
             ImageView tvImg;
-            TextView tvWhoSend;
+            TextView tvWhoSend,tvSendDate;
 
             MyViewHolder(View itemView) {
                 super(itemView);
                 tvWhoSend = (TextView) itemView.findViewById(R.id.tvWhoSend);
-
+                tvSendDate = (TextView) itemView.findViewById(R.id.tvSendDate);
             }
 
         }

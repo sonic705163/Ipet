@@ -14,15 +14,19 @@
         android:orientation="vertical"
         android:padding="10dp">
 
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/tvgetmemno"
             android:text="收件者"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/tvgetmemno"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:paddingBottom="10dp"
-            android:paddingLeft="10dp"
             android:paddingTop="10dp"
+            android:text="收件者"
             android:textSize="18sp" />
 
 
@@ -46,8 +50,7 @@
             android:layout_gravity="end"
             android:elevation="0dp"
             android:onClick="insertMessage"
-            android:text="發送信件"
-             />
+            android:text="發送信件" />
 
 
     </LinearLayout>

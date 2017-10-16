@@ -44,7 +44,7 @@ public class MembersVO implements Parcelable {
     private String month;
     private String year;
 
-    protected MembersVO(Parcel in) {
+    public MembersVO(Parcel in) {
         menId = in.readString();
         memPassword = in.readString();
         memName = in.readString();

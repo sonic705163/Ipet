@@ -20,13 +20,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="5dp"
                 android:text="寄件者"
-                android:textSize="16sp" />
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/tvWhomemno"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
+                android:textSize="18sp"
                 android:text="100000"
                />
         </LinearLayout>
@@ -40,13 +41,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="5dp"
                 android:text="發信時間"
-                android:textSize="16sp" />
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/tvWebmailDateDetail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
+                android:textSize="18sp"
                 android:text="2017-12-12"
                  />
         </LinearLayout>
@@ -62,7 +64,7 @@
             android:layout_height="match_parent"
             android:lineSpacingExtra="5dp"
             android:text="XXXX"
-            android:textSize="16sp" />
+            android:textSize="18sp" />
     </ScrollView>
 
 

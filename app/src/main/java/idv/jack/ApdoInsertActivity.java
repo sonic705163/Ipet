@@ -45,7 +45,7 @@ import idv.randy.ut.Me;
 public class ApdoInsertActivity extends AppCompatActivity {
     String TAG ="ApdoInsertActivity";
     private EditText edpetname  , edpetcloor, edposition , edsituation;
-    private Button btFinishInsert,btpic,bttp;
+    private Button btFinishInsert,btpic,bttp,btap;
     private ImageView ivp;
     private byte[] image;
     private File file;
@@ -58,6 +58,13 @@ public class ApdoInsertActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_apdo_insert);
         findViews();
+        btap.setOnClickListener(v1 -> {
+            edpetname.setText("Ipet寵物當家");
+            edpetcloor.setText("彩色");
+            edposition.setText("桃園市中壢區中大路300號");
+            edsituation.setText(R.string.edsituation);
+
+        });
         rdage.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, @IdRes int i) {
@@ -214,6 +221,7 @@ public class ApdoInsertActivity extends AppCompatActivity {
         btFinishInsert = (Button)findViewById(R.id.btFinishInsert);
         bttp =(Button)findViewById(R.id.bttp);
         btpic =(Button)findViewById(R.id.btpic);
+        btap = (Button)findViewById(R.id.btap);
         ivp = (ImageView)findViewById(R.id.ivp);
         edpetname =(EditText)findViewById(R.id.edpetname);
         edpetcloor = (EditText)findViewById(R.id.edpetcolor);

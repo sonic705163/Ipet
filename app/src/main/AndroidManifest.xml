@@ -69,7 +69,8 @@
         <activity android:name="idv.jack.ApdoInsertActivity" />
         <activity android:name="idv.jack.WebmailSend" />
         <activity android:name="idv.jack.MailReceive" />
-        <activity android:name="idv.jack.WebMail_Detail_Activity"></activity>
+        <activity android:name="idv.jack.WebMail_Detail_Activity" />
+        <activity android:name="idv.jack.ReplyMail"></activity>
     </application>
 
 </manifest>

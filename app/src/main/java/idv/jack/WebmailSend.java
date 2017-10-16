@@ -1,5 +1,6 @@
 package idv.jack;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +13,11 @@ import android.widget.TextView;
 import com.example.java.iPet.R;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
+
+import idv.randy.me.MembersVO;
 
 public class WebmailSend extends AppCompatActivity {
     private final static String TAG = "WebmailSend";
@@ -19,15 +25,16 @@ public class WebmailSend extends AppCompatActivity {
     private EditText etMailContent;
     private Button btnInsertMessage;
     private WebmailVO webmailvo = new WebmailVO();
-    private MyTask sendtask;
     int memno;
-
+    private MyTask sendtask;
+    private MembersVO mbVO;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_webmail_send);
         Bundle bundle = getIntent().getExtras();
-        memno= (Integer) bundle.getSerializable("memno");
+        memno = (Integer) bundle.getSerializable("memno");
+        getMbName(memno);
         webmailvo.setGetmemNo(memno);
         findviews();
         btnInsertMessage.setOnClickListener(new View.OnClickListener() {
@@ -51,7 +58,7 @@ public class WebmailSend extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
-       tvgetmemno.setText(memno+"");
+       tvgetmemno.setText(mbVO.getMemName());
     }
 
     private void getmemno(WebmailVO webmailvo) {
@@ -82,6 +89,32 @@ public class WebmailSend extends AppCompatActivity {
             Common.showToast(this, R.string.msg_NoNetwork);
         }
 
+    }
+
+    private void getMbName(Integer memNo) {
+        if (Common.networkConnected(this)) {
+            String url = null;
+            url = Common.URL2;
+            Gson gson = new Gson();
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("action", "getMbInfo");
+            jsonObject.addProperty("memNo", memNo);
+            String jsonOut = jsonObject.toString();
+            sendtask = new MyTask(url, jsonOut);
+            try {
+                String jsonIn = sendtask.execute().get();
+                Log.d(TAG, jsonIn);
+                Type listType = new TypeToken<MembersVO>(){}.getType();
+                mbVO = gson.fromJson(jsonIn, listType);
+
+            } catch (Exception e) {
+                Log.e(TAG, e.toString());
+            }
+
+
+        } else {
+            Common.showToast(this, "錯誤");
+        }
     }
 
 }

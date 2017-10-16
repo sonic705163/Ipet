@@ -2,13 +2,16 @@ package idv.jack;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.java.iPet.R;
 import com.google.android.gms.maps.CameraUpdate;
@@ -22,10 +25,13 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import idv.randy.ut.Me;
+
 public class petInformation extends AppCompatActivity implements OnMapReadyCallback {
     private static final String TAG = "petInformation";
     private TextView petName, petColor, petAge, petSize, petTnr, petIc, petPosition, petSex, lng, lon;
     private Button btwebmail;
+    private FloatingActionButton btwebmail1;
     MapView mapview;
     private Case cs;
     private GoogleMap googleMap;
@@ -52,9 +58,14 @@ public class petInformation extends AppCompatActivity implements OnMapReadyCallb
         MapsInitializer.initialize(this);
         mapview.getMapAsync(this);
         findViwe(cs);
-        btwebmail.setOnClickListener(new View.OnClickListener() {
+        btwebmail1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SharedPreferences pref = getSharedPreferences("UserData", MODE_PRIVATE);
+                if (!pref.getBoolean("login", false)) {
+                    Toast.makeText(Me.gc(), "請先登入", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 Intent intent = new Intent(petInformation.this,WebmailSend.class);
                 Bundle bundle =new Bundle();
                 bundle.putSerializable("memno",cs.getMemNo());
@@ -94,7 +105,7 @@ public class petInformation extends AppCompatActivity implements OnMapReadyCallb
         petPosition = (TextView) findViewById(R.id.petposition);
         petSex = (TextView) findViewById(R.id.petSex);
         btwebmail =(Button)findViewById(R.id.btwebmail);
-
+        btwebmail1 = (FloatingActionButton)findViewById(R.id.btwebmail1);
     }
 
 
