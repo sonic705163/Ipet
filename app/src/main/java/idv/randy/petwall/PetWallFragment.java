@@ -36,8 +36,8 @@ public class PetWallFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     public List<DogPicVO> mDogPicVOList = getDogPicVOList();
-    private RecyclerView rcView;
-    View view;
+
+    private View view;
     private String mParam1;
     private String mParam2;
     private int memNo;
@@ -136,46 +136,12 @@ public class PetWallFragment extends Fragment {
 
     public List<DogPicVO> getDogPicVOList() {
         List<DogPicVO> zzz = new ArrayList<>();
-        zzz.add(new DogPicVO(1, R.drawable.p01));
-        zzz.add(new DogPicVO(2, R.drawable.p02));
-        zzz.add(new DogPicVO(3, R.drawable.p03));
-        zzz.add(new DogPicVO(4, R.drawable.p04));
-        zzz.add(new DogPicVO(5, R.drawable.p05));
         zzz.add(new DogPicVO(6, R.drawable.p06));
-        zzz.add(new DogPicVO(7, R.drawable.p07));
         zzz.add(new DogPicVO(8, R.drawable.p08));
-        zzz.add(new DogPicVO(9, R.drawable.p09));
-        zzz.add(new DogPicVO(10, R.drawable.p10));
-        zzz.add(new DogPicVO(11, R.drawable.p11));
-        zzz.add(new DogPicVO(12, R.drawable.p12));
-        zzz.add(new DogPicVO(13, R.drawable.p13));
-        zzz.add(new DogPicVO(14, R.drawable.p14));
-        zzz.add(new DogPicVO(15, R.drawable.p15));
-        zzz.add(new DogPicVO(16, R.drawable.p16));
-        zzz.add(new DogPicVO(17, R.drawable.p17));
-        zzz.add(new DogPicVO(18, R.drawable.p18));
         zzz.add(new DogPicVO(19, R.drawable.p19));
-        zzz.add(new DogPicVO(20, R.drawable.p20));
-        zzz.add(new DogPicVO(20, R.drawable.p21));
-        zzz.add(new DogPicVO(20, R.drawable.p22));
-        zzz.add(new DogPicVO(20, R.drawable.p23));
-        zzz.add(new DogPicVO(20, R.drawable.p24));
-        zzz.add(new DogPicVO(20, R.drawable.p25));
-        zzz.add(new DogPicVO(20, R.drawable.p26));
-        zzz.add(new DogPicVO(20, R.drawable.p27));
-        zzz.add(new DogPicVO(20, R.drawable.p28));
-        zzz.add(new DogPicVO(20, R.drawable.p29));
         zzz.add(new DogPicVO(20, R.drawable.p30));
-        zzz.add(new DogPicVO(20, R.drawable.p31));
-        zzz.add(new DogPicVO(20, R.drawable.p32));
-        zzz.add(new DogPicVO(20, R.drawable.p33));
-        zzz.add(new DogPicVO(20, R.drawable.p34));
-        zzz.add(new DogPicVO(20, R.drawable.p35));
-
-
         return zzz;
     }
-
 
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(Uri uri);

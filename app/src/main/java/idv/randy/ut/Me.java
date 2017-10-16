@@ -10,8 +10,8 @@ import android.util.Log;
 
 public class Me extends Application {
     private static Context context;
-    private static String ip = "http://10.0.2.2:8081/ba103g1_Android/";
-//        private static String ip = "http://10.120.38.31:8081/ba103g1_Android/";
+//    private static String ip = "http://10.0.2.2:8081/ba103g1_Android/";
+        private static String ip = "http://10.120.38.31:8081/ba103g1_Android/";
     public static final String MembersServlet = ip + "MembersServlet";
     public static final String PetServlet = ip + "PetServlet";
     public static final String PwrServlet = ip + "PwrServlet";

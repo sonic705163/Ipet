@@ -30,14 +30,15 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class LoginFragment extends Fragment {
     private static final String TAG = "LoginFragment";
-    Button btLogin;
-    View view;
-    JsonObject jsonObject;
-    Button btSet1;
-    Button btSet2;
-    Integer memNo;
-    String memName;
-    LoginFragmentListener mLoginFragmentListener;
+    private Button btLogin;
+    private View view;
+    private JsonObject jsonObject;
+    private Button btSet1;
+    private Button btSet2;
+    private Button btnRegister;
+    private Integer memNo;
+    private String memName;
+    private LoginFragmentListener mLoginFragmentListener;
     private EditText etID;
     private EditText etPD;
 
@@ -59,22 +60,34 @@ public class LoginFragment extends Fragment {
             String id = etID.getText().toString().trim();
             String pd = etPD.getText().toString().trim();
             if (id.length() == 0 || pd.length() == 0) {
-                Toast.makeText(Me.gc(), "Account or Password is invalid", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Me.gc(), "帳號或密碼不可以空白", Toast.LENGTH_SHORT).show();
             } else {
                 try {
+                    SharedPreferences.Editor editor = getActivity().getSharedPreferences("UserData", MODE_PRIVATE).edit();
                     if (isValid(id, pd)) {
-                        SharedPreferences.Editor editor = getActivity().getSharedPreferences("UserData", MODE_PRIVATE).edit();
-                        editor.putString("id", id);
+                        memNo = jsonObject.get("memNo").getAsInt();
+//                        editor.putString("id", id);
                         editor.putInt("memNo", memNo);
                         editor.putBoolean("login", true);
-                        editor.putString("memName", memName);
+//                        editor.putString("memName", memName);
                         editor.apply();
+                        mLoginFragmentListener.login();
                     } else {
-                        Toast.makeText(Me.gc(), "Account or Password is invalid", Toast.LENGTH_SHORT).show();
+                        editor.putBoolean("login", false);
+                        editor.apply();
+                        Toast.makeText(Me.gc(), "帳號或密碼錯誤", Toast.LENGTH_SHORT).show();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+            }
+            etPD.setText("");
+        });
+
+        btnRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mLoginFragmentListener.toRegister();
             }
         });
         return view;
@@ -84,6 +97,7 @@ public class LoginFragment extends Fragment {
         etID = (EditText) view.findViewById(R.id.etID);
         etPD = (EditText) view.findViewById(R.id.etPD);
         btLogin = (Button) view.findViewById(R.id.btLogin);
+        btnRegister = (Button) view.findViewById(R.id.btnRegister);
         btSet1 = (Button) view.findViewById(R.id.btSet1);
         btSet2 = (Button) view.findViewById(R.id.btSet2);
     }
@@ -98,11 +112,9 @@ public class LoginFragment extends Fragment {
             String inputString = new AsyncObjTask(new AsyncAdapter(), jsonObject).execute(Me.MembersServlet).get();
             jsonObject = new Gson().fromJson(inputString, JsonObject.class);
             isValid = jsonObject.get("isValid").getAsBoolean();
-            memNo = jsonObject.get("memNo").getAsInt();
-            memName = jsonObject.get("memName").getAsString();
-            mLoginFragmentListener.login();
-
-
+//            memNo = jsonObject.get("memNo").getAsInt();
+//            memName = jsonObject.get("memName").getAsString();
+//            mLoginFragmentListener.login();
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
@@ -178,5 +190,6 @@ public class LoginFragment extends Fragment {
 
     public interface LoginFragmentListener {
         void login();
+        void toRegister();
     }
 }

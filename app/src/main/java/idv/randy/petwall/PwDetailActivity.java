@@ -42,11 +42,10 @@ public class PwDetailActivity extends AppCompatActivity implements PwDetailFragm
     private LinearLayout llPwr;
     private FloatingActionButton btnFab;
     private PwDetailFragment fragment = new PwDetailFragment();
-    private InputMethodManager imm;
     private SharedPreferences pref;
     private boolean loginStatus;
 
-    View.OnClickListener onClickListener = new View.OnClickListener() {
+    View.OnClickListener onSendListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             String content = etPwrContent.getText().toString();
@@ -123,7 +122,7 @@ public class PwDetailActivity extends AppCompatActivity implements PwDetailFragm
                     .add(R.id.item_detail_container, fragment)
                     .commit();
         }
-        ivSend.setOnClickListener(onClickListener);
+        ivSend.setOnClickListener(onSendListener);
     }
 
     private void findViews() {
@@ -201,6 +200,10 @@ public class PwDetailActivity extends AppCompatActivity implements PwDetailFragm
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnFab:
+                if (!loginStatus) {
+                    Toast.makeText(Me.gc(), "登入後可留言", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 btnFab.setVisibility(View.GONE);
                 llPwr.setVisibility(View.VISIBLE);
                 showKeyboard();

@@ -1,25 +1,24 @@
 package com.example.java.iPet;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.net.nsd.NsdManager;
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
-import idv.jack.ApdotionActivity;
 import idv.jack.ApenterFragment;
 import idv.randy.me.LoginFragment;
 import idv.randy.me.MeFragment;
+import idv.randy.me.RegisterFragment;
 import idv.randy.petwall.PetWallFragment;
 import idv.randy.petwall.PwEnterFragment;
 import idv.randy.ut.Me;
 
-public class MainActivity extends AppCompatActivity implements PetWallFragment.OnFragmentInteractionListener, MeFragment.MeFragmentListener, LoginFragment.LoginFragmentListener, PwEnterFragment.PwEnterFragmentListener {
+public class MainActivity extends AppCompatActivity implements PetWallFragment.OnFragmentInteractionListener, MeFragment.MeFragmentListener, LoginFragment.LoginFragmentListener, PwEnterFragment.PwEnterFragmentListener, RegisterFragment.registerFragmentListener {
     private static final String TAG = "MainActivity";
     public MeFragment mMeFragment = MeFragment.newInstance("", "");
     public LoginFragment mLoginFragment = new LoginFragment();
@@ -28,7 +27,6 @@ public class MainActivity extends AppCompatActivity implements PetWallFragment.O
     boolean loginStatus;
     int mainFragment = R.id.forMainFragment;
     private BottomNavigationView bnv;
-    private FragmentManager fragmentManager = getSupportFragmentManager();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +44,7 @@ public class MainActivity extends AppCompatActivity implements PetWallFragment.O
                         case R.id.adopt:
 //                            Intent intent2 = new Intent(MainActivity.this, ApdotionActivity.class);
 //                            startActivity(intent2);
-                            Me.switchFragment(this , mainFragment, mApenterFragment).commit();
+                            Me.switchFragment(this, mainFragment, mApenterFragment).commit();
                             break;
                         case R.id.petWall:
                             Me.switchFragment(this, mainFragment, mPwEnterFragment).commit();
@@ -79,6 +77,17 @@ public class MainActivity extends AppCompatActivity implements PetWallFragment.O
     public void login() {
         mMeFragment = MeFragment.newInstance("", "");
         Me.switchFragment(this, mainFragment, mMeFragment).commit();
+    }
+
+    @Override
+    public void cancel() {
+
+    }
+
+    @Override
+    public void toRegister() {
+        RegisterFragment registerFragment = new RegisterFragment();
+        Me.switchFragment(this, mainFragment, registerFragment).commit();
     }
 
     @Override

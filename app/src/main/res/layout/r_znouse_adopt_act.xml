@@ -11,7 +11,6 @@ tools:context="com.example.java.iPet.MainActivity">
 <ImageView
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:src="@drawable/p14"
     android:layout_weight="1"/>
 
 <android.support.design.widget.BottomNavigationView

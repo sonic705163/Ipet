@@ -103,7 +103,7 @@
         android:clickable="true"
         app:fabSize="normal"
         android:layout_margin="16dp"
-        android:src="@drawable/ic_send_black_24dp"
+        android:src="@drawable/ic_add"
         android:visibility="visible"/>
 
 
