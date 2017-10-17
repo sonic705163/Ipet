@@ -118,7 +118,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="8"
                 android:gravity="center_vertical"
-                android:text="台南市"
+                android:text=""
                 android:textSize="16sp"/>
         </LinearLayout>
 
@@ -148,7 +148,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="8"
                 android:gravity="center_vertical"
-                android:text="台南市"
+                android:text=""
                 android:textSize="16sp"/>
         </LinearLayout>
 
@@ -178,7 +178,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="8"
                 android:gravity="center_vertical"
-                android:text="台南市"
+                android:text=""
                 android:textSize="16sp"/>
         </LinearLayout>
 
@@ -208,7 +208,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="8"
                 android:gravity="center_vertical"
-                android:text="台南市"
+                android:text=""
                 android:textSize="16sp"/>
         </LinearLayout>
 

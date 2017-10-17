@@ -20,10 +20,9 @@ import idv.randy.petwall.PetWallFragment;
 import idv.randy.ut.AsyncAdapter;
 import idv.randy.ut.AsyncImageTask;
 import idv.randy.ut.AsyncObjTask;
-import idv.randy.ut.ImageListener;
 import idv.randy.ut.Me;
 
-public class MemberActivity extends AppCompatActivity implements PetWallFragment.OnFragmentInteractionListener{
+public class MemberActivity extends AppCompatActivity implements PetWallFragment.OnFragmentInteractionListener {
     private static final String TAG = "MemberActivity";
     private Toolbar toolbar;
     private TextView tvMemName;
@@ -68,8 +67,13 @@ public class MemberActivity extends AppCompatActivity implements PetWallFragment
                 tvMemID.setText(membersVO.getMenId());
                 tvMemAddress.setText(membersVO.getMemAddress());
                 tvMemEmail.setText(membersVO.getMemEmail());
-                tvMemBirthday.setText(membersVO.getMemBirthday().toString().substring(5, 10));
-                tvMemCreateDate.setText(membersVO.getMemCreateDate().toString().substring(0, 10));
+                if (membersVO.getMemBirthday() != null) {
+                    tvMemBirthday.setText(membersVO.getMemBirthday().toString().substring(5, 10));
+                }
+                if (membersVO.getMemCreateDate() != null) {
+                    tvMemCreateDate.setText(membersVO.getMemCreateDate().toString().substring(0, 10));
+                }
+
             }
         };
         new AsyncObjTask(asyncAdapeter, jsonObject).execute(Me.MembersServlet);
