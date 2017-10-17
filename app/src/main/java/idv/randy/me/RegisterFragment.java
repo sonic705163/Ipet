@@ -67,6 +67,8 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
     private static final int REQUESTCODE_PHOTO_LIB = 2;
     private static final String TAG = "RegisterFragment";
     private byte[] image;
+    private SharedPreferences pref;
+    private SharedPreferences.Editor editor;
 
     public RegisterFragment() {
         // Required empty public constructor
@@ -78,10 +80,16 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.r_fragment_register, container, false);
         findViews();
+        pref = getActivity().getSharedPreferences("UserData", MODE_PRIVATE);
+        editor = getActivity().getSharedPreferences("UserData", MODE_PRIVATE).edit();
         btSet1.setOnClickListener(v1 -> {
-            etID.setText("Randy777");
+            int count = pref.getInt("count", 1);
+            etID.setText("Randy00" + count);
             etPD.setText("123456");
-            etMemName.setText("陳致遠");
+            etMemName.setText("陳致遠0" + count);
+            count += 1;
+            editor.putInt("count", count);
+            editor.apply();
         });
 
         btRegister.setOnClickListener(v -> {
@@ -97,7 +105,6 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
                     imageBase64 = "";
                 }
                 try {
-                    SharedPreferences.Editor editor = getActivity().getSharedPreferences("UserData", MODE_PRIVATE).edit();
                     if (isValid(id, pd, memName)) {
                         memNo = jsonObject.get("memNo").getAsInt();
                         editor.putInt("memNo", memNo);

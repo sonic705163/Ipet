@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity implements PetWallFragment.O
     public LoginFragment mLoginFragment = new LoginFragment();
     public PwEnterFragment mPwEnterFragment = new PwEnterFragment();
     public ApenterFragment mApenterFragment = new ApenterFragment();
+    RegisterFragment registerFragment = new RegisterFragment();
     boolean loginStatus;
     int mainFragment = R.id.forMainFragment;
     private BottomNavigationView bnv;
@@ -34,6 +35,7 @@ public class MainActivity extends AppCompatActivity implements PetWallFragment.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         final ActionBar acb = getSupportActionBar();
+        Me.switchFragment(this, mainFragment, mPwEnterFragment).commit();
         bnv = (BottomNavigationView) findViewById(R.id.bnv);
         bnv.setOnNavigationItemSelectedListener(
                 item -> {
@@ -86,7 +88,6 @@ public class MainActivity extends AppCompatActivity implements PetWallFragment.O
 
     @Override
     public void toRegister() {
-        RegisterFragment registerFragment = new RegisterFragment();
         Me.switchFragment(this, mainFragment, registerFragment).commit();
     }
 
