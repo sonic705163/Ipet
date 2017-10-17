@@ -19,6 +19,7 @@ import com.example.java.iPet.R;
 import com.google.gson.JsonObject;
 
 import idv.jack.MailReceive;
+import idv.randy.idv.randy.friends.FriendsActivity;
 import idv.randy.member.MemberPwActivity;
 import idv.randy.ut.AsyncAdapter;
 import idv.randy.ut.AsyncImageTask;
@@ -38,6 +39,7 @@ public class MeFragment extends Fragment implements View.OnClickListener {
     private LinearLayout llFeedback;
     private LinearLayout llMyPw;
     private LinearLayout llLogOut;
+    private LinearLayout llFriends;
     private String mParam1;
     private String mParam2;
     private TextView tvMemName;
@@ -106,6 +108,7 @@ public class MeFragment extends Fragment implements View.OnClickListener {
         llFeedback.setOnClickListener(this);
         llMyPw.setOnClickListener(this);
         llLogOut.setOnClickListener(this);
+        llFriends.setOnClickListener(this);
         ivmail.setOnClickListener(this);
         return view;
     }
@@ -124,6 +127,7 @@ public class MeFragment extends Fragment implements View.OnClickListener {
         llFeedback = (LinearLayout) view.findViewById(R.id.llFeedback);
         llMyPw = (LinearLayout) view.findViewById(R.id.llMyPw);
         llLogOut = (LinearLayout) view.findViewById(R.id.llLogOut);
+        llFriends = (LinearLayout) view.findViewById(R.id.llFriends);
         ivmail = (ImageView) view.findViewById(R.id.ivmail);
     }
 
@@ -206,6 +210,8 @@ public class MeFragment extends Fragment implements View.OnClickListener {
                 editor.apply();
                 mListener.logOut();
                 break;
+            case R.id.llFriends:
+                FriendsActivity.start(getActivity());
             default:
                 break;
         }

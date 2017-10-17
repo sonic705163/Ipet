@@ -8,237 +8,246 @@
     android:orientation="vertical"
     tools:context="idv.randy.member.MemberActivity">
 
-        <android.support.design.widget.AppBarLayout
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:theme="@style/AppTheme.AppBarOverlay">
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay"/>
 
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="?attr/colorPrimary"
-                app:popupTheme="@style/AppTheme.PopupOverlay"/>
+    </android.support.design.widget.AppBarLayout>
 
-        </android.support.design.widget.AppBarLayout>
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="112dp">
 
-        <android.support.v7.widget.CardView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="112dp">
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <android.support.v7.widget.CardView xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                android:id="@+id/view2"
+                                                android:layout_width="80dp"
+                                                android:layout_height="80dp"
+                                                android:layout_gravity="center"
+                                                android:layout_margin="16dp"
+                                                android:background="#000"
+                                                app:cardCornerRadius="40dp">
+
+                <ImageView
+                    android:id="@+id/ivMemImg"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:adjustViewBounds="true"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/fake"/>
+            </android.support.v7.widget.CardView>
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="175dp"
                 android:layout_height="match_parent"
-                android:orientation="horizontal">
+                android:layout_margin="16dp"
+                android:orientation="vertical">
 
-                <android.support.v7.widget.CardView xmlns:app="http://schemas.android.com/apk/res-auto"
-                                                    android:id="@+id/view2"
-                                                    android:layout_width="80dp"
-                                                    android:layout_height="80dp"
-                                                    android:layout_gravity="center"
-                                                    android:layout_margin="16dp"
-                                                    android:background="#000"
-                                                    app:cardCornerRadius="40dp">
-
-                    <ImageView
-                        android:id="@+id/ivMemImg"
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
-                        android:adjustViewBounds="true"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/fake"/>
-                </android.support.v7.widget.CardView>
+                <TextView
+                    android:id="@+id/tvMemName"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:maxLines="1"
+                    android:text="Andy"
+                    android:textSize="22dp"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="16dp"
-                    android:orientation="vertical">
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical">
 
                     <TextView
-                        android:id="@+id/tvMemName"
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:text="iPet ID : "
+                        android:textSize="20dp"/>
+
+                    <TextView
+                        android:id="@+id/tvMemId"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:gravity="center_vertical"
                         android:maxLines="1"
                         android:text="Andy"
-                        android:textSize="22dp"/>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"
-                        android:gravity="center_vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="center_vertical"
-                            android:text="iPet ID : "
-                            android:textSize="20dp"/>
-
-                        <TextView
-                            android:id="@+id/tvMemId"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="center_vertical"
-                            android:maxLines="1"
-                            android:text="Andy"
-                            android:textSize="20dp"/>
-                    </LinearLayout>
-
+                        android:textSize="20dp"/>
                 </LinearLayout>
 
+
             </LinearLayout>
-        </android.support.v7.widget.CardView>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="8dp"
-            android:background="#EEE"
-            android:orientation="horizontal"></LinearLayout>
+            <Button
+                android:id="@+id/btnAddFriend"
+                android:layout_gravity="center"
+                android:layout_width="60dp"
+                android:layout_height="48dp"
+                android:background="#00DD77"
+                android:text="加入好友"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="48dp">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="24dp"
-                android:layout_weight="3"
-                android:gravity="center_vertical"
-                android:text="縣市"
-                android:textSize="18sp"/>
-
-            <TextView
-                android:id="@+id/tvMemAddress"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="8"
-                android:gravity="center_vertical"
-                android:text=""
-                android:textSize="16sp"/>
         </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:background="#EEE"
+        android:orientation="horizontal"></LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="24dp"
+            android:layout_weight="3"
+            android:gravity="center_vertical"
+            android:text="縣市"
+            android:textSize="18sp"/>
+
+        <TextView
+            android:id="@+id/tvMemAddress"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="8"
+            android:gravity="center_vertical"
+            android:text=""
+            android:textSize="16sp"/>
+    </LinearLayout>
 
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#EEE"
-            android:orientation="horizontal"></LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#EEE"
+        android:orientation="horizontal"></LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="48dp">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp">
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="24dp"
-                android:layout_weight="3"
-                android:gravity="center_vertical"
-                android:text="E-Mail"
-                android:textSize="16sp"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="24dp"
+            android:layout_weight="3"
+            android:gravity="center_vertical"
+            android:text="E-Mail"
+            android:textSize="16sp"/>
 
-            <TextView
-                android:id="@+id/tvMemEmail"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="8"
-                android:gravity="center_vertical"
-                android:text=""
-                android:textSize="16sp"/>
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#EEE"
-            android:orientation="horizontal"></LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="48dp">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="24dp"
-                android:layout_weight="3"
-                android:gravity="center_vertical"
-                android:text="生日"
-                android:textSize="18sp"/>
-
-            <TextView
-                android:id="@+id/tvMemBirthday"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="8"
-                android:gravity="center_vertical"
-                android:text=""
-                android:textSize="16sp"/>
-        </LinearLayout>
+        <TextView
+            android:id="@+id/tvMemEmail"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="8"
+            android:gravity="center_vertical"
+            android:text=""
+            android:textSize="16sp"/>
+    </LinearLayout>
 
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#EEE"
-            android:orientation="horizontal"></LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#EEE"
+        android:orientation="horizontal"></LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="48dp">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp">
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="24dp"
-                android:layout_weight="3"
-                android:gravity="center_vertical"
-                android:text="加入日期"
-                android:textSize="18sp"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="24dp"
+            android:layout_weight="3"
+            android:gravity="center_vertical"
+            android:text="生日"
+            android:textSize="18sp"/>
 
-            <TextView
-                android:id="@+id/tvMemCreateDate"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="8"
-                android:gravity="center_vertical"
-                android:text=""
-                android:textSize="16sp"/>
-        </LinearLayout>
+        <TextView
+            android:id="@+id/tvMemBirthday"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="8"
+            android:gravity="center_vertical"
+            android:text=""
+            android:textSize="16sp"/>
+    </LinearLayout>
 
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#EEE"
-            android:orientation="horizontal"></LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#EEE"
+        android:orientation="horizontal"></LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="48dp">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp">
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="24dp"
-                android:layout_weight="3"
-                android:gravity="center_vertical"
-                android:text="個人寵物牆"
-                android:textSize="18sp"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="24dp"
+            android:layout_weight="3"
+            android:gravity="center_vertical"
+            android:text="加入日期"
+            android:textSize="18sp"/>
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="8"
-                android:gravity="center_vertical"
-                android:text=""/>
-        </LinearLayout>
+        <TextView
+            android:id="@+id/tvMemCreateDate"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="8"
+            android:gravity="center_vertical"
+            android:text=""
+            android:textSize="16sp"/>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#EEE"
+        android:orientation="horizontal"></LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="24dp"
+            android:layout_weight="3"
+            android:gravity="center_vertical"
+            android:text="個人寵物牆"
+            android:textSize="18sp"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="8"
+            android:gravity="center_vertical"
+            android:text=""/>
+    </LinearLayout>
 
     <FrameLayout
         android:id="@+id/forMemberPwFragment"

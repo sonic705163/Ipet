@@ -264,13 +264,14 @@
 
 
             <LinearLayout
+                android:id="@+id/llFriends"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:orientation="vertical"
-                android:visibility="gone">
+                android:visibility="visible">
 
                 <ImageView
                     android:layout_width="48dp"
@@ -284,7 +285,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:gravity="center_vertical"
-                    android:text="送養"
+                    android:text="好友"
                     android:textSize="18dp"/>
             </LinearLayout>
 

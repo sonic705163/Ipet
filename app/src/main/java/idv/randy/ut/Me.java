@@ -17,6 +17,7 @@ public class Me extends Application {
     public static final String MembersServlet = ip + "MembersServlet";
     public static final String PetServlet = ip + "PetServlet";
     public static final String PwrServlet = ip + "PwrServlet";
+    public static final String addFriends = ip + "addFriends";
     public static Fragment current;
 
     public static Context gc() {

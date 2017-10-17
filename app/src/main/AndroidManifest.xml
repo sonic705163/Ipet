@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.java.iPet">
+          package="com.example.java.iPet">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 
     <application
         android:name="idv.randy.ut.Me"
@@ -24,53 +24,55 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/provider_paths" />
+                android:resource="@xml/provider_paths"/>
         </provider>
 
         <meta-data
             android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version" />
+            android:value="@integer/google_play_services_version"/>
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyDMCHccRGVvpXvN7lE4J1qWXUgHK6E83ag" />
+            android:value="AIzaSyDMCHccRGVvpXvN7lE4J1qWXUgHK6E83ag"/>
 
         <activity
             android:name=".MainActivity"
             android:label="iPet"
             android:launchMode="singleTask">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name="idv.randy.zNouse.AdoptActivity" />
-        <activity android:name="idv.randy.zNouse.wall_m" />
+        <activity android:name="idv.randy.zNouse.AdoptActivity"/>
+        <activity android:name="idv.randy.zNouse.wall_m"/>
         <activity
             android:name="idv.randy.petwall.PwActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name="idv.randy.me.LoginActivity" />
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name="idv.randy.me.LoginActivity"/>
         <activity
             android:name="idv.randy.petwall.PwDetailActivity"
-            android:theme="@style/DetailTheme" />
+            android:theme="@style/DetailTheme"/>
         <activity
             android:name="idv.randy.petwall.PwInsertActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name="idv.randy.me.FeedbackActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name="idv.randy.member.MemberActivity"
             android:label="@string/title_activity_member"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name="idv.randy.member.MemberPwActivity" />
-        <activity android:name="idv.jack.ApdotionActivity" />
-        <activity android:name="idv.jack.petInformation" />
-        <activity android:name="idv.jack.ApdoInsertActivity" />
-        <activity android:name="idv.jack.WebmailSend" />
-        <activity android:name="idv.jack.MailReceive" />
-        <activity android:name="idv.jack.WebMail_Detail_Activity" />
-        <activity android:name="idv.jack.ReplyMail"></activity>
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name="idv.randy.member.MemberPwActivity"/>
+        <activity android:name="idv.jack.ApdotionActivity"/>
+        <activity android:name="idv.jack.petInformation"/>
+        <activity android:name="idv.jack.ApdoInsertActivity"/>
+        <activity android:name="idv.jack.WebmailSend"/>
+        <activity android:name="idv.jack.MailReceive"/>
+        <activity android:name="idv.jack.WebMail_Detail_Activity"/>
+        <activity android:name="idv.jack.ReplyMail"/>
+        <activity android:name="idv.randy.idv.randy.friends.FriendsActivity">
+        </activity>
     </application>
 
 </manifest>
