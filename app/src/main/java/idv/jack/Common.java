@@ -8,15 +8,13 @@ import android.widget.Toast;
 
 public class Common { // Android官方模擬器連結本機web server可以直接使用 http://10.0.2.2
 
-    public final static String URL = "http://10.0.2.2:8081/ba103g1_Android/PetServletAndroid";
-    public final static String URL1 = "http://10.0.2.2:8081/ba103g1_Android/WebMailServletAndroid";
-//    public final static String URL2 = "http://10.0.2.2:8081/ba103g1_Android/MemServlet";
-    public final static String URL2 = "http://10.0.2.2:8081/ba103g1_Android/MembersServlet";
-    public final static String URL2 = "http://10.0.2.2:8081/ba103g1_Android/MembersServlet";
+//    public final static String URL = "http://10.0.2.2:8081/ba103g1_Android/PetServletAndroid";
+//    public final static String URL1 = "http://10.0.2.2:8081/ba103g1_Android/WebMailServletAndroid";
+//    public final static String URL2 = "http://10.0.2.2:8081/ba103g1_Android/MembersServlet";
 
-//    public final static String URL = "http://192.168.196.250:8081/ba103g1_Android/PetServletAndroid";
-//    public final static String URL1 = "http://192.168.196.250:8081/ba103g1_Android/WebMailServletAndroid";
-//    public final static String URL2 = "http://192.168.196.250:8081/ba103g1_Android/MembersServlet";
+    public final static String URL =  "http://10.120.38.13:8081/ba103g1_Android/PetServletAndroid";
+    public final static String URL1 = "http://10.120.38.13:8081/ba103g1_Android/WebMailServletAndroid";
+    public final static String URL2 = "http://10.120.38.13:8081/ba103g1_Android/MembersServlet";
 
     public static boolean networkConnected(Activity activity) {
         ConnectivityManager conManager =
