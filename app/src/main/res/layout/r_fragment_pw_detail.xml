@@ -27,6 +27,7 @@
         android:layout_gravity="center_vertical"
         android:gravity="center_vertical"
         android:text="MemID"
+        android:maxLines="1"
         android:textSize="18sp"/>
 
     <TextView

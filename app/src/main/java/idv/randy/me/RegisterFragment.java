@@ -86,7 +86,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
             int count = pref.getInt("count", 1);
             etID.setText("Randy00" + count);
             etPD.setText("123456");
-            etMemName.setText("陳致遠0" + count);
+            etMemName.setText("陳致遠");
             count += 1;
             editor.putInt("count", count);
             editor.apply();
@@ -240,8 +240,8 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         Log.d(TAG, "onActivityResult: ");
+        makeIconGone();
         if (resultCode == getActivity().RESULT_OK) {
-            makeIconGone();
             switch (requestCode) {
                 case REQUESTCODE_SHOT:
                     Log.d(TAG, "onActivityResult: " + file.getPath());

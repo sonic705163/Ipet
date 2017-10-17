@@ -33,8 +33,8 @@ import com.google.gson.JsonObject;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
+import idv.randy.ut.AsyncAdapter;
 import idv.randy.ut.AsyncObjTask;
 import idv.randy.ut.Me;
 
@@ -85,7 +85,7 @@ public class PwInsertActivity extends AppCompatActivity implements View.OnClickL
         ivPwPicture = (ImageView) findViewById(R.id.ivPwPicture);
         tvSend = (TextView) findViewById(R.id.tvSend);
         etPwContent = (EditText) findViewById(R.id.etFeedback);
-        tvCancel = (TextView)findViewById(R.id.tvCancel);
+        tvCancel = (TextView) findViewById(R.id.tvCancel);
     }
 
     private boolean isIntentAvailable(Context context, Intent intent) {
@@ -193,21 +193,23 @@ public class PwInsertActivity extends AppCompatActivity implements View.OnClickL
                 jsonObject.addProperty("imageBase64", imageBase64);
                 jsonObject.addProperty("pwContent", etPwContent.getText().toString());
                 jsonObject.addProperty("memNo", pref.getInt("memNo", 0));
-                try {
-                    new AsyncObjTask(null, jsonObject).execute(Me.PetServlet).get();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
-                }
-                pwListener.onPwInsert();
-                finish();
+
+                new AsyncObjTask(new AsyncAdapter() {
+                    @Override
+                    public void onFinish(String result) {
+                        super.onFinish(result);
+                        pwListener.onPwInsert();
+                        finish();
+                    }
+                }, jsonObject).execute(Me.PetServlet);
+
                 break;
             default:
                 break;
 
         }
     }
+
     public interface PwInsertListener {
         void onPwInsert();
 
