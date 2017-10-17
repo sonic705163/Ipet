@@ -52,8 +52,8 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
     private View view;
     private JsonObject jsonObject;
     private Button btSet1;
-    private Button btSet2;
     private Button btRegister;
+    private Button btCancelRegister;
     private Integer memNo;
     private EditText etMemName;
     private EditText etID;
@@ -126,6 +126,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
         ivMemImg.setOnClickListener(this);
         llCamera.setOnClickListener(this);
         llPhotoLib.setOnClickListener(this);
+        btCancelRegister.setOnClickListener(this);
         makeIconGone();
         return view;
     }
@@ -143,6 +144,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
         etMemName = (EditText) view.findViewById(R.id.etMemName);
         btRegister = (Button) view.findViewById(R.id.btRegister);
         btSet1 = (Button) view.findViewById(R.id.btSet1);
+        btCancelRegister = (Button) view.findViewById(R.id.btCancelRegister);
         ivMemImg = (ImageView) view.findViewById(R.id.ivMemImg);
     }
 
@@ -219,6 +221,10 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
                     startActivityForResult(intent, REQUESTCODE_PHOTO_LIB);
                 }
                 break;
+            case R.id.btCancelRegister:
+                mListener.cancel();
+                break;
+
         }
     }
 
