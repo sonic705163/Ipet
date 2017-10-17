@@ -23,8 +23,8 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 
 import java.sql.Date;
-import java.util.concurrent.ExecutionException;
 
+import idv.randy.ut.AsyncAdapter;
 import idv.randy.ut.AsyncImageTask;
 import idv.randy.ut.AsyncObjTask;
 import idv.randy.ut.Me;
@@ -59,23 +59,42 @@ public class PwDetailActivity extends AppCompatActivity implements PwDetailFragm
                 Toast.makeText(Me.gc(), "登入後可留言", Toast.LENGTH_SHORT).show();
                 return;
             }
-            try {
-                new AsyncObjTask(null, insertPwr(content)).execute(Me.PwrServlet).get();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } catch (ExecutionException e) {
-                e.printStackTrace();
-            }
-            PwDetailFragment fragment = new PwDetailFragment();
-            fragment.setArguments(arguments);
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.item_detail_container, fragment)
-                    .commit();
+//            try {
+//                new AsyncObjTask(null, insertPwr(content)).execute(Me.PwrServlet).get();
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            } catch (ExecutionException e) {
+//                e.printStackTrace();
+//            }
+//            hideKeyPad();
+//            PwDetailFragment fragment = new PwDetailFragment();
+//            fragment.setArguments(arguments);
+//            getSupportFragmentManager().beginTransaction()
+//                    .replace(R.id.item_detail_container, fragment)
+//                    .commit();
+//            etPwrContent.setText("");
+//            llPwr.setVisibility(View.GONE);
+//            btnFab.setVisibility(View.VISIBLE);
+//            pwrListener.onPwrSend();
+            new AsyncObjTask(new AsyncAdapter() {
+                @Override
+                public void onFinish(String result) {
+                    super.onFinish(result);
+
+                    PwDetailFragment fragment = new PwDetailFragment();
+                    fragment.setArguments(arguments);
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.item_detail_container, fragment)
+                            .commit();
+                    pwrListener.onPwrSend();
+                }
+            }, insertPwr(content)).execute(Me.PwrServlet);
             etPwrContent.setText("");
             hideKeyPad();
             llPwr.setVisibility(View.GONE);
             btnFab.setVisibility(View.VISIBLE);
-            pwrListener.onPwrSend();
+
+
         }
     };
 
@@ -180,7 +199,7 @@ public class PwDetailActivity extends AppCompatActivity implements PwDetailFragm
                 jsonObject.addProperty("action", "deletePw");
                 jsonObject.addProperty("pwNo", pwNo);
                 new AsyncObjTask(null, jsonObject).execute(Me.PetServlet);
-                if(pwrListener!=null){
+                if (pwrListener != null) {
                     pwrListener.onDelete();
                 }
                 break;
@@ -219,6 +238,7 @@ public class PwDetailActivity extends AppCompatActivity implements PwDetailFragm
 
     public interface PwrListener {
         void onPwrSend();
+
         void onDelete();
     }
 

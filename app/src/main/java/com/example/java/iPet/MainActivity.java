@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity implements PetWallFragment.O
 
     @Override
     public void cancel() {
-
+        Me.switchFragment(this, mainFragment, mLoginFragment).commit();
     }
 
     @Override

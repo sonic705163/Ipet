@@ -120,8 +120,6 @@ public class PwActivity extends AppCompatActivity implements View.OnClickListene
                     return;
                 }
                 PwInsertActivity.start(PwActivity.this);
-                onStart();
-
             }
         });
     }
