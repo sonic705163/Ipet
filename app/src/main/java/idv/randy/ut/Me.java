@@ -13,18 +13,18 @@ public class Me extends Application {
     private static String ip = "http://10.0.2.2:8081/ba103g1_Android/";
 //        private static String ip = "http://10.120.38.31:8081/ba103g1_Android/";
 
-//    private static String ip = "http://10.120.38.13:8081/ba103g1_Android/";
+//        private static String ip = "http://10.120.38.13:8081/ba103g1_Android/";
     public static final String MembersServlet = ip + "MembersServlet";
     public static final String PetServlet = ip + "PetServlet";
     public static final String PwrServlet = ip + "PwrServlet";
     public static final String addFriends = ip + "addFriends";
     public static Fragment current;
-
     public static Context gc() {
         return context;
     }
 
     private static final String TAG = "Me";
+
 
 
     public static FragmentTransaction switchFragment(FragmentActivity context, int resid, Fragment target) {
@@ -43,6 +43,8 @@ public class Me extends Application {
         current = target;
         return transaction;
     }
+
+
 
 
     @Override

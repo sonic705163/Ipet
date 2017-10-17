@@ -88,7 +88,7 @@ public class petInformation extends AppCompatActivity implements OnMapReadyCallb
         CameraPosition cameraPosition = new CameraPosition.Builder().target(myLocation).zoom(16).build();
         CameraUpdate cameraUpdate = CameraUpdateFactory.newCameraPosition(cameraPosition);
 
-        googleMap.addMarker(new MarkerOptions().position(myLocation).icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_add)));
+        googleMap.addMarker(new MarkerOptions().position(myLocation).icon(BitmapDescriptorFactory.fromResource(R.drawable.mapff)));
         googleMap.moveCamera(cameraUpdate);
 
 
