@@ -16,9 +16,11 @@
     <string name="Shop">商店</string>
     <string name="mag_NoFind">找不到</string>
     <string name="msg_NoNetwork">沒網路</string>
-    <string name="tvTitle">PetInformation</string>
+    <string name="tvTitle"></string>
     <string name="title_activity_pw_detail">PwDetailActivity</string>
     <string name="title_activity_member">MemberActivity</string>
     <string name="msg_InsertFail">新增失敗</string>
     <string name="msg_InsertSuccess">新增成功</string>
+    <string name="edsituation">我們是可愛的BA103想要被公司領養,我們很優秀請廠商先進考慮我們班優秀的同學們</string>
+
 </resources>

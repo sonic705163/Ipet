@@ -3,6 +3,7 @@ package idv.jack;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
@@ -16,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.java.iPet.R;
 import com.google.gson.Gson;
@@ -26,22 +28,27 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.List;
 
+import idv.randy.me.MembersVO;
+import idv.randy.ut.Me;
+
 public class ApdotionActivity extends AppCompatActivity {
 
     private final static String TAG = "ApdotionActivity";
     private MyTask caseTask;
     List<Case> csLists;
     private SpotGetImageTask spotGetImageTask;
-    private FragmentManager petinformation = getSupportFragmentManager();
-
     private FloatingActionButton fabtn;
     private SwipeRefreshLayout swipeRefreshLayout;
     private CaseAdapter caseAdapter;
+    private MyTask sendtask;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_apdotion);
+
 
         swipeRefreshLayout =
                 (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
@@ -60,9 +67,12 @@ public class ApdotionActivity extends AppCompatActivity {
         caseAdapter = new CaseAdapter(this);
         csRecycleView.setAdapter(caseAdapter);
         fabtn = (FloatingActionButton) findViewById(R.id.btnAdd);
+//        getMbName();
 
 
     }
+
+
 
     private void getpetList() {
         if (Common.networkConnected(this)) {
@@ -95,6 +105,8 @@ public class ApdotionActivity extends AppCompatActivity {
 
     }
 
+
+
     @Override
     public void onStart() {
         super.onStart();
@@ -120,7 +132,6 @@ public class ApdotionActivity extends AppCompatActivity {
         @Override
         public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View itemView = layoutInflater.inflate(R.layout.item_view, parent, false);
-
             return new MyViewHolder(itemView);
         }
 
@@ -152,10 +163,15 @@ public class ApdotionActivity extends AppCompatActivity {
             fabtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = new Intent(view.getContext(),ApdoInsertActivity.class);
-                    startActivity(intent);
+                    SharedPreferences pref = getSharedPreferences("UserData", MODE_PRIVATE);
+                    if (!pref.getBoolean("login", false)) {
+                        Toast.makeText(Me.gc(), "請先登入", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
 //                    ApdoInsert fai = new ApdoInsert();
 //                    ApdoInsert.beginTransaction().replace(R.id.flapdoinsert, fai).addToBackStack(null).commit();
+                    Intent intent = new Intent(ApdotionActivity.this,ApdoInsertActivity.class);
+                    startActivity(intent);
                 }
             });
 
@@ -168,6 +184,7 @@ public class ApdotionActivity extends AppCompatActivity {
 
             MyViewHolder(View itemView) {
                 super(itemView);
+
                 tvSituation = (TextView) itemView.findViewById(R.id.tvSituation);
                 tvImg = (ImageView) itemView.findViewById(R.id.tvImg);
                 tvmore =(TextView) itemView.findViewById(R.id.tvmore);
