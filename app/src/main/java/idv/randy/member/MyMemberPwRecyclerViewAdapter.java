@@ -14,7 +14,6 @@ import com.example.java.iPet.R;
 import java.util.List;
 
 import idv.randy.petwall.PwDetailActivity;
-import idv.randy.petwall.PwInsertActivity;
 import idv.randy.petwall.PwVO;
 import idv.randy.ut.AsyncImageTask;
 import idv.randy.ut.Me;

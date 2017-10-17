@@ -21,11 +21,11 @@
 
     <TextView
         android:id="@+id/tvMemID"
-        android:layout_width="wrap_content"
+        android:layout_width="60dp"
         android:layout_height="match_parent"
         android:layout_margin="8dp"
         android:layout_gravity="center_vertical"
-        android:gravity="center"
+        android:gravity="center_vertical"
         android:text="MemID"
         android:textSize="18sp"/>
 

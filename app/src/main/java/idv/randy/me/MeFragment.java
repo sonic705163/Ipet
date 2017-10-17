@@ -213,7 +213,6 @@ public class MeFragment extends Fragment implements View.OnClickListener {
 
     public interface MeFragmentListener {
         void onFragmentInteraction(Uri uri);
-
         void logOut();
     }
 

@@ -2,7 +2,6 @@ package idv.randy.member;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -18,14 +17,12 @@ import com.google.gson.JsonObject;
 
 import idv.randy.me.MembersVO;
 import idv.randy.petwall.PetWallFragment;
-import idv.randy.petwall.PwInsertActivity;
 import idv.randy.ut.AsyncAdapter;
 import idv.randy.ut.AsyncImageTask;
 import idv.randy.ut.AsyncObjTask;
-import idv.randy.ut.ImageListener;
 import idv.randy.ut.Me;
 
-public class MemberActivity extends AppCompatActivity implements PetWallFragment.OnFragmentInteractionListener{
+public class MemberActivity extends AppCompatActivity implements PetWallFragment.OnFragmentInteractionListener {
     private static final String TAG = "MemberActivity";
     private Toolbar toolbar;
     private TextView tvMemName;
@@ -70,8 +67,13 @@ public class MemberActivity extends AppCompatActivity implements PetWallFragment
                 tvMemID.setText(membersVO.getMenId());
                 tvMemAddress.setText(membersVO.getMemAddress());
                 tvMemEmail.setText(membersVO.getMemEmail());
-                tvMemBirthday.setText(membersVO.getMemBirthday().toString().substring(5, 10));
-                tvMemCreateDate.setText(membersVO.getMemCreateDate().toString().substring(0, 10));
+                if (membersVO.getMemBirthday() != null) {
+                    tvMemBirthday.setText(membersVO.getMemBirthday().toString().substring(5, 10));
+                }
+                if (membersVO.getMemCreateDate() != null) {
+                    tvMemCreateDate.setText(membersVO.getMemCreateDate().toString().substring(0, 10));
+                }
+
             }
         };
         new AsyncObjTask(asyncAdapeter, jsonObject).execute(Me.MembersServlet);
@@ -79,7 +81,6 @@ public class MemberActivity extends AppCompatActivity implements PetWallFragment
         Bundle arguments = new Bundle();
         arguments.putInt("memNo", memNo);
         Fragment fragment = new MemberPwFragment();
-//            Fragment fragment = new PetWallFragment();
         fragment.setArguments(arguments);
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.forMemberPwFragment, fragment)

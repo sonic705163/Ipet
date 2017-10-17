@@ -9,9 +9,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.java.iPet.R;
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 import java.util.List;
@@ -79,11 +79,13 @@ public class MemberPwFragment extends Fragment {
         public void onFinish(String result) {
             if (result != null) {
                 PwVOs = PwVO.decodeToList(result);
-                if (PwVOs != null) {
+                if (PwVOs.size()>0) {
                     Context context = view.getContext();
                     RecyclerView recyclerView = (RecyclerView) view;
                     recyclerView.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL));
                     recyclerView.setAdapter(new MyMemberPwRecyclerViewAdapter(PwVOs));
+                }else {
+                    Toast.makeText(Me.gc(), "會員的寵物牆是空的", Toast.LENGTH_SHORT).show();
                 }
             }
         }

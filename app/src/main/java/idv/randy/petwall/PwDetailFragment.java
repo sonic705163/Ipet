@@ -1,7 +1,6 @@
 package idv.randy.petwall;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,25 +9,19 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.java.iPet.R;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 
-import java.sql.Date;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 import idv.randy.me.MembersVO;
 import idv.randy.ut.AsyncAdapter;
 import idv.randy.ut.AsyncObjTask;
 import idv.randy.ut.Me;
 
-import static android.content.Context.MODE_PRIVATE;
 
 public class PwDetailFragment extends Fragment {
     private static final String TAG = "PwDetailFragment";
@@ -90,6 +83,8 @@ public class PwDetailFragment extends Fragment {
 //                            recyclerView.smoothScrollToPosition(pwrVOs.size()-1);
 //                        }
 //                    }, 1000);
+                } else {
+                    Toast.makeText(Me.gc(), "此篇寵物牆無留言", Toast.LENGTH_SHORT).show();
                 }
             }
         }, jsonObject).execute(Me.PetServlet);
@@ -121,7 +116,6 @@ public class PwDetailFragment extends Fragment {
 
         void refresh();
     }
-
 
 
 }

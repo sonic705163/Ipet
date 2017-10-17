@@ -51,6 +51,7 @@ public class PwActivity extends AppCompatActivity implements View.OnClickListene
     private TextView tvAll;
     private int position;
     private int pwNo;
+    private SharedPreferences pref;
 
 
     private List<PwVO> mPwVO;
@@ -71,6 +72,9 @@ public class PwActivity extends AppCompatActivity implements View.OnClickListene
             List<Integer> counts = gson.fromJson(count, new TypeToken<List<Integer>>() {
             }.getType());
             updateRv(PwVOs, counts);
+            if(PwVOs.size()==0){
+                Toast.makeText(Me.gc(), "找不到符合的內容", Toast.LENGTH_LONG).show();
+            }
         }
     };
 
@@ -97,7 +101,7 @@ public class PwActivity extends AppCompatActivity implements View.OnClickListene
         Log.d(TAG, "onCreate: param " + param);
         new AsyncObjTask(getPwAdapter, jsonObject).execute(URL);
         setSupportActionBar(toolbar);
-
+        pref = getSharedPreferences("UserData", MODE_PRIVATE);
         tvAll.setOnClickListener(this);
         ivSearch.setOnClickListener(this);
         if (savedInstanceState != null) {
@@ -111,12 +115,12 @@ public class PwActivity extends AppCompatActivity implements View.OnClickListene
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SharedPreferences pref = getSharedPreferences("UserData", MODE_PRIVATE);
                 if (!pref.getBoolean("login", false)) {
-                    Toast.makeText(Me.gc(), "請先登入", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Me.gc(), "登入後可發文", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 PwInsertActivity.start(PwActivity.this);
+                onStart();
 
             }
         });
@@ -283,6 +287,10 @@ public class PwActivity extends AppCompatActivity implements View.OnClickListene
             View.OnClickListener onPwPraiseClickListener = new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    if (!pref.getBoolean("login", false)) {
+                        Toast.makeText(Me.gc(), "登入後可按讚", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
                     int position = myViewHolder.getAdapterPosition();
                     PwVO pw = mPwVO.get(position);
                     int pwPraise = Integer.valueOf(pw.getPwPraise());
@@ -404,7 +412,7 @@ public class PwActivity extends AppCompatActivity implements View.OnClickListene
             int hour = (int) (past / (1000 * 60 * 60));
             int minute = (int) (past / (1000 * 60));
             int second = (int) (past / (1000));
-            if (past < 0) {
+            if (past < 4000) {
                 text = "剛才";
             } else if (minute < 1) {
                 text = (second + "秒前");
