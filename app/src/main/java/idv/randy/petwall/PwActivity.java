@@ -146,6 +146,7 @@ public class PwActivity extends AppCompatActivity implements View.OnClickListene
                 jsonObject.addProperty("action", "getPw");
                 jsonObject.addProperty("keyword", keyword);
                 new AsyncObjTask(getPwAdapter, jsonObject).execute(URL);
+                etSearch.setText("");
             default:
                 break;
         }
