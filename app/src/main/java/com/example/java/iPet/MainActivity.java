@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity implements PetWallFragment.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         final ActionBar acb = getSupportActionBar();
-        Me.switchFragment(this, mainFragment, mPwEnterFragment).commit();
+        Me.switchFragment(this, mainFragment, mApenterFragment).commit();
         bnv = (BottomNavigationView) findViewById(R.id.bnv);
         bnv.setOnNavigationItemSelectedListener(
                 item -> {

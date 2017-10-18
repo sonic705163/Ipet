@@ -96,7 +96,8 @@
                 android:layout_gravity="center"
                 android:layout_width="60dp"
                 android:layout_height="48dp"
-                android:background="#00DD77"
+                android:background="#6A2C70"
+                android:textColor="#fff"
                 android:text="加入好友"/>
 
         </LinearLayout>

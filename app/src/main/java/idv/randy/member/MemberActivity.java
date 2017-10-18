@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -18,10 +19,9 @@ import android.widget.TextView;
 import com.example.java.iPet.R;
 import com.google.gson.JsonObject;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
-import idv.randy.idv.randy.friends.FriendsActivity;
 import idv.randy.idv.randy.friends.FriendsVO;
 import idv.randy.me.MembersVO;
 import idv.randy.petwall.PetWallFragment;
@@ -68,17 +68,17 @@ public class MemberActivity extends AppCompatActivity implements PetWallFragment
         JsonObject jsonObject1 = new JsonObject();
         jsonObject1.addProperty("action", "checkStatus");
         jsonObject1.addProperty("myMemNo", myMemNo);
-        new AsyncObjTask(new AsyncAdapter(){
+        new AsyncObjTask(new AsyncAdapter() {
             @Override
             public void onFinish(String result) {
                 super.onFinish(result);
                 List<FriendsVO> friendsVOs = FriendsVO.decodeToList(result);
-                List<Integer> myFriends = new ArrayList<Integer>();
-                for(FriendsVO f :friendsVOs){
+                HashSet<Integer> myFriends = new HashSet<>();
+                for (FriendsVO f : friendsVOs) {
                     myFriends.add(f.getMemNo1());
                     myFriends.add(f.getMemNo2());
                 }
-                if(myFriends.contains(memNo)){
+                if (myFriends.contains(memNo)) {
                     btnAddFriend.setVisibility(View.GONE);
                 }
             }
@@ -90,7 +90,7 @@ public class MemberActivity extends AppCompatActivity implements PetWallFragment
                 JsonObject jsonObject2 = new JsonObject();
                 jsonObject2.addProperty("action", "addFriend");
                 jsonObject2.addProperty("memNo", memNo);
-                    jsonObject2.addProperty("myMemNo", myMemNo);
+                jsonObject2.addProperty("myMemNo", myMemNo);
                 new AsyncObjTask(new AsyncAdapter(), jsonObject2).execute(Me.addFriends);
                 btnAddFriend.setVisibility(View.GONE);
             }
