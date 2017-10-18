@@ -72,6 +72,10 @@ public class MemberActivity extends AppCompatActivity implements PetWallFragment
             @Override
             public void onFinish(String result) {
                 super.onFinish(result);
+                if (!pref.getBoolean("login", false)) {
+                    btnAddFriend.setVisibility(View.GONE);
+                    return;
+                }
                 List<FriendsVO> friendsVOs = FriendsVO.decodeToList(result);
                 HashSet<Integer> myFriends = new HashSet<>();
                 for (FriendsVO f : friendsVOs) {
