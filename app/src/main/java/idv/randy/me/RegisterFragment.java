@@ -84,7 +84,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
         editor = getActivity().getSharedPreferences("UserData", MODE_PRIVATE).edit();
         btSet1.setOnClickListener(v1 -> {
             int count = pref.getInt("count", 1);
-            etID.setText("Randy00" + count);
+            etID.setText("randy00" + count);
             etPD.setText("123456");
             etMemName.setText("陳致遠");
             count += 1;

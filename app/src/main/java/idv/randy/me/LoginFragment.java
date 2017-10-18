@@ -35,6 +35,7 @@ public class LoginFragment extends Fragment {
     private JsonObject jsonObject;
     private Button btSet1;
     private Button btSet2;
+    private Button btSet3;
     private Button btnRegister;
     private Integer memNo;
     private String memName;
@@ -55,6 +56,13 @@ public class LoginFragment extends Fragment {
         btSet2.setOnClickListener(v1 -> {
             etID.setText("j43343");
             etPD.setText("841284");
+        });
+        btSet3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                etID.setText("randy00");
+                etPD.setText("123456");
+            }
         });
         btLogin.setOnClickListener(v -> {
             String id = etID.getText().toString().trim();
@@ -100,6 +108,7 @@ public class LoginFragment extends Fragment {
         btnRegister = (Button) view.findViewById(R.id.btnRegister);
         btSet1 = (Button) view.findViewById(R.id.btSet1);
         btSet2 = (Button) view.findViewById(R.id.btSet2);
+        btSet3 = (Button) view.findViewById(R.id.btSet3);
     }
 
     private boolean isValid(String id, String pd) throws JSONException {
@@ -190,6 +199,7 @@ public class LoginFragment extends Fragment {
 
     public interface LoginFragmentListener {
         void login();
+
         void toRegister();
     }
 }
